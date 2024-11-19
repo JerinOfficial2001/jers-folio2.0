@@ -1,0 +1,218 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0f0715;
+  --secondaryBg: #050709;
+  --text: #cac9ce;
+  --primary: #8750f7;
+  --secondary: #2a1454;
+  --skeleton: #140c1c;
+  --boxShadow: rgba(135, 80, 247, 0.2);
+  --textPrimary: linear-gradient(98.08deg, #3c1b8c 1.71%, #7a43fe 72.23%),
+    linear-gradient(
+      102.07deg,
+      rgba(255, 255, 255, 0) -56.19%,
+      rgba(255, 255, 255, 0.1) 92.66%
+    );
+  --textSecondary: linear-gradient(98.08deg, #3c1b8c 1.71%, #7a43fe 72.23%),
+    linear-gradient(0deg, #ffffff, #ffffff);
+  --textTeritary: linear-gradient(to right, #8750f7 0%, white 100%);
+  --border: #7a43fe;
+  --buttonPrimary: linear-gradient(
+    90deg,
+    #8750f7 0%,
+    rgba(89, 50, 165, 0.5) 50%,
+    rgba(135, 80, 247, 0) 100%
+  );
+  --buttonSecondary: linear-gradient(
+    90deg,
+    rgba(135, 80, 247, 0) 0%,
+    rgba(89, 50, 165, 0.5) 50%,
+    #8750f7 100%
+  );
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f0715;
+    --text: #white;
+  }
+} */
+
+* {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--secondary);
+}
+body {
+  color: var(--text);
+  background: var(--background);
+  font-family: Sora-medium;
+}
+
+@keyframes draw-divider {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.preventSelect {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.swiper {
+  width: 290px;
+  height: 520px;
+}
+
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.swiper-slide:nth-child(1n) {
+  /* background-color: rgb(206, 17, 17); */
+}
+
+.swiper-slide:nth-child(2n) {
+  /* background-color: rgb(0, 140, 255); */
+}
+
+.swiper-slide:nth-child(3n) {
+  /* background-color: rgb(10, 184, 111); */
+}
+
+.swiper-slide:nth-child(4n) {
+  /* background-color: rgb(211, 122, 7); */
+}
+
+.swiper-slide:nth-child(5n) {
+  /* background-color: rgb(118, 163, 12); */
+}
+
+.swiper-slide:nth-child(6n) {
+  /* background-color: rgb(180, 10, 47); */
+}
+
+.swiper-slide:nth-child(7n) {
+  /* background-color: rgb(35, 99, 19); */
+}
+
+.swiper-slide:nth-child(8n) {
+  /* background-color: rgb(0, 68, 255); */
+}
+
+.swiper-slide:nth-child(9n) {
+  /* background-color: rgb(218, 12, 218); */
+}
+
+.swiper-slide:nth-child(10n) {
+  /* background-color: rgb(54, 94, 77); */
+}
+.swiper-pagination .swiper-pagination-bullet-active-next {
+  background: #797979;
+  opacity: 1;
+}
+.swiper-pagination .swiper-pagination-bullet-active-prev {
+  background: #797979;
+  opacity: 1;
+}
+
+/* FiraSans */
+@font-face {
+  font-family: "FiraSans-extrabold";
+  src: url("../app/fonts/FiraSans-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "FiraSans-bold";
+  src: url("../app/fonts/FiraSans-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "FiraSans-semibold";
+  src: url("../app/fonts/FiraSans-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "FiraSans-medium";
+  src: url("../app/fonts/FiraSans-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "FiraSans-regular";
+  src: url("../app/fonts/FiraSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "FiraSans-extralight";
+  src: url("../app/fonts/FiraSans-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: "FiraSans-light";
+  src: url("../app/fonts/FiraSans-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+/* Sora */
+@font-face {
+  font-family: "Sora-extrabold";
+  src: url("../app/fonts/Sora-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Sora-bold";
+  src: url("../app/fonts/Sora-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Sora-semibold";
+  src: url("../app/fonts/Sora-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Sora-medium";
+  src: url("../app/fonts/Sora-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Sora-regular";
+  src: url("../app/fonts/Sora-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Sora-extralight";
+  src: url("../app/fonts/Sora-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Sora-light";
+  src: url("../app/fonts/Sora-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
