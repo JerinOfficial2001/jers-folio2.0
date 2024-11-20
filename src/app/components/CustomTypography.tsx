@@ -2,30 +2,41 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 
 type Props = {
-  name: string;
+  name: any;
   variant?: "primary" | "secondary" | "teritary";
   size?: "lg" | "md" | "sm" | "xs";
-  fontFamily?: "bold" | "medium" | "regular" | "light";
   sx?: any;
 };
 const defaultStyle = (
+  buttonType: "header" | "primary" | "secondary" | "teritary" | "",
   variant?: "primary" | "secondary" | "teritary",
   fontSize?: "lg" | "md" | "sm" | "xs",
-  fontFamily?: "bold" | "medium" | "regular" | "light",
   sx?: any
 ) => {
+  const fontFamilyStyle: any =
+    buttonType == "primary" || buttonType == "header"
+      ? "Sora-bold"
+      : buttonType == "secondary"
+      ? "Sora-medium"
+      : buttonType == "teritary"
+      ? "Sora-regular"
+      : "Sora-light";
+  const color =
+    buttonType == "header"
+      ? "transparent"
+      : variant == "primary"
+      ? "var(--primary)"
+      : variant == "secondary"
+      ? "white"
+      : "var(--text)";
   const commonstyle = {
     fontSize,
-    fontFamily,
+    fontFamily: fontFamilyStyle,
+    color,
     ...sx,
   };
-  return variant == "primary" || !variant
+  return buttonType == "header"
     ? {
-        color: "var(--text)",
-        ...commonstyle,
-      }
-    : {
-        color: "transparent",
         backgroundImage:
           variant == "secondary"
             ? "var(--textSecondary)"
@@ -34,15 +45,12 @@ const defaultStyle = (
             : "var(--textPrimary)",
         WebkitBackgroundClip: "text",
         ...commonstyle,
+      }
+    : {
+        ...commonstyle,
       };
 };
-export function HeaderTypography({
-  name,
-  variant,
-  size,
-  fontFamily,
-  sx,
-}: Props) {
+export function HeaderTypography({ name, variant, size, sx }: Props) {
   const fontSize: any =
     size == "xs"
       ? "12px"
@@ -53,86 +61,76 @@ export function HeaderTypography({
       : size == "sm"
       ? "20px"
       : "65px";
-  const fontFamilyStyle: any =
-    fontFamily == "light"
-      ? "Sora-light"
-      : fontFamily == "medium"
-      ? "Sora-medium"
-      : fontFamily == "regular"
-      ? "Sora-regular"
-      : "Sora-bold";
+
   return (
     <Typography
       className="preventSelect"
       sx={{
-        ...defaultStyle(variant, fontSize, fontFamilyStyle, sx),
+        ...defaultStyle("header", variant, fontSize, sx),
       }}
     >
       {name}
     </Typography>
   );
 }
-export function PrimaryTypography({
-  name,
-  variant,
-  size,
-  fontFamily,
-  sx,
-}: Props) {
+export function PrimaryTypography({ name, variant, size, sx }: Props) {
   const fontSize: any =
     size == "lg"
-      ? "50px"
+      ? "36px"
       : size == "md"
-      ? "30px"
+      ? "25px"
+      : size == "sm"
+      ? "16px"
       : size == "xs"
-      ? "12px"
-      : "15px";
-  const fontFamilyStyle: any =
-    fontFamily == "medium"
-      ? "Sora-medium"
-      : fontFamily == "light"
-      ? "Sora-light"
-      : fontFamily == "regular"
-      ? "Sora-regular"
-      : "Sora-bold";
+      ? "15px"
+      : "20px";
+
   return (
     <Typography
       className="preventSelect"
-      sx={defaultStyle(variant, fontSize, fontFamilyStyle, sx)}
+      sx={defaultStyle("primary", variant, fontSize, sx)}
     >
       {name}
     </Typography>
   );
 }
-export function SecondaryTypography({
-  name,
-  variant,
-  size,
-  fontFamily,
-  sx,
-}: Props) {
+export function SecondaryTypography({ name, variant, size, sx }: Props) {
   const fontSize: any =
     size == "lg"
-      ? "50px"
-      : size == "md"
       ? "30px"
+      : size == "md"
+      ? "25px"
       : size == "sm"
       ? "16px"
       : size == "xs"
-      ? "12px"
+      ? "15px"
       : "20px";
-  const fontFamilyStyle: any =
-    fontFamily == "bold"
-      ? "Sora-bold"
-      : fontFamily == "light"
-      ? "Sora-light"
-      : fontFamily == "medium"
-      ? "Sora-medium"
-      : "Sora-regular";
+
   return (
     <Typography
       className="preventSelect"
-      sx={defaultStyle(variant, fontSize, fontFamilyStyle, sx)}
+      sx={defaultStyle("secondary", variant, fontSize, sx)}
+    >
+      {name}
+    </Typography>
+  );
+}
+export function TeritaryTypography({ name, variant, size, sx }: Props) {
+  const fontSize: any =
+    size == "lg"
+      ? "25px"
+      : size == "md"
+      ? "20px"
+      : size == "sm"
+      ? "15px"
+      : size == "xs"
+      ? "12px"
+      : "16px";
+
+  return (
+    <Typography
+      className="preventSelect"
+      sx={defaultStyle("teritary", variant, fontSize, sx)}
     >
       {name}
     </Typography>

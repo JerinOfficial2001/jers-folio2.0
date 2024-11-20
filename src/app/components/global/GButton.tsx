@@ -27,9 +27,9 @@ export default function GButton({ lable, variant, sx, endIcon }: Props) {
         fontSize: "16px",
         borderRadius: 20,
         background: background,
-        transition: "background 0.4s ease",
+        transition: "1s",
         "&:hover": {
-          transition: "background 0.4s ease",
+          transition: "1s",
           background: hoverBackground,
           color: hoverColor,
         },

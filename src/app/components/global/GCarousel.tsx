@@ -3,41 +3,124 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/effect-cards";
+import "swiper/css/pagination";
 
-import { EffectCards, Pagination } from "swiper/modules";
-import { Box, IconButton, Stack, Typography } from "@mui/material";
+import { Grid, Navigation, Pagination } from "swiper/modules";
+import { IconButton, Stack } from "@mui/material";
+import {
+  ArrowBackIosNewRounded,
+  ArrowForwardIosRounded,
+} from "@mui/icons-material";
+import GlobalCard from "./GlobalCard";
 
-export default function GlobalCarousel() {
+export default function GlobalCarousel({
+  next,
+  prev,
+  gridView,
+  cardVariant,
+  variant,
+}: {
+  next: string;
+  prev: string;
+  gridView?: boolean;
+  cardVariant?: "primary" | "secondary" | "teritary" | "";
+  variant?: "primary" | "secondary" | "teritary" | "";
+}) {
   return (
-    <Stack sx={{ width: "100%", height: "300px" }}>
+    <Stack
+      sx={{
+        width: "100%",
+        height: variant == "primary" ? "500px" : "300px",
+        position: "relative",
+      }}
+    >
       <Swiper
         effect={"cards"}
         grabCursor={true}
-        modules={[Pagination]}
+        modules={[Pagination, Navigation, Grid]}
         className="mySwiper"
-        pagination={{
-          clickable: true,
-        }}
-        slidesPerView={2}
+        pagination={
+          variant == "primary"
+            ? {
+                clickable: true,
+              }
+            : false
+        }
+        navigation={
+          variant == "primary"
+            ? false
+            : {
+                nextEl: `.${next}`,
+                prevEl: `.${prev}`,
+              }
+        }
+        slidesPerView={variant == "primary" ? 1.4 : 2.2}
+        spaceBetween={0}
+        // centeredSlides={true}
+        grid={
+          gridView
+            ? {
+                rows: 2,
+                fill: "row",
+              }
+            : {}
+        }
       >
-        {[{ title: "Test" }, { title: "Next" }].map((elem, index) => (
+        {[
+          { title: "Test" },
+          { title: "Next" },
+          { title: "Next2" },
+          { title: "Next1" },
+          { title: "Next3" },
+          { title: "Next4" },
+        ].map((elem, index) => (
           <SwiperSlide key={index}>
-            <Box
-              sx={{
-                height: "80%",
-                width: "100%",
-                boxShadow: "0 1px 1px 1px gray",
-                borderRadius: 10,
-              }}
-              component="img"
-              src={"/website.png"}
+            <GlobalCard
+              title="test"
+              projectName={elem.title}
+              variant={variant == "primary" ? "secondary" : cardVariant}
             />
-            <Typography sx={{ fontWeight: "bold", fontFamily: "monospace" }}>
-              {elem.title}
-            </Typography>
           </SwiperSlide>
         ))}
       </Swiper>
+      {variant != "primary" && (
+        <IconButton
+          className={prev}
+          sx={{
+            background: "var(--cardBg)",
+            "&:hover": {
+              background: "var(--secondary)",
+              boxShadow: "0 0 10px var(--primary)",
+            },
+            color: "var(--primary)",
+            left: "10px",
+            transform: " translateY(-50%)",
+            top: "50%",
+            position: "absolute",
+          }}
+        >
+          <ArrowBackIosNewRounded />
+        </IconButton>
+      )}
+      {variant != "primary" && (
+        <IconButton
+          className={next}
+          sx={{
+            background: "var(--cardBg)",
+            "&:hover": {
+              background: "var(--secondary)",
+              boxShadow: "0 0 10px var(--primary)",
+            },
+            color: "var(--primary)",
+            right: "10px",
+            transform: " translateY(-50%)",
+            top: "50%",
+            position: "absolute",
+          }}
+        >
+          <ArrowForwardIosRounded />
+        </IconButton>
+      )}
     </Stack>
   );
 }

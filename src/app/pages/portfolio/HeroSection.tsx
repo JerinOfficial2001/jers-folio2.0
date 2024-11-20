@@ -7,15 +7,22 @@ import GButton from "@/app/components/global/GButton";
 import { flexStyle } from "@/app/styles/commonStyles";
 import { FileDownload } from "@mui/icons-material";
 import { Box, Container, Stack } from "@mui/material";
+import Image from "next/image";
 import React from "react";
 
 type Props = {};
 
 export default function HeroSection({}: Props) {
   return (
-    <Container id="#home" sx={{ ...flexStyle("", "", "", "space-between") }}>
+    <Container
+      id="home"
+      sx={{
+        ...flexStyle("", "", "", "space-between"),
+        padding: "60px 0 80px 0",
+      }}
+    >
       <Stack sx={{ justifyContent: "center", width: "50%", gap: 4 }}>
-        <HeaderTypography name="I am Jerin" size="md" />
+        <PrimaryTypography name="I am Jerin" size="lg" />
         <Stack>
           <HeaderTypography
             sx={{
@@ -46,8 +53,8 @@ export default function HeroSection({}: Props) {
         <Box
           sx={{
             background: "var(--skeleton)",
-            height: "500px",
-            width: "450px",
+            height: "430px",
+            width: "380px",
             borderRadius: 20,
             transform: "rotate(7deg)",
             "&:hover": {
@@ -57,8 +64,22 @@ export default function HeroSection({}: Props) {
             boxShadow: "-9px 9px 10px 0px var(--boxShadow)",
             transition: ".3s",
             cursor: "pointer",
+            overflow: "hidden",
+            ...flexStyle(),
           }}
-        />
+        >
+          <Image
+            alt="profile"
+            height={100}
+            width={100}
+            src={"/maleAvatar/3.png"}
+            style={{
+              objectFit: "cover",
+              height: "120%",
+              width: "120%",
+            }}
+          />
+        </Box>
       </Stack>
     </Container>
   );

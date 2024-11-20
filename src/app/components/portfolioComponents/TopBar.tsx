@@ -6,9 +6,10 @@ import {
   SecondaryTypography,
 } from "../CustomTypography";
 import { flexStyle } from "@/app/styles/commonStyles";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import GButton from "../global/GButton";
 import { useGlobalStore } from "@/app/store/GlobalStore";
+import { Link, animateScroll as scroll } from "react-scroll";
 
 type Props = {};
 
@@ -16,29 +17,42 @@ const ListItem = ({
   isSelected,
   lable,
   onClick,
+  to,
+  offset,
 }: {
   isSelected?: boolean;
   lable: string;
   onClick: any;
+  to: string;
+  offset: number;
 }) => {
   const [isHover, setisHover] = useState(false);
   return (
-    <Stack
-      onClick={onClick}
-      onMouseEnter={() => setisHover(true)}
-      onMouseLeave={() => setisHover(false)}
-      sx={{
-        transform: isHover || isSelected ? "translateY(-1px)" : "unset",
-        transition: ".3s",
-        cursor: "pointer",
-        gap: 1,
-      }}
+    <Link
+      activeClass="link-active"
+      to={to}
+      spy={true}
+      smooth={true}
+      offset={offset}
+      duration={100}
     >
-      <PrimaryTypography name={lable} />
+      <Stack
+        onMouseEnter={() => setisHover(true)}
+        onMouseLeave={() => setisHover(false)}
+        onClick={onClick}
+        sx={{
+          transform: isHover || isSelected ? "translateY(-1px)" : "unset",
+          transition: ".3s",
+          cursor: "pointer",
+          gap: 1,
+        }}
+      >
+        <PrimaryTypography name={lable} size="xs" />
 
-      {(isSelected || isHover) && (
         <Divider
           sx={{
+            display:
+              isHover || (isSelected && lable == "Works") ? "flex" : "none",
             background: "var(--buttonPrimary)",
             border: "none",
             height: "2px",
@@ -47,8 +61,8 @@ const ListItem = ({
             width: "100%",
           }}
         />
-      )}
-    </Stack>
+      </Stack>
+    </Link>
   );
 };
 export default function TopBar({}: Props) {
@@ -56,69 +70,87 @@ export default function TopBar({}: Props) {
   const lists = [
     {
       lable: "Home",
-      id: "#home",
+      to: "home",
+      offset: -100,
     },
     {
       lable: "Works",
-      id: "#works",
+      to: "works",
+      offset: 0,
     },
     {
       lable: "About",
-      id: "#About",
+      to: "about",
+      offset: 0,
     },
     {
       lable: "Skills",
-      id: "#skills",
+      to: "skills",
+      offset: 0,
     },
     {
       lable: "Testimonials",
-      id: "#testimonials",
+      to: "testimonials",
+      offset: 10,
     },
     {
       lable: "Contact",
-      id: "#contact",
+      to: "contact",
+      offset: 10,
     },
   ];
   const [activeMenu, setActiveMenu] = useState("");
 
-  const handleHashChange = () => {
-    const hash = window.location.hash;
-    setActiveMenu(hash);
-  };
+  // const handleHashChange = () => {
+  //   const hash = window.location.hash;
+  //   setActiveMenu(hash);
+  // };
 
-  useEffect(() => {
-    handleHashChange();
-    window.addEventListener("hashchange", handleHashChange);
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-    };
-  }, []);
+  // useEffect(() => {
+  //   handleHashChange();
+  //   window.addEventListener("hashchange", handleHashChange);
+  //   return () => {
+  //     window.removeEventListener("hashchange", handleHashChange);
+  //   };
+  // }, []);
   const { isScrolled } = useGlobalStore();
+  const pathname = usePathname();
+
   return (
     <Box
       sx={{
         width: "100%",
-        background: isScrolled ? "#050709" : "transparent",
+        background: isScrolled ? "var(--secondaryBg)" : "transparent",
         height: "100px",
         ...flexStyle("", "", "", "space-between"),
         paddingX: 20,
-        transition: "background-color 0.3s ease, box-shadow 0.3s ease",
+        transition: "1s",
+
         boxShadow: isScrolled ? "0 0 30px var(--boxShadow)" : "unset",
         position: isScrolled ? "fixed" : "relative",
         zIndex: 1000,
       }}
     >
-      <PrimaryTypography variant="secondary" name="JersApp" size="lg" />
+      <Box sx={{ ...flexStyle() }}>
+        <HeaderTypography name={"@"} />
+        <SecondaryTypography variant="secondary" name="jerin@gmail.com" />
+      </Box>
       <Box sx={{ ...flexStyle("", 7, "", "") }}>
         {lists.map((elem: any, index: number) => {
+          const isSelected =
+            activeMenu == elem.id || pathname.split("/")[2] ? true : false;
           return (
             <ListItem
+              offset={elem.offset}
+              to={elem.to}
               onClick={() => {
-                router.push(elem.id);
-                setActiveMenu(elem.id);
+                setActiveMenu(elem.to);
+                if (elem.to != "works" && pathname.split("/")[2]) {
+                  router.push(`/${pathname.split("/")[1]}`);
+                }
               }}
               lable={elem.lable}
-              isSelected={activeMenu == elem.id}
+              isSelected={isSelected}
               key={index}
             />
           );
