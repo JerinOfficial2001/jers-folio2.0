@@ -4,6 +4,7 @@ import {
   SecondaryTypography,
 } from "@/app/components/CustomTypography";
 import GButton from "@/app/components/global/GButton";
+import useMuiBreakpoints from "@/app/hooks/useMuiBreakpoints";
 import { flexStyle } from "@/app/styles/commonStyles";
 import { FileDownload } from "@mui/icons-material";
 import { Box, Container, Stack } from "@mui/material";
@@ -13,35 +14,63 @@ import React from "react";
 type Props = {};
 
 export default function HeroSection({}: Props) {
+  const { isxs, issm } = useMuiBreakpoints();
+  const text = "MERN STACK";
+  const title2 = "APP DEVELOPER";
+  const title = title2
+    ? issm || isxs
+      ? `${text} + ${title2}`
+      : `${text} + `
+    : `${text}`;
   return (
     <Container
       id="home"
       sx={{
-        ...flexStyle("", "", "", "space-between"),
-        padding: "60px 0 80px 0",
+        ...flexStyle(
+          { md: "row", sm: "column-reverse", xs: "column-reverse" },
+          "",
+          "",
+          "center"
+        ),
+        height: "90dvh",
       }}
     >
-      <Stack sx={{ justifyContent: "center", width: "50%", gap: 4 }}>
+      <Stack
+        sx={{
+          justifyContent: "center",
+          width: { md: "50%", sm: "100%", xs: "100%" },
+          gap: { md: 4, sm: 2, xs: 2 },
+          alignItems: { md: "flex-start", sm: "center", xs: "center" },
+        }}
+      >
         <PrimaryTypography name="I am Jerin" size="lg" />
-        <Stack>
+        <Stack direction={{ md: "column", sm: "row", xs: "row" }}>
           <HeaderTypography
             sx={{
               lineHeight: 1.2,
               textTransform: "uppercase",
+              textAlign: { md: "start", sm: "center", xs: "center" },
             }}
-            name="MERN Stack + "
+            name={title}
             variant="teritary"
           />
-          <HeaderTypography
-            sx={{
-              lineHeight: 1.2,
-              textTransform: "uppercase",
-            }}
-            name="APP Developer"
-            variant="teritary"
-          />
+          {!issm && !isxs && (
+            <HeaderTypography
+              sx={{
+                lineHeight: 1.2,
+                textTransform: "uppercase",
+              }}
+              name={title2}
+              variant="teritary"
+            />
+          )}
         </Stack>
-        <SecondaryTypography name="I break down complex user experience problems to create integrity focussed solutions that connect billions of people" />
+        <SecondaryTypography
+          sx={{
+            textAlign: { md: "start", sm: "center", xs: "center" },
+          }}
+          name="I break down complex user experience problems to create integrity focussed solutions that connect billions of people"
+        />
         <GButton
           variant="primary"
           lable="Download CV"
@@ -49,13 +78,19 @@ export default function HeroSection({}: Props) {
           endIcon={<FileDownload />}
         />
       </Stack>
-      <Stack sx={{ ...flexStyle("column"), width: "50%", padding: 5 }}>
+      <Stack
+        sx={{
+          ...flexStyle("column"),
+          width: { md: "50%", sm: "100%", xs: "100%" },
+          padding: { md: 5, sm: 5, xs: 1 },
+        }}
+      >
         <Box
           sx={{
             background: "var(--skeleton)",
-            height: "430px",
-            width: "380px",
-            borderRadius: 20,
+            height: { sm: "430px", xs: "300px" },
+            width: { sm: "380px", xs: "250px" },
+            borderRadius: { sm: 20, xs: 10 },
             transform: "rotate(7deg)",
             "&:hover": {
               transform: "rotate(0deg)",

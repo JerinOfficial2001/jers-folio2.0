@@ -4,6 +4,7 @@ import {
 } from "@/app/components/CustomTypography";
 import GlobalCarousel from "@/app/components/global/GCarousel";
 import GlobalCard from "@/app/components/global/GlobalCard";
+import useMuiBreakpoints from "@/app/hooks/useMuiBreakpoints";
 import { flexStyle } from "@/app/styles/commonStyles";
 import { Box, Container, Grid2 } from "@mui/material";
 import React from "react";
@@ -11,18 +12,22 @@ import React from "react";
 type Props = {};
 
 export default function Works({}: Props) {
+  const { isxs, issm } = useMuiBreakpoints();
   return (
     <Box
       sx={{
         background: "var(--secondaryBg)",
-        padding: "150px",
+        minHeight: "90dvh",
+        paddingBottom: { md: 15, sm: 5, xs: 5 },
       }}
       id="works"
     >
       <Container
         sx={{
           ...flexStyle("column", "", ""),
+          marginTop: { md: 15, sm: 5, xs: 5 },
         }}
+        maxWidth={isxs || issm ? "xl" : "lg"}
       >
         <HeaderTypography name="My Recent Works" variant="teritary" size="lg" />
         <SecondaryTypography
@@ -51,6 +56,8 @@ export default function Works({}: Props) {
                 key={index}
                 size={{
                   lg: 3.87,
+                  sm: 12,
+                  xs: 12,
                 }}
               >
                 <GlobalCard

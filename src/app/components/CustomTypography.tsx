@@ -55,12 +55,12 @@ export function HeaderTypography({ name, variant, size, sx }: Props) {
     size == "xs"
       ? "12px"
       : size == "md"
-      ? "36px"
+      ? { md: "36px", sm: "25px", xs: "20px" }
       : size == "lg"
-      ? "45px"
+      ? { md: "45px", sm: "30px", xs: "25px" }
       : size == "sm"
-      ? "20px"
-      : "65px";
+      ? { md: "20px", sm: "18px", xs: "15px" }
+      : { md: "65px", sm: "40px", xs: "25px" };
 
   return (
     <Typography
@@ -76,14 +76,14 @@ export function HeaderTypography({ name, variant, size, sx }: Props) {
 export function PrimaryTypography({ name, variant, size, sx }: Props) {
   const fontSize: any =
     size == "lg"
-      ? "36px"
+      ? { md: "36px", sm: "25px", xs: "20px" }
       : size == "md"
-      ? "25px"
+      ? { md: "25px", sm: "20px", xs: "15px" }
       : size == "sm"
       ? "16px"
       : size == "xs"
-      ? "15px"
-      : "20px";
+      ? { md: "15px", sm: "12px", xs: "10px" }
+      : { md: "20px", sm: "15px", xs: "10px" };
 
   return (
     <Typography
@@ -101,10 +101,10 @@ export function SecondaryTypography({ name, variant, size, sx }: Props) {
       : size == "md"
       ? "25px"
       : size == "sm"
-      ? "16px"
+      ? { md: "16px", sm: "12px", xs: "10px" }
       : size == "xs"
-      ? "15px"
-      : "20px";
+      ? { md: "15px", sm: "11px", xs: "9px" }
+      : { md: "20px", sm: "15px", xs: "10px" };
 
   return (
     <Typography
@@ -125,7 +125,7 @@ export function TeritaryTypography({ name, variant, size, sx }: Props) {
       ? "15px"
       : size == "xs"
       ? "12px"
-      : "16px";
+      : { md: "16px", sm: "12px", xs: "10px" };
 
   return (
     <Typography

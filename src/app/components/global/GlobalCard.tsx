@@ -7,7 +7,13 @@ import Comma from "../../../../public/svgs/comma";
 type Props = {
   title: string;
   projectName: string;
-  variant?: "primary" | "secondary" | "teritary" | "";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "teritary"
+    | "website"
+    | "application"
+    | "";
   count?: number;
 };
 
@@ -18,31 +24,100 @@ export default function GlobalCard({
   count,
 }: Props) {
   const [isHovered, setisHovered] = useState("");
-  const flexDirection = variant == "primary" ? "row" : "column";
-  const MainContainerFlex = variant == "secondary" ? "flex-start" : "center";
-  const MainContainerPadding =
-    variant == "primary" ? "10px" : variant == "secondary" ? "30px" : "0";
-  const MainContainerWidth =
-    variant == "primary" ? "100%" : variant == "secondary" ? "80%" : "90%";
-  const ImageContainerWidth =
-    variant == "primary" || variant == "secondary" ? "100px" : "100%";
-  const ImageContainerHeight =
-    variant == "primary" || variant == "secondary" ? "100px" : "60%";
-  const ImageContainerBorderRadius =
+  const showText = variant != "website" && variant != "application";
+
+  const mainCommonStyles = {
+    borderRadius: "15px",
+    background: "var(--cardBg)",
+    "&:hover": {
+      background: "var(--cardhoverBg)",
+    },
+    cursor: "pointer",
+    transition: ".3s",
+  };
+  const defaultMainStyle =
     variant == "primary"
-      ? "50%"
-      : variant == "secondary"
-      ? "5px 5px 5px 100%"
-      : "15px 15px 40% 40% ";
-  const TextContainerFlex =
-    variant == "primary" || variant == "secondary" ? "flex-start" : "center";
-  const TextContainerFlexDirection =
-    variant == "primary" ? "column-reverse" : "column";
-  const ImageContainerStyle =
-    variant == "primary" || variant == "secondary"
       ? {
           height: "100%",
           width: "100%",
+          ...flexStyle("row", "10px", "center", "flex-start"),
+          padding: "10px",
+          ...mainCommonStyles,
+        }
+      : variant == "secondary"
+      ? {
+          height: "80%",
+          width: "80%",
+          ...flexStyle("column", "10px", "flex-start", "space-between"),
+          padding: "30px",
+          ...mainCommonStyles,
+        }
+      : !showText
+      ? {
+          height: "90%",
+          width: "90%",
+          cursor: "pointer",
+        }
+      : {
+          height: "90%",
+          width: "90%",
+          padding: 0,
+          ...mainCommonStyles,
+        };
+  const imageContainerCommonStyle = {
+    boxShadow: "0 2px 0px 0px var(--boxShadow)",
+    ...flexStyle("", "", "flex-end", ""),
+    background:
+      isHovered == title
+        ? "var(--cardhoverSecondary)"
+        : "var(--cardBgSecondary)",
+    overflow: "hidden",
+  };
+
+  const defaultImageContainerStyle =
+    variant == "primary"
+      ? {
+          height: "100px",
+          width: "100px",
+          borderRadius: "50%",
+          ...imageContainerCommonStyle,
+        }
+      : variant == "secondary"
+      ? {
+          height: "100px",
+          width: "100px",
+          borderRadius: "5px 5px 5px 100%",
+          ...imageContainerCommonStyle,
+        }
+      : !showText
+      ? {
+          height: "100%",
+          width: "100%",
+        }
+      : {
+          height: "60%",
+          width: "100%",
+          borderRadius: "15px 15px 40% 40% ",
+          ...imageContainerCommonStyle,
+        };
+
+  const defaultImageStyle =
+    variant == "primary"
+      ? {
+          height: "100%",
+          width: "100%",
+        }
+      : variant == "secondary"
+      ? {
+          height: "100%",
+          width: "100%",
+        }
+      : !showText
+      ? {
+          height: "100%",
+          width: "100%",
+          borderRadius: "10px",
+          transition: ".3s",
         }
       : {
           height: isHovered == title ? "90%" : "60%",
@@ -56,46 +131,28 @@ export default function GlobalCard({
           boxShadow:
             isHovered == title ? "unset" : "0px 14px 6px 6px var(--blurColor)",
         };
+
+  const TextContainerFlex =
+    variant == "primary" || variant == "secondary" ? "flex-start" : "center";
+  const TextContainerFlexDirection =
+    variant == "primary" ? "column-reverse" : "column";
   return (
     <Box
       onMouseEnter={() => setisHovered(title)}
       onMouseLeave={() => setisHovered("")}
       sx={{
-        height: MainContainerWidth,
-        width: MainContainerWidth,
-        borderRadius: "15px",
-        background: "var(--cardBg)",
-        ...flexStyle(
-          flexDirection,
-          "10px",
-          MainContainerFlex,
-          variant == "secondary" ? "space-between" : "flex-start"
-        ),
-        "&:hover": {
-          background: "var(--cardhoverBg)",
-        },
-        cursor: "pointer",
-        transition: ".3s",
-        padding: MainContainerPadding,
+        ...defaultMainStyle,
       }}
     >
       {count && <PrimaryTypography name={count} />}
-      <Box
-        sx={{
-          height: ImageContainerHeight,
-          width: ImageContainerWidth,
-          boxShadow: "0 2px 0px 0px var(--boxShadow)",
-          borderRadius: ImageContainerBorderRadius,
-          ...flexStyle("", "", "flex-end", ""),
-          background:
-            isHovered == title
-              ? "var(--cardhoverSecondary)"
-              : "var(--cardBgSecondary)",
-          overflow: "hidden",
-        }}
-      >
+      <Box sx={{ ...defaultImageContainerStyle }}>
         <Box
-          sx={{ ...ImageContainerStyle }}
+          sx={{
+            ...defaultImageStyle,
+            "&:hover": {
+              filter: !showText ? "brightness(0.5)" : "none",
+            },
+          }}
           component="img"
           src={
             variant == "secondary"
@@ -107,7 +164,7 @@ export default function GlobalCard({
           className="preventSelect"
         />
       </Box>
-      {variant == "secondary" && (
+      {variant == "secondary" && showText && (
         <Comma
           style={{
             color: "var(--primary)",
@@ -115,29 +172,31 @@ export default function GlobalCard({
           isHovered={isHovered == title}
         />
       )}
-      {variant == "secondary" && (
+      {variant == "secondary" && showText && (
         <TeritaryTypography
           name={
             "Taylor is a professional Designer he really helps my business by providing value to my business."
           }
         />
       )}
-      <Stack
-        direction={TextContainerFlexDirection}
-        alignItems={TextContainerFlex}
-      >
-        <PrimaryTypography
-          variant={
-            variant == "secondary"
-              ? "teritary"
-              : isHovered == title
-              ? "secondary"
-              : "primary"
-          }
-          name={projectName}
-        />
-        <TeritaryTypography name={title} />
-      </Stack>
+      {showText && (
+        <Stack
+          direction={TextContainerFlexDirection}
+          alignItems={TextContainerFlex}
+        >
+          <PrimaryTypography
+            variant={
+              variant == "secondary"
+                ? "teritary"
+                : isHovered == title
+                ? "secondary"
+                : "primary"
+            }
+            name={projectName}
+          />
+          <TeritaryTypography name={title} />
+        </Stack>
+      )}
     </Box>
   );
 }

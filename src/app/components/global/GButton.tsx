@@ -24,8 +24,8 @@ export default function GButton({ lable, variant, sx, endIcon }: Props) {
         color: color,
         textTransform: "capitalize",
         fontFamily: fontFamily,
-        fontSize: "16px",
-        borderRadius: 20,
+        fontSize: { md: "16px", sm: "12px", xs: "10px" },
+        borderRadius: variant == "secondary" ? 3 : 20,
         background: background,
         transition: "1s",
         "&:hover": {

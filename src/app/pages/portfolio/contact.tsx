@@ -15,10 +15,13 @@ import {
   MailOutline,
   PhoneOutlined,
 } from "@mui/icons-material";
+import useMuiBreakpoints from "@/app/hooks/useMuiBreakpoints";
 
 type Props = {};
 
 export default function Contact({}: Props) {
+  const { isxs, issm } = useMuiBreakpoints();
+
   const inputs = [
     {
       label: "First name",
@@ -96,19 +99,26 @@ export default function Contact({}: Props) {
   return (
     <Container
       sx={{
-        ...flexStyle("row", 15, "", "space-between"),
-        padding: "140px 160px !important",
+        ...flexStyle(
+          { md: "row", sm: "column", xs: "column" },
+          { md: 15, sm: 2, xs: 2 },
+          "",
+          "space-between"
+        ),
+        minHeight: "90dvh",
+        paddingBottom: { md: 15, sm: 5, xs: 5 },
       }}
       id="contact"
-      maxWidth={"xl"}
+      maxWidth={isxs || issm ? "xl" : "lg"}
     >
       <Stack
         gap={"30px"}
         sx={{
-          width: "60%",
+          width: { md: "60%", sm: "100%", xs: "100%" },
           background: "var(--cardBg)",
-          padding: "90px 50px",
+          marginTop: { md: 15, sm: 5, xs: 5 },
           borderRadius: 5,
+          padding: { md: "90px 50px", sm: "10px", xs: "10px" },
         }}
       >
         <HeaderTypography
@@ -124,6 +134,9 @@ export default function Contact({}: Props) {
                   key={index}
                   size={{
                     lg: 12,
+                    md: 12,
+                    sm: 12,
+                    xs: 12,
                   }}
                 >
                   <GInput placeholder={elem.label} />
@@ -135,6 +148,8 @@ export default function Contact({}: Props) {
                   key={index}
                   size={{
                     lg: 12,
+                    sm: 12,
+                    xs: 12,
                   }}
                 >
                   <GInput rows={10} multiline={true} placeholder={elem.label} />
@@ -146,24 +161,22 @@ export default function Contact({}: Props) {
                   key={index}
                   size={{
                     lg: 5.8,
+                    sm: 12,
+                    xs: 12,
                   }}
                 >
                   <GInput placeholder={elem.label} />
                 </Grid2>
               );
             }
-            return (
-              <Grid2
-                key={index}
-                size={{
-                  lg: 5.8,
-                }}
-              >
-                <GInput placeholder={elem.label} />
-              </Grid2>
-            );
           })}
-          <Grid2 size={{ lg: 6 }}>
+          <Grid2
+            size={{ lg: 6, sm: 12, xs: 12 }}
+            sx={{
+              display: "flex",
+              justifyContent: { md: "flex-start", sm: "center", xs: "center" },
+            }}
+          >
             <GButton lable="Send message" />
           </Grid2>
         </Grid2>
@@ -171,14 +184,16 @@ export default function Contact({}: Props) {
       <Stack
         gap={"30px"}
         sx={{
-          width: "40%",
+          width: { md: "40%", sm: "100%", xs: "100%" },
+          marginTop: { md: 15, sm: 5, xs: 5 },
         }}
       >
         {contactDetails.map((elem: any, index: number) => {
           return (
             <Box
               sx={{
-                ...flexStyle("", 1, "flex-start", "flex-start"),
+                ...flexStyle("", 1, "center", "flex-start"),
+                marginLeft: { md: 0, sm: 10, xs: 3 },
               }}
             >
               <Box

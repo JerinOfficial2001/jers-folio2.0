@@ -1,8 +1,8 @@
 export const flexStyle = (
-  direction?: string,
+  direction?: any,
   gap?: any,
-  items?: string,
-  content?: string
+  items?: any,
+  content?: any
 ) => {
   return {
     display: "flex",

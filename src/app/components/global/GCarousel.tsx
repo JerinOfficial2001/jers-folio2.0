@@ -12,6 +12,8 @@ import {
   ArrowForwardIosRounded,
 } from "@mui/icons-material";
 import GlobalCard from "./GlobalCard";
+import useMuiBreakpoints from "@/app/hooks/useMuiBreakpoints";
+import { flexStyle } from "@/app/styles/commonStyles";
 
 export default function GlobalCarousel({
   next,
@@ -23,9 +25,18 @@ export default function GlobalCarousel({
   next: string;
   prev: string;
   gridView?: boolean;
-  cardVariant?: "primary" | "secondary" | "teritary" | "";
+  cardVariant?:
+    | "primary"
+    | "secondary"
+    | "teritary"
+    | "website"
+    | "application"
+    | "";
   variant?: "primary" | "secondary" | "teritary" | "";
 }) {
+  const { isxs, issm } = useMuiBreakpoints();
+
+  const currentVarient = variant == "primary" ? "secondary" : cardVariant;
   return (
     <Stack
       sx={{
@@ -54,7 +65,7 @@ export default function GlobalCarousel({
                 prevEl: `.${prev}`,
               }
         }
-        slidesPerView={variant == "primary" ? 1.4 : 2.2}
+        slidesPerView={isxs || issm ? 1 : variant == "primary" ? 1.4 : 2.2}
         spaceBetween={0}
         // centeredSlides={true}
         grid={
@@ -74,11 +85,16 @@ export default function GlobalCarousel({
           { title: "Next3" },
           { title: "Next4" },
         ].map((elem, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide
+            key={index}
+            style={{
+              ...flexStyle(),
+            }}
+          >
             <GlobalCard
               title="test"
               projectName={elem.title}
-              variant={variant == "primary" ? "secondary" : cardVariant}
+              variant={currentVarient}
             />
           </SwiperSlide>
         ))}
@@ -93,10 +109,11 @@ export default function GlobalCarousel({
               boxShadow: "0 0 10px var(--primary)",
             },
             color: "var(--primary)",
-            left: "10px",
+            left: "5px",
             transform: " translateY(-50%)",
             top: "50%",
             position: "absolute",
+            zIndex: 11,
           }}
         >
           <ArrowBackIosNewRounded />
@@ -112,10 +129,11 @@ export default function GlobalCarousel({
               boxShadow: "0 0 10px var(--primary)",
             },
             color: "var(--primary)",
-            right: "10px",
+            right: "5px",
             transform: " translateY(-50%)",
             top: "50%",
             position: "absolute",
+            zIndex: 11,
           }}
         >
           <ArrowForwardIosRounded />

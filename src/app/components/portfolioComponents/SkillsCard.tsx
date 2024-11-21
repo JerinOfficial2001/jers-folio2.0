@@ -6,6 +6,7 @@ import {
   TeritaryTypography,
 } from "../CustomTypography";
 import Image from "next/image";
+import useMuiBreakpoints from "@/app/hooks/useMuiBreakpoints";
 
 type Props = {
   imageSrc: any;
@@ -14,6 +15,7 @@ type Props = {
 
 export default function SkillsCard({ percent, imageSrc }: Props) {
   const [isHovered, setisHovered] = useState(false);
+  const { isxs } = useMuiBreakpoints();
   return (
     <Stack
       onMouseEnter={() => setisHovered(true)}
@@ -33,7 +35,7 @@ export default function SkillsCard({ percent, imageSrc }: Props) {
         alignItems: "center",
         justifyContent: "center",
         gap: 1,
-        maxWidth: "180px",
+        maxWidth: isxs ? "130px" : "180px",
       }}
     >
       <Image
@@ -43,8 +45,8 @@ export default function SkillsCard({ percent, imageSrc }: Props) {
         src={imageSrc}
         style={{
           filter: !isHovered ? "grayscale(90%)" : "grayscale(0)",
-          height: "100px",
-          width: "100px",
+          height: isxs ? "60px" : "100px",
+          width: isxs ? "60px" : "100px",
           objectFit: "contain",
         }}
       />

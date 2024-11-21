@@ -1,8 +1,8 @@
-import { Stack } from "@mui/material";
+import ProjectPage from "@/app/pages/portfolio/projectPage";
 import React from "react";
 
 type Props = {};
 
-export default function ProjectPage({}: Props) {
-  return <Stack id="works">page</Stack>;
+export default function Projects({}: Props) {
+  return <ProjectPage />;
 }

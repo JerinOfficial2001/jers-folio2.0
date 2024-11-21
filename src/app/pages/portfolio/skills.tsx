@@ -29,21 +29,24 @@ export default function Skills({}: Props) {
     <Box
       sx={{
         background: "var(--secondaryBg)",
-        padding: "150px",
+        ...flexStyle(),
+        minHeight: "90dvh",
+        paddingBottom: { md: 15, sm: 5, xs: 5 },
       }}
       id="skills"
     >
       <Container
         sx={{
-          ...flexStyle("column", "", ""),
-          padding: "20px 0",
+          ...flexStyle("column", "", "", ""),
+          height: "100%",
+          marginTop: { md: 15, sm: 5, xs: 5 },
         }}
       >
         <HeaderTypography name="My Skills" variant="teritary" size="lg" />
         <TeritaryTypography
           name="We put your ideas and thus your wishes in the form of a unique web project that inspires you and you customers."
           sx={{
-            maxWidth: "60%",
+            maxWidth: { md: "60%", sm: "100%", xs: "100%" },
             textAlign: "center",
           }}
         />
