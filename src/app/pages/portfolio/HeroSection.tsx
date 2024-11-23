@@ -103,12 +103,11 @@ export default function HeroSection({}: Props) {
             ...flexStyle(),
           }}
         >
-          <Image
+          <Box
+            component={"img"}
             alt="profile"
-            height={100}
-            width={100}
             src={"/maleAvatar/3.png"}
-            style={{
+            sx={{
               objectFit: "cover",
               height: "120%",
               width: "120%",

@@ -3,6 +3,7 @@ import { Box, Stack } from "@mui/material";
 import React, { useState } from "react";
 import { PrimaryTypography, TeritaryTypography } from "../CustomTypography";
 import Comma from "../../../../public/svgs/comma";
+import { getImage } from "@/app/hooks/getImage";
 
 type Props = {
   title: string;
@@ -15,6 +16,8 @@ type Props = {
     | "application"
     | "";
   count?: number;
+  onClickHandler?: () => void;
+  data?: any;
 };
 
 export default function GlobalCard({
@@ -22,6 +25,8 @@ export default function GlobalCard({
   projectName,
   variant,
   count,
+  onClickHandler,
+  data,
 }: Props) {
   const [isHovered, setisHovered] = useState("");
   const showText = variant != "website" && variant != "application";
@@ -57,6 +62,14 @@ export default function GlobalCard({
           height: "90%",
           width: "90%",
           cursor: "pointer",
+        }
+      : variant == "teritary"
+      ? {
+          height: "100%",
+          width: "100%",
+          ...flexStyle("row-reverse", "10px", "center", "space-between"),
+          ...mainCommonStyles,
+          paddingLeft: 1.5,
         }
       : {
           height: "90%",
@@ -94,6 +107,13 @@ export default function GlobalCard({
           height: "100%",
           width: "100%",
         }
+      : variant == "teritary"
+      ? {
+          height: "150px",
+          width: "30%",
+          borderRadius: "50% 15px 15px 50% ",
+          ...imageContainerCommonStyle,
+        }
       : {
           height: "60%",
           width: "100%",
@@ -119,6 +139,11 @@ export default function GlobalCard({
           borderRadius: "10px",
           transition: ".3s",
         }
+      : variant == "teritary"
+      ? {
+          height: "110%",
+          width: "100%",
+        }
       : {
           height: isHovered == title ? "90%" : "60%",
           width: isHovered == title ? "90%" : "60%",
@@ -133,9 +158,12 @@ export default function GlobalCard({
         };
 
   const TextContainerFlex =
-    variant == "primary" || variant == "secondary" ? "flex-start" : "center";
+    variant == "primary" || variant == "secondary" || variant == "teritary"
+      ? "flex-start"
+      : "center";
   const TextContainerFlexDirection =
-    variant == "primary" ? "column-reverse" : "column";
+    variant == "primary" || variant == "teritary" ? "column-reverse" : "column";
+
   return (
     <Box
       onMouseEnter={() => setisHovered(title)}
@@ -143,6 +171,7 @@ export default function GlobalCard({
       sx={{
         ...defaultMainStyle,
       }}
+      onClick={onClickHandler}
     >
       {count && <PrimaryTypography name={count} />}
       <Box sx={{ ...defaultImageContainerStyle }}>
@@ -152,6 +181,8 @@ export default function GlobalCard({
             "&:hover": {
               filter: !showText ? "brightness(0.5)" : "none",
             },
+            objectFit: "cover",
+            objectPosition: "center",
           }}
           component="img"
           src={
@@ -159,6 +190,8 @@ export default function GlobalCard({
               ? "/maleAvatar/2.png"
               : variant == "primary"
               ? "/global/android.png"
+              : variant == "teritary"
+              ? getImage(data?.gender, data?.image || data?.image_id)
               : "/website.png"
           }
           className="preventSelect"

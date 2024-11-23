@@ -31,6 +31,6 @@ export default function CommonLayout({ children }: Props) {
       </Stack>
     );
   } else {
-    return null;
+    return children;
   }
 }

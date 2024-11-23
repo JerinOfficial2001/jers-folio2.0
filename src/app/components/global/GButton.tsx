@@ -6,23 +6,34 @@ type Props = {
   variant?: "primary" | "secondary" | "teritary";
   sx?: any;
   endIcon?: any;
+  size?: any;
 };
 
-export default function GButton({ lable, variant, sx, endIcon }: Props) {
+export default function GButton({ lable, variant, sx, endIcon, size }: Props) {
   const background =
-    variant == "primary" ? "transparent" : "var(--buttonPrimary)";
+    variant == "primary" || variant == "teritary"
+      ? "transparent"
+      : "var(--buttonPrimary)";
   const hoverBackground =
-    variant == "primary" ? "var(--primary)" : "var(--buttonSecondary)";
+    variant == "primary"
+      ? "var(--primary)"
+      : variant == "teritary"
+      ? "none"
+      : "var(--buttonSecondary)";
   const border = variant == "primary" ? "1.5px solid var(--border)" : "none";
-  const fontFamily = variant == "primary" ? "Sora-regular" : "Sora-bold";
+  const fontFamily =
+    variant == "primary" || variant == "teritary"
+      ? "Sora-regular"
+      : "Sora-bold";
   const color = variant == "primary" ? "var(--border)" : "var(--text)";
   const hoverColor = "var(--text)";
   return (
     <Button
+      size={size}
       sx={{
         border: border,
         color: color,
-        textTransform: "capitalize",
+        textTransform: variant == "teritary" ? "none" : "capitalize",
         fontFamily: fontFamily,
         fontSize: { md: "16px", sm: "12px", xs: "10px" },
         borderRadius: variant == "secondary" ? 3 : 20,
@@ -32,8 +43,10 @@ export default function GButton({ lable, variant, sx, endIcon }: Props) {
           transition: "1s",
           background: hoverBackground,
           color: hoverColor,
+          textDecoration: variant == "teritary" ? "underline" : "none",
         },
-        padding: "10px 35px",
+        padding: size ? "0 10px" : "10px 35px",
+
         ...sx,
       }}
       endIcon={endIcon}
