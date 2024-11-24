@@ -5,6 +5,7 @@ import {
 import GlobalCarousel from "@/app/components/global/GCarousel";
 import SkillsCard from "@/app/components/portfolioComponents/SkillsCard";
 import { SkillsImage } from "@/app/constants/Json";
+import { useSkills } from "@/app/hooks/useSkills";
 import { flexStyle } from "@/app/styles/commonStyles";
 import { Skill } from "@/app/types/interfaces";
 import { Box, Container } from "@mui/material";
@@ -13,18 +14,7 @@ import React from "react";
 type Props = {};
 
 export default function Skills({}: Props) {
-  const skillData: Skill[] = [
-    { label: "Next Js", percent: "90%", id: "nextjs" },
-    { label: "Node Js", percent: "80%", id: "figma" },
-    { label: "Node Js", percent: "85%", id: "node" },
-    { label: "Node Js", percent: "85%", id: "mern" },
-    { label: "Node Js", percent: "85%", id: "react" },
-    { label: "Node Js", percent: "85%", id: "reactnative" },
-    { label: "Node Js", percent: "85%", id: "mongodb" },
-    { label: "Node Js", percent: "85%", id: "express" },
-    { label: "Node Js", percent: "85%", id: "python" },
-    { label: "Node Js", percent: "85%", id: "java" },
-  ];
+  const { skillsData } = useSkills();
   return (
     <Box
       sx={{
@@ -58,7 +48,7 @@ export default function Skills({}: Props) {
             flexFlow: "wrap",
           }}
         >
-          {skillData.map((elem, index) => {
+          {skillsData?.map((elem, index) => {
             const imageSource = SkillsImage[elem.id];
             return (
               <SkillsCard

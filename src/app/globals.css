@@ -47,6 +47,7 @@
   --cardBgSecondary: #331c593d;
   --cardhoverSecondary: #140c1c3d;
   --blurColor: #8d80b6;
+  --disabled: gray;
 }
 
 /* @media (prefers-color-scheme: dark) {

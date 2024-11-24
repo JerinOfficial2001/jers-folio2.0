@@ -2,6 +2,7 @@ export interface Skill {
   id: keyof Skills;
   percent: string;
   label: string;
+  user_name: string;
 }
 export interface Skills {
   nextjs: string;

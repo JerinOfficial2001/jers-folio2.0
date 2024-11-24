@@ -5,9 +5,12 @@ import {
   FormHelperText,
   Box,
   IconButton,
+  Stack,
 } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { flexStyle } from "@/app/styles/commonStyles";
+import GButton from "./GButton";
 type Props = {
   fullWidth?: boolean;
   width?: string;
@@ -24,7 +27,7 @@ type Props = {
   id?: any;
   label?: string;
   labelShrink?: boolean;
-  variant?: string;
+  variant?: string | "upload";
   disabled?: boolean;
   value?: any;
   placeholder?: string;
@@ -56,6 +59,7 @@ type Props = {
   sx?: any;
   multiline?: any;
   rows?: any;
+  fileHandler?: any;
 };
 export default function GInput(props: Props) {
   const {
@@ -106,6 +110,7 @@ export default function GInput(props: Props) {
     sx,
     rows,
     multiline,
+    fileHandler,
   } = props;
 
   function removeUnderscoreAndCapitalize(name: string) {
@@ -148,147 +153,195 @@ export default function GInput(props: Props) {
       </IconButton>
     );
   };
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [file, setfile] = useState<any>(null);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      setfile(files[0]);
+    }
+  };
 
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+  const handleClearFile = () => {
+    setfile(null);
+  };
   return (
     <Box
       sx={{
         width: "100%",
+        ...flexStyle(),
       }}
     >
-      <TextField
-        multiline={multiline}
-        rows={rows}
-        name={name}
-        fullWidth={fullWidth}
-        size={size || "small"}
-        type={type == "password" ? (isHide ? "password" : "text") : type}
-        id={id}
-        label={label}
-        onClick={onClick}
-        onKeyDown={onKeyDown}
-        onKeyUp={onKeyUp}
-        InputLabelProps={{
-          shrink: labelShrink,
-          style: {
-            fontFamily: "Sora-regular",
-            color: color ? color : "var(--primary)",
-            fontSize: fontSize || "0.7rem",
-            fontWeight: fontWeight,
-          },
-        }}
-        sx={{
-          ...sx,
-          "&.MuiFormControl-root": {
-            height: "auto",
-          },
-          "& input:-webkit-autofill": {
-            // boxShadow: "none !important",
-            WebkitBoxShadow: "0 0 0 30px var(--secondaryBg) inset !important",
-            WebkitTextFillColor: color || "white",
-            borderRadius: "unset !important",
-            caretColor: color || "white",
-          },
-          "& .MuiInputBase-root": {
-            paddingRight: type == "password" ? "3px" : "auto",
-            paddingLeft: smallInput ? 0 : "auto",
-            padding: padding,
+      {variant != "upload" && (
+        <TextField
+          multiline={multiline}
+          rows={rows}
+          name={name}
+          fullWidth={fullWidth}
+          size={size || "small"}
+          type={type == "password" ? (isHide ? "password" : "text") : type}
+          id={id}
+          label={label}
+          onClick={onClick}
+          onKeyDown={onKeyDown}
+          onKeyUp={onKeyUp}
+          InputLabelProps={{
+            shrink: labelShrink,
+            style: {
+              fontFamily: "Sora-regular",
+              color: color ? color : "var(--primary)",
+              fontSize: fontSize || "0.7rem",
+              fontWeight: fontWeight,
+            },
+          }}
+          sx={{
+            ...sx,
+            "&.MuiFormControl-root": {
+              height: "auto",
+            },
+            "& input:-webkit-autofill": {
+              // boxShadow: "none !important",
+              WebkitBoxShadow: "0 0 0 30px var(--secondaryBg) inset !important",
+              WebkitTextFillColor: color || "white",
+              borderRadius: "unset !important",
+              caretColor: color || "white",
+            },
+            "& .MuiInputBase-root": {
+              paddingRight: type == "password" ? "3px" : "auto",
+              paddingLeft: smallInput ? 0 : "auto",
+              padding: padding,
+              height: multiline ? "auto" : height || "50px",
+              boxShadow: "0 0 0 1.3px var(--borderSecondary)",
+            },
+            "& .MuiOutlinedInput-notchedOutline": {
+              border: "none",
+            },
+            "& .MuiInputBase-input": {
+              fontFamily: "Sora-medium !important",
+            },
+            "& .MuiInputBase-input::placeholder": {
+              fontFamily: "Sora-light",
+            },
+            margin: margin,
+            width: "100%",
             height: multiline ? "auto" : height || "50px",
-            boxShadow: "0 0 0 1.3px var(--borderSecondary)",
-          },
-          "& .MuiOutlinedInput-notchedOutline": {
-            border: "none",
-          },
-          "& .MuiInputBase-input": {
-            fontFamily: "Sora-medium !important",
-          },
-          "& .MuiInputBase-input::placeholder": {
-            fontFamily: "Sora-light",
-          },
-          margin: margin,
-          width: "100%",
-          height: multiline ? "auto" : height || "50px",
-          borderColor: "var(--borderSecondary)",
-          borderRadius: "7px",
-          "&.MuiFormHelperText-root": {
-            fontSize: "10px",
-          },
-          "& .MuiInputBase-input.Mui-disabled": {
-            WebkitTextFillColor: disabledColor,
-          },
-          "& .Mui-focused": {
-            boxShadow: "0 0 0 1.3px var(--primary)",
-          },
-        }}
-        variant={variant}
-        disabled={disabled}
-        value={value}
-        defaultValue={defaultValue}
-        placeholder={placeholder}
-        error={error}
-        onInput={() => error && errorHandler && props?.errorHandler("")}
-        helperText={
-          helperText && (
-            <FormHelperText
-              sx={{
-                fontSize: "10px",
-                margin: "0px",
-                fontFamily: "Sora-regular",
-                color: "#d32f2f",
-              }}
-            >
-              {helperText}
-            </FormHelperText>
-          )
-        }
-        data-test={dataTest}
-        onChange={onChangeHandler}
-        {...(register &&
-          register(
-            id,
+            borderColor: "var(--borderSecondary)",
+            borderRadius: "7px",
+            "&.MuiFormHelperText-root": {
+              fontSize: "10px",
+            },
+            "& .MuiInputBase-input.Mui-disabled": {
+              WebkitTextFillColor: disabledColor,
+            },
+            "& .Mui-focused": {
+              boxShadow: "0 0 0 1.3px var(--primary)",
+            },
+          }}
+          variant={variant}
+          disabled={disabled}
+          value={value}
+          defaultValue={defaultValue}
+          placeholder={placeholder}
+          error={error}
+          onInput={() => error && errorHandler && props?.errorHandler("")}
+          helperText={
+            helperText && (
+              <FormHelperText
+                sx={{
+                  fontSize: "10px",
+                  margin: "0px",
+                  fontFamily: "Sora-regular",
+                  color: "#d32f2f",
+                }}
+              >
+                {helperText}
+              </FormHelperText>
+            )
+          }
+          data-test={dataTest}
+          onChange={onChangeHandler}
+          {...(register &&
+            register(
+              id,
 
-            {
-              onChange: (e: any) => {
-                onChangeHandler(e);
-              },
-              required: required
-                ? removeUnderscoreAndCapitalize(id) + " is required."
-                : "",
-              pattern: {
-                value: pattern,
-                message: patternError,
-              },
-            }
-          ))}
-        InputProps={{
-          style: {
-            background: "var(--secondaryBg)",
-            color: color ? color : "white",
-            fontFamily: "Sora-regular",
-            fontSize: fontSize || "0.7rem",
-            fontWeight: fontWeight ? fontWeight : 500,
-            borderRadius: radius || "7px", // Set border radius to 0
-          },
-          disableunderline: disableUnderline,
+              {
+                onChange: (e: any) => {
+                  onChangeHandler(e);
+                },
+                required: required
+                  ? removeUnderscoreAndCapitalize(id) + " is required."
+                  : "",
+                pattern: {
+                  value: pattern,
+                  message: patternError,
+                },
+              }
+            ))}
+          InputProps={{
+            style: {
+              background: "var(--secondaryBg)",
+              color: color ? color : "white",
+              fontFamily: "Sora-regular",
+              fontSize: fontSize || "0.7rem",
+              fontWeight: fontWeight ? fontWeight : 500,
+              borderRadius: radius || "7px", // Set border radius to 0
+            },
+            disableunderline: disableUnderline,
 
-          startAdornment: startAdornment ? (
-            startAdornment
-          ) : (
-            <InputAdornment position="start">{startIcon}</InputAdornment>
-          ),
-          endAdornment: endAdornment ? (
-            endAdornment
-          ) : (
-            <InputAdornment position="end">
-              {type == "password" ? eyeIcon() : endIcon}
-            </InputAdornment>
-          ),
-        }}
-        inputProps={{
-          minLength: 0,
-          maxLength: maxLength, // Set maximum length
-        }}
-        // startAdornment={startAdornment}
-        // endAdornment={endAdornment}
+            startAdornment: startAdornment ? (
+              startAdornment
+            ) : (
+              <InputAdornment position="start">{startIcon}</InputAdornment>
+            ),
+            endAdornment: endAdornment ? (
+              endAdornment
+            ) : (
+              <InputAdornment position="end">
+                {type == "password" ? eyeIcon() : endIcon}
+              </InputAdornment>
+            ),
+          }}
+          inputProps={{
+            minLength: 0,
+            maxLength: maxLength, // Set maximum length
+          }}
+          // startAdornment={startAdornment}
+          // endAdornment={endAdornment}
+        />
+      )}
+      {variant == "upload" && (
+        <Stack
+          sx={{
+            width: "100%",
+            justifyContent: "center",
+            gap: 2,
+            alignItems: "center",
+          }}
+          direction={"row"}
+        >
+          <Box
+            sx={{ height: "60px", width: "60px", borderRadius: "50%" }}
+            component={"img"}
+            src={file ? URL.createObjectURL(file) : "/svgs/user.svg"}
+          />
+          <GButton
+            onClickHandler={handleButtonClick}
+            lable="Upload"
+            variant="outlined"
+            size={"small"}
+          />
+        </Stack>
+      )}
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        onChange={handleFileChange}
       />
     </Box>
   );

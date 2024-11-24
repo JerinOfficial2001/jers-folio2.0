@@ -4,24 +4,26 @@ import {
   SecondaryTypography,
 } from "@/app/components/CustomTypography";
 import GButton from "@/app/components/global/GButton";
+import { getImage } from "@/app/hooks/getImage";
+import { useFolioData } from "@/app/hooks/useFolioData";
 import useMuiBreakpoints from "@/app/hooks/useMuiBreakpoints";
 import { flexStyle } from "@/app/styles/commonStyles";
 import { FileDownload } from "@mui/icons-material";
 import { Box, Container, Stack } from "@mui/material";
-import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {};
 
 export default function HeroSection({}: Props) {
   const { isxs, issm } = useMuiBreakpoints();
-  const text = "MERN STACK";
-  const title2 = "APP DEVELOPER";
-  const title = title2
-    ? issm || isxs
-      ? `${text} + ${title2}`
-      : `${text} + `
-    : `${text}`;
+  const { folioData } = useFolioData();
+  // const text = "MERN STACK";
+  // const title2 = "APP DEVELOPER";
+  // const title = title2
+  //   ? issm || isxs
+  //     ? `${text} + ${title2}`
+  //     : `${text} + `
+  //   : `${text}`;
   return (
     <Container
       id="home"
@@ -43,7 +45,7 @@ export default function HeroSection({}: Props) {
           alignItems: { md: "flex-start", sm: "center", xs: "center" },
         }}
       >
-        <PrimaryTypography name="I am Jerin" size="lg" />
+        <PrimaryTypography name={`I am ${folioData?.name}`} size="lg" />
         <Stack direction={{ md: "column", sm: "row", xs: "row" }}>
           <HeaderTypography
             sx={{
@@ -51,10 +53,10 @@ export default function HeroSection({}: Props) {
               textTransform: "uppercase",
               textAlign: { md: "start", sm: "center", xs: "center" },
             }}
-            name={title}
+            name={folioData?.role}
             variant="teritary"
           />
-          {!issm && !isxs && (
+          {/* {!issm && !isxs && (
             <HeaderTypography
               sx={{
                 lineHeight: 1.2,
@@ -63,18 +65,18 @@ export default function HeroSection({}: Props) {
               name={title2}
               variant="teritary"
             />
-          )}
+          )} */}
         </Stack>
         <SecondaryTypography
           sx={{
             textAlign: { md: "start", sm: "center", xs: "center" },
           }}
-          name="I break down complex user experience problems to create integrity focussed solutions that connect billions of people"
+          name={folioData?.about}
         />
         <GButton
-          variant="primary"
-          lable="Download CV"
-          sx={{ width: "250px" }}
+          variant={folioData?.resume_url ? "primary" : "disabled"}
+          lable={folioData?.resume_url ? "Download CV" : "Resume not added"}
+          sx={{ minWidth: "250px" }}
           endIcon={<FileDownload />}
         />
       </Stack>
@@ -106,7 +108,10 @@ export default function HeroSection({}: Props) {
           <Box
             component={"img"}
             alt="profile"
-            src={"/maleAvatar/3.png"}
+            src={getImage(
+              folioData?.gender,
+              folioData?.image || folioData?.image_id
+            )}
             sx={{
               objectFit: "cover",
               height: "120%",

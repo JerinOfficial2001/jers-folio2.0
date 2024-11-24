@@ -13,6 +13,7 @@ import { Link, animateScroll as scroll } from "react-scroll";
 import useMuiBreakpoints from "@/app/hooks/useMuiBreakpoints";
 import { MenuOutlined } from "@mui/icons-material";
 import ResponsiveNavItems from "./ResponsiveNavItems";
+import { useFolioData } from "@/app/hooks/useFolioData";
 
 type Props = {};
 
@@ -75,6 +76,7 @@ export default function TopBar({}: Props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { folioData } = useFolioData();
   return (
     <Box
       sx={{
@@ -90,7 +92,7 @@ export default function TopBar({}: Props) {
     >
       <Box sx={{ ...flexStyle(), marginLeft: { lg: 10, md: 3, sm: 1, xs: 1 } }}>
         <HeaderTypography name={"@"} />
-        <SecondaryTypography variant="secondary" name="jerin@gmail.com" />
+        <SecondaryTypography variant="secondary" name={folioData?.email} />
       </Box>
       {(isxs || issm) && (
         <IconButton

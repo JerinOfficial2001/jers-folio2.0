@@ -145,16 +145,15 @@ export default function GlobalCard({
           width: "100%",
         }
       : {
-          height: isHovered == title ? "90%" : "60%",
-          width: isHovered == title ? "90%" : "60%",
+          height: isHovered == title ? "90%" : "80%",
+          width: isHovered == title ? "90%" : "80%",
           objectFit: "cover",
           objectPosition: "top",
           borderRadius: isHovered == title ? "10px" : "10px 10px 0 0",
           transform:
             isHovered == title ? "translateY(10px)" : "translateY(10px)",
           transition: ".3s",
-          boxShadow:
-            isHovered == title ? "unset" : "0px 14px 6px 6px var(--blurColor)",
+          boxShadow: isHovered == title ? "unset" : "0px 14px 6px 6px black",
         };
 
   const TextContainerFlex =
@@ -190,9 +189,7 @@ export default function GlobalCard({
               ? "/maleAvatar/2.png"
               : variant == "primary"
               ? "/global/android.png"
-              : variant == "teritary"
-              ? getImage(data?.gender, data?.image || data?.image_id)
-              : "/website.png"
+              : getImage(data?.gender, data?.image || data?.image_id)
           }
           className="preventSelect"
         />

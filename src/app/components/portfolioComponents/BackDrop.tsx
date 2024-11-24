@@ -2,9 +2,9 @@ import { flexStyle } from "@/app/styles/commonStyles";
 import { Box } from "@mui/material";
 import React from "react";
 
-type Props = { children: any };
+type Props = { children: any; image: string };
 
-export default function BackDrop({ children }: Props) {
+export default function BackDrop({ children, image }: Props) {
   return (
     <Box
       sx={{
@@ -40,7 +40,7 @@ export default function BackDrop({ children }: Props) {
       <Box
         sx={{ height: "100%", width: "80%", objectFit: "cover" }}
         component={"img"}
-        src="/website.png"
+        src={image}
       ></Box>
     </Box>
   );

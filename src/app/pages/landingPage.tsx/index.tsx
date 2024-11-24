@@ -5,9 +5,13 @@ import {
 } from "@/app/components/CustomTypography";
 import GButton from "@/app/components/global/GButton";
 import GlobalCard from "@/app/components/global/GlobalCard";
+import GlobalPopUp from "@/app/components/global/GlobalPopUp";
+import { PortfolioDatas } from "@/app/constants/Json";
+import { useGlobalStore } from "@/app/store/GlobalStore";
 import { flexStyle } from "@/app/styles/commonStyles";
 import { ArrowForward } from "@mui/icons-material";
 import { Box, Container, Grid2, Stack } from "@mui/material";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -21,52 +25,25 @@ export default function LandingPage({}: Props) {
   //     }
   //   };
   //   getData();
+  const { handleOpenPopUp } = useGlobalStore();
+  const ClientID: any = process.env.NEXT_PUBLIC_GOOGLEAUTHCLIENTID;
   return (
     <Container sx={{ height: "100vh" }}>
       <Box sx={{ ...flexStyle("", "", "", "space-between"), height: "80px" }}>
         <HeaderTypography name={"Jers-folio"} size="md" />
-        <GButton lable="Let's get started" endIcon={<ArrowForward />} />
+        <GButton
+          onClickHandler={handleOpenPopUp}
+          lable="Let's get started"
+          endIcon={<ArrowForward />}
+        />
       </Box>
       <Stack gap={1}>
         <Box sx={{ ...flexStyle("", "", "", "space-between"), marginTop: 5 }}>
           <PrimaryTypography variant="primary" name={`Portfolio's`} />
-          <GButton size={"small"} lable="view more" variant="teritary" />
+          {/* <GButton size={"small"} lable="view more" variant="teritary" /> */}
         </Box>
         <Grid2 container rowGap={1} columnGap={2}>
-          {[
-            {
-              _id: 1,
-              name: "Jerin",
-              role: "Mern Stack Developer",
-              image_id: 3,
-              gender: "male",
-              image: null,
-            },
-            {
-              _id: 1,
-              name: "Iwin",
-              role: "Full Stack Developer",
-              image_id: 2,
-              gender: "male",
-              image: null,
-            },
-            {
-              _id: 1,
-              name: "Jenisha",
-              role: "App Developer",
-              image_id: 3,
-              gender: "female",
-              image: null,
-            },
-            {
-              _id: 1,
-              name: "Paul Jeba Durai",
-              role: "Microgenesis Founder",
-              image_id: 8,
-              gender: "male",
-              image: null,
-            },
-          ].map((elem: any, index: number) => {
+          {PortfolioDatas.map((elem: any, index: number) => {
             return (
               <Grid2
                 size={{
@@ -81,7 +58,7 @@ export default function LandingPage({}: Props) {
                   title={elem.name}
                   variant="teritary"
                   onClickHandler={() => {
-                    router.push(`/${elem._id}`);
+                    router.push(`/${elem.user_name}`);
                   }}
                   data={elem}
                 />
@@ -90,6 +67,9 @@ export default function LandingPage({}: Props) {
           })}
         </Grid2>
       </Stack>
+      <GoogleOAuthProvider clientId={ClientID}>
+        <GlobalPopUp variant="signUp" />
+      </GoogleOAuthProvider>
     </Container>
   );
 }

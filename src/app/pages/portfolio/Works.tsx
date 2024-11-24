@@ -5,6 +5,7 @@ import {
 import GlobalCarousel from "@/app/components/global/GCarousel";
 import GlobalCard from "@/app/components/global/GlobalCard";
 import useMuiBreakpoints from "@/app/hooks/useMuiBreakpoints";
+import useProjects from "@/app/hooks/useProjects";
 import { flexStyle } from "@/app/styles/commonStyles";
 import { Box, Container, Grid2 } from "@mui/material";
 import React from "react";
@@ -13,6 +14,7 @@ type Props = {};
 
 export default function Works({}: Props) {
   const { isxs, issm } = useMuiBreakpoints();
+  const { webProjectDatas } = useProjects();
   return (
     <Box
       sx={{
@@ -34,7 +36,11 @@ export default function Works({}: Props) {
           name={"Websites"}
           sx={{ width: "90%", margin: "50px 0 20px 0" }}
         />
-        <GlobalCarousel next="swiper-button-next" prev="swiper-button-prev" />
+        <GlobalCarousel
+          next="swiper-button-next"
+          prev="swiper-button-prev"
+          data={webProjectDatas}
+        />
         <SecondaryTypography
           name={"Application"}
           sx={{ width: "90%", margin: "50px 0 20px 0" }}

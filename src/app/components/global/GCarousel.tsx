@@ -14,6 +14,7 @@ import {
 import GlobalCard from "./GlobalCard";
 import useMuiBreakpoints from "@/app/hooks/useMuiBreakpoints";
 import { flexStyle } from "@/app/styles/commonStyles";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function GlobalCarousel({
   next,
@@ -21,6 +22,7 @@ export default function GlobalCarousel({
   gridView,
   cardVariant,
   variant,
+  data,
 }: {
   next: string;
   prev: string;
@@ -33,10 +35,13 @@ export default function GlobalCarousel({
     | "application"
     | "";
   variant?: "primary" | "secondary" | "teritary" | "";
+  data?: any;
 }) {
   const { isxs, issm } = useMuiBreakpoints();
-
+  const router = useRouter();
+  const pathname = usePathname();
   const currentVarient = variant == "primary" ? "secondary" : cardVariant;
+  const myData = data ? data : [1, 2, 3];
   return (
     <Stack
       sx={{
@@ -77,27 +82,30 @@ export default function GlobalCarousel({
             : {}
         }
       >
-        {[
-          { title: "Test" },
-          { title: "Next" },
-          { title: "Next2" },
-          { title: "Next1" },
-          { title: "Next3" },
-          { title: "Next4" },
-        ].map((elem, index) => (
-          <SwiperSlide
-            key={index}
-            style={{
-              ...flexStyle(),
-            }}
-          >
-            <GlobalCard
-              title="test"
-              projectName={elem.title}
-              variant={currentVarient}
-            />
-          </SwiperSlide>
-        ))}
+        {myData?.map((elem: any, index: number) => {
+          return (
+            <SwiperSlide
+              key={index}
+              style={{
+                ...flexStyle(),
+              }}
+            >
+              <GlobalCard
+                onClickHandler={
+                  elem?._id
+                    ? () => {
+                        router.push(pathname + "/" + elem._id);
+                      }
+                    : undefined
+                }
+                title="test"
+                projectName={elem.title}
+                variant={currentVarient}
+                data={elem?.images ? elem?.images[elem.primaryImage] : elem}
+              />
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
       {variant != "primary" && (
         <IconButton
