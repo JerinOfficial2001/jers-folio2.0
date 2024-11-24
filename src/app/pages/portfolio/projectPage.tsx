@@ -31,8 +31,10 @@ export default function ProjectPage({}: Props) {
                 height: "80px",
                 width: "80px",
                 borderRadius: 5,
-                background: "var(--cardBg)",
+                background: projectData?.icon ? "transparent" : "var(--cardBg)",
               }}
+              component={"img"}
+              src={projectData?.icon}
             ></Box>
             <GButton
               lable={

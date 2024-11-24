@@ -14,7 +14,7 @@ type Props = {};
 
 export default function Works({}: Props) {
   const { isxs, issm } = useMuiBreakpoints();
-  const { webProjectDatas } = useProjects();
+  const { webProjectDatas, appProjects } = useProjects();
   return (
     <Box
       sx={{
@@ -56,7 +56,7 @@ export default function Works({}: Props) {
           rowGap={2}
           columnGap={2}
         >
-          {[1, 2, 3, 4, 5].map((elem: any, index: number) => {
+          {appProjects?.map((elem: any, index: number) => {
             return (
               <Grid2
                 key={index}
@@ -68,9 +68,10 @@ export default function Works({}: Props) {
               >
                 <GlobalCard
                   count={index + 1}
-                  projectName="Test"
-                  title="test"
+                  projectName={elem.title}
+                  // title={elem.description}
                   variant="primary"
+                  data={{ image: elem.icon }}
                 />
               </Grid2>
             );

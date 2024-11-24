@@ -50,7 +50,7 @@ export default function SkillsCard({ percent, imageSrc }: Props) {
           objectFit: "contain",
         }}
       />
-      <PrimaryTypography name={percent} variant="primary" />
+      <PrimaryTypography name={percent} variant="primary" size="sm" />
     </Stack>
   );
 }

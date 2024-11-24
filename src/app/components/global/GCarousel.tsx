@@ -98,7 +98,7 @@ export default function GlobalCarousel({
                       }
                     : undefined
                 }
-                title="test"
+                title={elem.description}
                 projectName={elem.title}
                 variant={currentVarient}
                 data={elem?.images ? elem?.images[elem.primaryImage] : elem}

@@ -54,7 +54,7 @@ export default function Skills({}: Props) {
               <SkillsCard
                 key={index}
                 imageSrc={imageSource}
-                percent={elem.percent}
+                percent={elem.label}
               />
             );
           })}

@@ -4,11 +4,19 @@ import { usePathname } from "next/navigation";
 
 export default function useProjects() {
   const [webProjectDatas, setWebProjectDatas] = useState([]);
+  const [appProjects, setappProjects] = useState([]);
   const [projectData, setprojectData] = useState<any>(null);
   const pathname = usePathname();
   const projectId = pathname.split("/")[2];
   useEffect(() => {
-    setWebProjectDatas(WebsiteProjectDatas);
+    const web = WebsiteProjectDatas.filter(
+      (elem: any) => elem.projectType == "website"
+    );
+    setWebProjectDatas(web);
+    const app = WebsiteProjectDatas.filter(
+      (elem: any) => elem.projectType == "application"
+    );
+    setappProjects(app);
     if (projectId) {
       const projectData = WebsiteProjectDatas.find(
         (elem: any) => elem?._id == projectId
@@ -17,5 +25,5 @@ export default function useProjects() {
     }
   }, []);
 
-  return { webProjectDatas, projectData };
+  return { webProjectDatas, projectData, appProjects };
 }

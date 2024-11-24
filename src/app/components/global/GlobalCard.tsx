@@ -6,7 +6,7 @@ import Comma from "../../../../public/svgs/comma";
 import { getImage } from "@/app/hooks/getImage";
 
 type Props = {
-  title: string;
+  title?: string;
   projectName: string;
   variant?:
     | "primary"
@@ -165,7 +165,7 @@ export default function GlobalCard({
 
   return (
     <Box
-      onMouseEnter={() => setisHovered(title)}
+      onMouseEnter={() => setisHovered(title || projectName)}
       onMouseLeave={() => setisHovered("")}
       sx={{
         ...defaultMainStyle,
@@ -187,9 +187,9 @@ export default function GlobalCard({
           src={
             variant == "secondary"
               ? "/maleAvatar/2.png"
-              : variant == "primary"
-              ? "/global/android.png"
-              : getImage(data?.gender, data?.image || data?.image_id)
+              : // : variant == "primary"
+                // ? "/global/android.png"
+                getImage(data?.gender, data?.image || data?.image_id)
           }
           className="preventSelect"
         />
@@ -218,13 +218,16 @@ export default function GlobalCard({
             variant={
               variant == "secondary"
                 ? "teritary"
-                : isHovered == title
+                : isHovered == title || isHovered == projectName
                 ? "secondary"
                 : "primary"
             }
             name={projectName}
           />
-          <TeritaryTypography name={title} />
+          <TeritaryTypography
+            sx={{ textAlign: "center", width: "90%" }}
+            name={title}
+          />
         </Stack>
       )}
     </Box>
