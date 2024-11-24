@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import TopBar from "@/app/components/portfolioComponents/TopBar";
 import { useGlobalStore } from "../store/GlobalStore";
+import SideBar from "../components/dashboard/SideBar";
 
 type Props = {
   children: any;
@@ -23,13 +24,16 @@ export default function CommonLayout({ children }: Props) {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  if (pathname.split("/")[1]) {
+
+  if (pathname.split("/")[1] != "dashboard") {
     return (
       <Stack>
         <TopBar />
         {children}
       </Stack>
     );
+  } else if (pathname.includes("/dashboard")) {
+    return <SideBar>{children}</SideBar>;
   } else {
     return children;
   }

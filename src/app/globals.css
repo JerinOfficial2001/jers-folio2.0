@@ -8,6 +8,7 @@
   --text: #cac9ce;
   --primary: #8750f7;
   --secondary: #2a1454;
+  --teritary: #331c59;
   --skeleton: #140c1c;
   --boxShadow: rgba(135, 80, 247, 0.2);
   --textPrimary: linear-gradient(98.08deg, #3c1b8c 1.71%, #7a43fe 72.23%),
@@ -48,6 +49,7 @@
   --cardhoverSecondary: #140c1c3d;
   --blurColor: #8d80b6;
   --disabled: gray;
+  --icon: #7d49e4;
 }
 
 /* @media (prefers-color-scheme: dark) {

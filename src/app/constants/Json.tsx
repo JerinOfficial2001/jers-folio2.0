@@ -122,19 +122,19 @@ export const PortfolioDatas = [
       "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
     resume_url: null,
   },
-  {
-    _id: 1,
-    name: "Paul Jeba Durai",
-    role: "Founder of Microgenesis",
-    image_id: 8,
-    gender: "male",
-    image: null,
-    user_name: "@paulJdurai",
-    email: "pauljdurai@gmail.com",
-    about:
-      "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
-    resume_url: "123",
-  },
+  // {
+  //   _id: 1,
+  //   name: "Gokul",
+  //   role: "React Native Developer",
+  //   image_id: 8,
+  //   gender: "male",
+  //   image: null,
+  //   user_name: "gokul_24_08",
+  //   email: "gokulpga@gmail.com",
+  //   about:
+  //     "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
+  //   resume_url: "123",
+  // },
 ];
 const JersAppImages = [
   {
