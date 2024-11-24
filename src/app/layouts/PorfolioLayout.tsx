@@ -25,7 +25,7 @@ export default function CommonLayout({ children }: Props) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (pathname.split("/")[1] != "dashboard") {
+  if (pathname.split("/")[1] && pathname.split("/")[1] != "dashboard") {
     return (
       <Stack>
         <TopBar />
