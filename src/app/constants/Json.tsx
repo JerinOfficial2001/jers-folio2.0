@@ -1,4 +1,15 @@
-import { FemaleAvatar, MaleAvatar, Skill, Skills } from "../types/interfaces";
+import {
+  FemaleAvatar,
+  linkKey,
+  MaleAvatar,
+  Skill,
+  Skills,
+} from "../types/interfaces";
+import { IoLogoGithub } from "react-icons/io";
+import { RiWhatsappFill } from "react-icons/ri";
+import { FaLinkedin } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
+import { AiFillInstagram } from "react-icons/ai";
 
 export const SkillsImage: Skills = {
   nextjs: "/skills/nextjs.png",
@@ -95,6 +106,28 @@ export const PortfolioDatas = [
     about:
       "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
     resume_url: "123",
+    links: [
+      {
+        url: "https://github.com/JerinOfficial2001",
+        type: "github",
+      },
+      {
+        url: "https://wa.me/qr/EMQB2VSLPRJLL1",
+        type: "whatsapp",
+      },
+      {
+        url: "https://www.linkedin.com/in/jerin-t-8866581a0",
+        type: "linkedin",
+      },
+      {
+        url: "https://www.facebook.com/profile.php?id=100008223483681&mibextid=ZbWKwL",
+        type: "facebook",
+      },
+      {
+        url: "https://www.instagram.com/jerin_25_01?igsh=MTBia2dzNzlpM2J5bg==",
+        type: "instagram",
+      },
+    ],
   },
   {
     _id: 1,
@@ -135,6 +168,26 @@ export const PortfolioDatas = [
   //     "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
   //   resume_url: "123",
   // },
+];
+const JersAppApkImages = [
+  {
+    image: "/projects/jersApp-apk/1.jpg",
+  },
+  {
+    image: "/projects/jersApp-apk/2.jpg",
+  },
+  {
+    image: "/projects/jersApp-apk/3.jpg",
+  },
+  {
+    image: "/projects/jersApp-apk/4.jpg",
+  },
+  {
+    image: "/projects/jersApp-apk/5.jpg",
+  },
+  {
+    image: "/projects/jersApp-apk/6.jpg",
+  },
 ];
 const JersAppImages = [
   {
@@ -193,6 +246,55 @@ const AccountBookImages = [
     image: "/projects/accountbook/6.png",
   },
 ];
+const AccountBookApkImages = [
+  {
+    image: "/projects/AccountBook-apk/1.jpg",
+  },
+  {
+    image: "/projects/AccountBook-apk/2.jpg",
+  },
+  {
+    image: "/projects/AccountBook-apk/3.jpg",
+  },
+  {
+    image: "/projects/AccountBook-apk/4.jpg",
+  },
+  {
+    image: "/projects/AccountBook-apk/5.jpg",
+  },
+  {
+    image: "/projects/AccountBook-apk/6.jpg",
+  },
+];
+const ChordlyricsApkImages = [
+  {
+    image: "/projects/Chordlyrics/1.jpg",
+  },
+  {
+    image: "/projects/Chordlyrics/2.jpg",
+  },
+  {
+    image: "/projects/Chordlyrics/3.jpg",
+  },
+  {
+    image: "/projects/Chordlyrics/4.jpg",
+  },
+  {
+    image: "/projects/Chordlyrics/5.jpg",
+  },
+  {
+    image: "/projects/Chordlyrics/6.jpg",
+  },
+  {
+    image: "/projects/Chordlyrics/7.jpg",
+  },
+  {
+    image: "/projects/Chordlyrics/8.jpg",
+  },
+  {
+    image: "/projects/Chordlyrics/9.jpg",
+  },
+];
 
 export const WebsiteProjectDatas: any = [
   {
@@ -235,7 +337,7 @@ export const WebsiteProjectDatas: any = [
   },
   {
     _id: 6,
-    images: AccountBookImages,
+    images: JersAppApkImages,
     title: "JersApp",
     description: "Real time chat application",
     about:
@@ -243,11 +345,11 @@ export const WebsiteProjectDatas: any = [
     primaryImage: 1,
     projectType: "application",
     link: "https://account-book-gilt.vercel.app",
-    icon: "/projects/AccountBook.png",
+    icon: "/projects/JersApp.png",
   },
   {
     _id: 4,
-    images: AccountBookImages,
+    images: ChordlyricsApkImages,
     title: "Chordlyrics",
     description:
       "Simplify your music practice with instant access to chords and lyrics.",
@@ -260,7 +362,7 @@ export const WebsiteProjectDatas: any = [
   },
   {
     _id: 5,
-    images: AccountBookImages,
+    images: AccountBookApkImages,
     title: "AccountBook",
     description: "Accounting credit and debit",
     about:
@@ -319,3 +421,25 @@ export const skillData: Skill[] = [
   { label: "Java", percent: "85%", id: "java", user_name: "@paulJdurai" },
   { label: "Java", percent: "85%", id: "java", user_name: "iwin_21_02" },
 ];
+export const links: linkKey = {
+  github: {
+    label: "Github",
+    icon: <IoLogoGithub />,
+  },
+  whatsapp: {
+    label: "Whatsapp",
+    icon: <RiWhatsappFill />,
+  },
+  linkedin: {
+    label: "Linkedin",
+    icon: <FaLinkedin />,
+  },
+  facebook: {
+    label: "Facebook",
+    icon: <FaFacebook />,
+  },
+  instagram: {
+    label: "Instagram",
+    icon: <AiFillInstagram />,
+  },
+};

@@ -1,15 +1,9 @@
 import * as React from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
@@ -20,106 +14,108 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { PrimaryTypography } from "../CustomTypography";
 import { flexStyle } from "@/app/styles/commonStyles";
-
+import { TbLayoutDashboardFilled } from "react-icons/tb";
+import { TbHomeFilled } from "react-icons/tb";
+import { MdDeveloperMode } from "react-icons/md";
+import { SiHtmlacademy } from "react-icons/si";
+import { RiContactsFill } from "react-icons/ri";
+import { IoIosContact } from "react-icons/io";
+import { LuReplaceAll } from "react-icons/lu";
+import { useRouter } from "next/navigation";
 const drawerWidth = 235;
-
-const openedMixin = (theme: Theme): CSSObject => ({
-  width: drawerWidth,
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: "hidden",
-  background: "transparent",
-  color: "var(--text)",
-  height: "85%",
-  top: "unset",
-  ...flexStyle("column", "", "flex-start", ""),
-  left: 48,
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: "hidden",
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-  background: "transparent",
-  color: "var(--text)",
-  height: "85%",
-  top: "unset",
-  ...flexStyle("column", "", "flex-start", ""),
-  left: 48,
-});
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar,
-  width: "100%",
-}));
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
-  position: "relative",
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        ...openedMixin(theme),
-        "& .MuiDrawer-paper": openedMixin(theme),
-      },
-    },
-    {
-      props: ({ open }) => !open,
-      style: {
-        ...closedMixin(theme),
-        "& .MuiDrawer-paper": closedMixin(theme),
-      },
-    },
-  ],
-}));
 
 export default function SideBar({ children }: any) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
+  const router = useRouter();
   const handleDrawer = () => {
     setOpen(!open);
   };
-
+  const menuArr = [
+    {
+      title: "Dashboard",
+      icon: (
+        <TbLayoutDashboardFilled style={{ height: "30px", width: "30px" }} />
+      ),
+      to: "/",
+    },
+    {
+      title: "Home",
+      icon: <TbHomeFilled style={{ height: "30px", width: "30px" }} />,
+      to: "/home",
+    },
+    {
+      title: "Works",
+      icon: <MdDeveloperMode style={{ height: "30px", width: "30px" }} />,
+      to: "/works",
+    },
+    {
+      title: "About",
+      icon: <SiHtmlacademy style={{ height: "30px", width: "30px" }} />,
+      to: "/about",
+    },
+    {
+      title: "Skills",
+      icon: <LuReplaceAll style={{ height: "30px", width: "30px" }} />,
+      to: "/skills",
+    },
+    {
+      title: "Testimonials",
+      icon: <RiContactsFill style={{ height: "30px", width: "30px" }} />,
+      to: "/testimonials",
+    },
+    {
+      title: "Contact",
+      icon: <IoIosContact style={{ height: "30px", width: "30px" }} />,
+      to: "/contact",
+    },
+  ];
+  const [isHover, setisHover] = React.useState(
+    menuArr.map((elem) => ({ state: false }))
+  );
+  const [selectedMenu, setselectedMenu] = React.useState("Dashboard");
+  const handleToggle = (index: number) => {
+    const tempArr = [...isHover];
+    tempArr[index].state = !tempArr[index].state;
+    setisHover(tempArr);
+  };
+  const handleClick = (id: string, to: string) => {
+    setselectedMenu(id);
+    router.push("/dashboard" + to);
+  };
   return (
     <Box
       sx={{
-        ...flexStyle(),
+        ...flexStyle("", "", "", "flex-end"),
         background: "var(--background)",
         minHeight: "100vh",
+        padding: 5,
       }}
     >
       <CssBaseline />
       <Box
         sx={{
-          position: "absolute",
           height: "90%",
           width: open ? 250 : 78,
           background: "var(--cardBg)",
           borderRadius: 8,
-          left: 40,
           transition: ".3s",
-          ...flexStyle(),
+          ...flexStyle("column", 5),
+          position: "fixed",
+          padding: 2,
+          top: 40,
+          left: 70,
         }}
       >
+        {open ? (
+          <PrimaryTypography name={"Jers-folio"} />
+        ) : (
+          <Box
+            component={"img"}
+            sx={{ height: "40px", width: "40px" }}
+            src="/favicon-48x48.png"
+          />
+        )}
         <IconButton
           onClick={handleDrawer}
           sx={{
@@ -137,86 +133,115 @@ export default function SideBar({ children }: any) {
         >
           {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
-      </Box>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <PrimaryTypography name={"Jers-folio"} />
-        </DrawerHeader>
-
-        <Divider />
         <List
           sx={{
             height: "100%",
-            ...flexStyle("column", "", "", "space-between"),
+            ...flexStyle("column", 4, "", "space-between"),
             width: "100%",
           }}
         >
-          {[
-            "Dashboard",
-            "Home",
-            "Works",
-            "About",
-            "Skills",
-            "Testimonials",
-            "Contact",
-          ].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: "initial",
-                      }
-                    : {
-                        justifyContent: "center",
-                      },
-                ]}
+          {menuArr.map((elem, index) => {
+            const isSelected =
+              selectedMenu == elem.title || isHover[index].state;
+            return (
+              <ListItem
+                onClick={() => {
+                  handleClick(elem.title, elem.to);
+                }}
+                key={index}
+                disablePadding
+                onMouseEnter={() => {
+                  handleToggle(index);
+                }}
+                onMouseLeave={() => {
+                  handleToggle(index);
+                }}
+                sx={{
+                  position: "relative",
+                  ...flexStyle(),
+                  background:
+                    !open && isSelected ? "var(--primary)" : "transparent",
+                  borderRadius: "30%",
+                  transition: ".3s",
+                }}
               >
-                <ListItemIcon
+                <Box
+                  component={"img"}
+                  src="/svgs/activeMenu.svg"
+                  sx={{
+                    position: "absolute",
+                    right: -30,
+                    opacity: isSelected && open ? 1 : 0,
+                    transition: ".3s",
+                  }}
+                />
+
+                <ListItemButton
                   sx={[
                     {
-                      minWidth: 0,
-                      justifyContent: "center",
+                      minHeight: 48,
+                      px: 2.5,
+                      transform:
+                        isSelected && open ? "rotate3d(1, 1, 1, 2deg)" : "none",
+                      transition: ".3s",
+                      marginLeft: isSelected && open ? 5 : 0,
+                      ...flexStyle(),
                     },
                     open
                       ? {
-                          mr: 3,
+                          justifyContent: "initial",
                         }
                       : {
-                          mr: "auto",
+                          justifyContent: "center",
                         },
                   ]}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText
-                  primary={text}
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                    {
-                      "& .MuiTypography-root": { fontFamily: "Sora-medium" },
-                    },
-                  ]}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                  <ListItemIcon
+                    sx={[
+                      {
+                        justifyContent: "center",
+                        color: isSelected ? "var(--text)" : "var(--disabled)",
+                      },
+                    ]}
+                  >
+                    {elem.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={elem.title}
+                    sx={[
+                      open
+                        ? {
+                            opacity: 1,
+                          }
+                        : {
+                            opacity: 0,
+                          },
+                      {
+                        "& .MuiTypography-root": { fontFamily: "Sora-medium" },
+                        color: isSelected ? "var(--text)" : "var(--disabled)",
+                      },
+                    ]}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
-      </Drawer>
-
+      </Box>
+      <Box
+        sx={{
+          width: open ? 250 : 78,
+          transition: ".3s",
+        }}
+      />
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: "100px", background: "var(--background)" }}
+        sx={{
+          flexGrow: 1,
+          p: "0px  100px",
+          background: "var(--background)",
+          minHeight: "85vh",
+        }}
       >
         {children}
       </Box>

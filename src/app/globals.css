@@ -50,6 +50,13 @@
   --blurColor: #8d80b6;
   --disabled: gray;
   --icon: #7d49e4;
+  --activeMenu: linear-gradient(
+    90deg,
+    #8750f7 0%,
+    rgba(89, 50, 165, 0.5) 51.5%,
+    #8750f7 100%
+  );
+  --hover: #020202d9;
 }
 
 /* @media (prefers-color-scheme: dark) {

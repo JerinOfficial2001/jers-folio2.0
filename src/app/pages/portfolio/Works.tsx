@@ -8,6 +8,7 @@ import useMuiBreakpoints from "@/app/hooks/useMuiBreakpoints";
 import useProjects from "@/app/hooks/useProjects";
 import { flexStyle } from "@/app/styles/commonStyles";
 import { Box, Container, Grid2 } from "@mui/material";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 type Props = {};
@@ -15,6 +16,8 @@ type Props = {};
 export default function Works({}: Props) {
   const { isxs, issm } = useMuiBreakpoints();
   const { webProjectDatas, appProjects } = useProjects();
+  const router = useRouter();
+  const pathname = usePathname();
   return (
     <Box
       sx={{
@@ -72,6 +75,9 @@ export default function Works({}: Props) {
                   // title={elem.description}
                   variant="primary"
                   data={{ image: elem.icon }}
+                  onClickHandler={() => {
+                    router.push(pathname + "/" + elem._id);
+                  }}
                 />
               </Grid2>
             );

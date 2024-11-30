@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import TopBar from "@/app/components/portfolioComponents/TopBar";
 import { useGlobalStore } from "../store/GlobalStore";
 import SideBar from "../components/dashboard/SideBar";
+import GlobalPopUp from "../components/global/GlobalPopUp";
 
 type Props = {
   children: any;
@@ -33,7 +34,12 @@ export default function CommonLayout({ children }: Props) {
       </Stack>
     );
   } else if (pathname.includes("/dashboard")) {
-    return <SideBar>{children}</SideBar>;
+    return (
+      <SideBar>
+        <GlobalPopUp />
+        {children}
+      </SideBar>
+    );
   } else {
     return children;
   }

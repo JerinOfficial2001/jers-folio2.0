@@ -86,3 +86,18 @@ export interface FemaleAvatar {
   33: string;
   34: string;
 }
+export interface link {
+  url: string;
+  type: keyof linkKey;
+}
+export interface linkType {
+  label: string;
+  icon: any;
+}
+export interface linkKey {
+  github: linkType;
+  whatsapp: linkType;
+  linkedin: linkType;
+  facebook: linkType;
+  instagram: linkType;
+}

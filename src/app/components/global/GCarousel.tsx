@@ -46,7 +46,12 @@ export default function GlobalCarousel({
     <Stack
       sx={{
         width: "100%",
-        height: variant == "primary" ? "500px" : "300px",
+        height:
+          variant == "primary"
+            ? "500px"
+            : cardVariant == "application"
+            ? "560px"
+            : "300px",
         position: "relative",
       }}
     >
@@ -70,7 +75,15 @@ export default function GlobalCarousel({
                 prevEl: `.${prev}`,
               }
         }
-        slidesPerView={isxs || issm ? 1 : variant == "primary" ? 1.4 : 2.2}
+        slidesPerView={
+          isxs || issm
+            ? 1
+            : variant == "primary"
+            ? 1.4
+            : cardVariant == "application"
+            ? 5
+            : 2.2
+        }
         spaceBetween={0}
         // centeredSlides={true}
         grid={
@@ -88,6 +101,7 @@ export default function GlobalCarousel({
               key={index}
               style={{
                 ...flexStyle(),
+                width: cardVariant == "application" ? "140px !important" : "",
               }}
             >
               <GlobalCard

@@ -4,10 +4,18 @@ import {
   SecondaryTypography,
 } from "@/app/components/CustomTypography";
 import GButton from "@/app/components/global/GButton";
+import GIconButton from "@/app/components/global/GIconButton";
+import { links } from "@/app/constants/Json";
 import { getImage } from "@/app/hooks/getImage";
 import { useFolioData } from "@/app/hooks/useFolioData";
 import useMuiBreakpoints from "@/app/hooks/useMuiBreakpoints";
 import { flexStyle } from "@/app/styles/commonStyles";
+import { link } from "@/app/types/interfaces";
+import {
+  extractGitHubUsername,
+  extractInstagramUsername,
+  extractLinkedInUsername,
+} from "@/app/utils/methods";
 import { FileDownload } from "@mui/icons-material";
 import { Box, Container, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -24,6 +32,7 @@ export default function HeroSection({}: Props) {
   //     ? `${text} + ${title2}`
   //     : `${text} + `
   //   : `${text}`;
+
   return (
     <Container
       id="home"
@@ -73,12 +82,34 @@ export default function HeroSection({}: Props) {
           }}
           name={folioData?.about}
         />
-        <GButton
-          variant={folioData?.resume_url ? "primary" : "disabled"}
-          lable={folioData?.resume_url ? "Download CV" : "Resume not added"}
-          sx={{ minWidth: "250px" }}
-          endIcon={<FileDownload />}
-        />
+        <Box sx={{ ...flexStyle("", 1) }}>
+          <GButton
+            variant={folioData?.resume_url ? "primary" : "disabled"}
+            lable={folioData?.resume_url ? "Download CV" : "Resume not added"}
+            sx={{ minWidth: "250px" }}
+            endIcon={<FileDownload />}
+          />
+          {folioData?.links?.map((elem: link, index: number) => {
+            const userName =
+              elem.type == "linkedin"
+                ? extractLinkedInUsername(elem.url)
+                : elem.type == "github"
+                ? extractGitHubUsername(elem.url)
+                : elem.type == "instagram"
+                ? extractInstagramUsername(elem.url)
+                : links[elem.type]?.label;
+            return (
+              <GIconButton
+                onClickHandler={() => {
+                  window.open(elem.url, "_blank");
+                }}
+                title={userName}
+                icon={links[elem.type]?.icon}
+                key={index}
+              />
+            );
+          })}
+        </Box>
       </Stack>
       <Stack
         sx={{

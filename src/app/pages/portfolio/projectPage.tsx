@@ -55,7 +55,7 @@ export default function ProjectPage({}: Props) {
         <GlobalCarousel
           next="button-next"
           prev="button-prev"
-          cardVariant="website"
+          cardVariant={projectData?.projectType}
           data={projectData?.images}
         />
         <Stack sx={{ padding: { md: "30px 80px", sm: 5, xs: 3 } }}>

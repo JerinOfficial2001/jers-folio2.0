@@ -3,7 +3,13 @@ import React from "react";
 
 type Props = {
   lable: string;
-  variant?: "primary" | "secondary" | "teritary" | "disabled" | "outlined";
+  variant?:
+    | "contained"
+    | "primary"
+    | "secondary"
+    | "teritary"
+    | "disabled"
+    | "outlined";
   sx?: any;
   endIcon?: any;
   startIcon?: any;
@@ -23,12 +29,16 @@ export default function GButton({
   const background =
     variant == "primary" || variant == "teritary" || variant == "outlined"
       ? "transparent"
+      : variant == "contained"
+      ? "var(--primary)"
       : "var(--buttonPrimary)";
   const hoverBackground =
     variant == "primary"
       ? "var(--primary)"
       : variant == "teritary"
       ? "none"
+      : variant == "contained"
+      ? "var(--secondary)"
       : "var(--buttonSecondary)";
   const border =
     variant == "primary"
