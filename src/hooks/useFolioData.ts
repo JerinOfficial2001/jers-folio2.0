@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { PortfolioDatas } from "../constants/Json";
 
 export function useFolioData() {
-  const pathname = usePathname();
+  const pathname: any = usePathname();
   const userName = pathname.split("/")[1];
 
   const [folioData, setfolioData] = useState<any>(null);

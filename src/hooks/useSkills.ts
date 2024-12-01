@@ -4,7 +4,7 @@ import { skillData } from "../constants/Json";
 import { Skill } from "../types/interfaces";
 
 export function useSkills() {
-  const pathname = usePathname();
+  const pathname: any = usePathname();
   const userName = pathname.split("/")[1];
   const [skillsData, setskills] = useState<Skill[]>([]);
   useEffect(() => {

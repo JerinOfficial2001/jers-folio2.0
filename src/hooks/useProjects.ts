@@ -6,7 +6,7 @@ export default function useProjects() {
   const [webProjectDatas, setWebProjectDatas] = useState([]);
   const [appProjects, setappProjects] = useState([]);
   const [projectData, setprojectData] = useState<any>(null);
-  const pathname = usePathname();
+  const pathname: any = usePathname();
   const projectId = pathname.split("/")[2];
   useEffect(() => {
     const web = WebsiteProjectDatas.filter(

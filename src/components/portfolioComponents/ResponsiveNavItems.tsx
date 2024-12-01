@@ -20,7 +20,7 @@ export default function ResponsiveNavItems({
   open,
   handleClose,
 }: Props) {
-  const pathname = usePathname();
+  const pathname: any = usePathname();
   const router = useRouter();
   const [activeMenu, setActiveMenu] = useState("");
 
@@ -33,15 +33,15 @@ export default function ResponsiveNavItems({
     >
       {lists.map((elem: any, index: number) => {
         const isSelected =
-          activeMenu == elem.id || pathname.split("/")[2] ? true : false;
+          activeMenu == elem.id || pathname?.split("/")[2] ? true : false;
         return (
           <ListItem
             offset={elem.offset}
             to={elem.to}
             onClick={() => {
               setActiveMenu(elem.to);
-              if (elem.to != "works" && pathname.split("/")[2]) {
-                router.push(`/${pathname.split("/")[1]}`);
+              if (elem.to != "works" && pathname?.split("/")[2]) {
+                router.push(`/${pathname?.split("/")[1]}`);
               }
             }}
             lable={elem.lable}
@@ -70,7 +70,7 @@ export default function ResponsiveNavItems({
     >
       {lists.map((elem: any, index: number) => {
         const isSelected =
-          activeMenu == elem.id || pathname.split("/")[2] ? true : false;
+          activeMenu == elem.id || pathname?.split("/")[2] ? true : false;
         return (
           <MenuItem
             sx={{
@@ -84,8 +84,8 @@ export default function ResponsiveNavItems({
               onClick={() => {
                 handleClose();
                 setActiveMenu(elem.to);
-                if (elem.to != "works" && pathname.split("/")[2]) {
-                  router.push(`/${pathname.split("/")[1]}`);
+                if (elem.to != "works" && pathname?.split("/")[2]) {
+                  router.push(`/${pathname?.split("/")[1]}`);
                 }
               }}
               lable={elem.lable}

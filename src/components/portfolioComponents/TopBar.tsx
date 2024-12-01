@@ -66,7 +66,7 @@ export default function TopBar({}: Props) {
   //   };
   // }, []);
   const { isScrolled } = useGlobalStore();
-  const pathname = usePathname();
+  const pathname: any = usePathname();
   const { isxs, issm } = useMuiBreakpoints();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

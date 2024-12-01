@@ -39,7 +39,7 @@ export default function GlobalCarousel({
 }) {
   const { isxs, issm } = useMuiBreakpoints();
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname: any = usePathname();
   const currentVarient = variant == "primary" ? "secondary" : cardVariant;
   const myData = data ? data : [1, 2, 3];
   return (

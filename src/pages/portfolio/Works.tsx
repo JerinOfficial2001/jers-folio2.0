@@ -17,7 +17,7 @@ export default function Works({}: Props) {
   const { isxs, issm } = useMuiBreakpoints();
   const { webProjectDatas, appProjects } = useProjects();
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname: any = usePathname();
   return (
     <Box
       sx={{
