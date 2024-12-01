@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React, { useState } from "react";
-import { flexStyle } from "@/app/styles/commonStyles";
+import { flexStyle } from "@/styles/commonStyles";
 
 type Props = { style?: any; isHovered?: boolean };
 

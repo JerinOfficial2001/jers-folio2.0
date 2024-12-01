@@ -1,0 +1,99 @@
+import { flexStyle } from "@/styles/commonStyles";
+import { Box, Menu, MenuItem } from "@mui/material";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useState } from "react";
+import ListItem from "./ListItems";
+import GButton from "../global/GButton";
+
+type Props = {
+  lists: any;
+  isResponsive: boolean;
+  anchorEl: any;
+  open: boolean;
+  handleClose: () => void;
+};
+
+export default function ResponsiveNavItems({
+  lists,
+  isResponsive,
+  anchorEl,
+  open,
+  handleClose,
+}: Props) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [activeMenu, setActiveMenu] = useState("");
+
+  return !isResponsive ? (
+    <Box
+      sx={{
+        ...flexStyle("", { xl: 7, md: 3, sm: 2, xs: 1 }, "", ""),
+        marginRight: { lg: 10, md: 3 },
+      }}
+    >
+      {lists.map((elem: any, index: number) => {
+        const isSelected =
+          activeMenu == elem.id || pathname.split("/")[2] ? true : false;
+        return (
+          <ListItem
+            offset={elem.offset}
+            to={elem.to}
+            onClick={() => {
+              setActiveMenu(elem.to);
+              if (elem.to != "works" && pathname.split("/")[2]) {
+                router.push(`/${pathname.split("/")[1]}`);
+              }
+            }}
+            lable={elem.lable}
+            isSelected={isSelected}
+            key={index}
+          />
+        );
+      })}
+      <GButton lable="Hire me!" />
+    </Box>
+  ) : (
+    <Menu
+      id="basic-menu"
+      anchorEl={anchorEl}
+      open={open}
+      onClose={handleClose}
+      MenuListProps={{
+        "aria-labelledby": "basic-button",
+      }}
+      sx={{
+        "& .MuiPaper-root ": {
+          background: "var(--secondary)",
+          width: "100%",
+        },
+      }}
+    >
+      {lists.map((elem: any, index: number) => {
+        const isSelected =
+          activeMenu == elem.id || pathname.split("/")[2] ? true : false;
+        return (
+          <MenuItem
+            sx={{
+              textAlign: "center",
+            }}
+            key={index}
+          >
+            <ListItem
+              offset={elem.offset}
+              to={elem.to}
+              onClick={() => {
+                handleClose();
+                setActiveMenu(elem.to);
+                if (elem.to != "works" && pathname.split("/")[2]) {
+                  router.push(`/${pathname.split("/")[1]}`);
+                }
+              }}
+              lable={elem.lable}
+              isSelected={isSelected}
+            />
+          </MenuItem>
+        );
+      })}
+    </Menu>
+  );
+}

@@ -30,6 +30,6 @@
     "src/app/[userId]",
     "next.config.mjs",
     "next.config.js"
-  ],
+, "src/pages/landingPage"  ],
   "exclude": ["node_modules"]
 }

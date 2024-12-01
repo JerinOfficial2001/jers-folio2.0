@@ -1,4 +1,4 @@
-import ProjectPage from "@/app/pages/portfolio/projectPage";
+import ProjectPage from "@/pages/portfolio/projectPage";
 import React from "react";
 
 type Props = {};
