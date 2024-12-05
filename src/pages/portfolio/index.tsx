@@ -15,10 +15,12 @@ import {
 } from "react-scroll";
 import Testimonial from "./testimonial";
 import Contact from "./contact";
+import { useFolioData } from "@/hooks/useFolioData";
 
 type Props = {};
 
 export default function Portfolio({}: Props) {
+  const { folioData } = useFolioData();
   useEffect(() => {
     Events.scrollEvent.register("begin", (to: any, element: any) => {
       console.log("begin", to, element);
@@ -38,7 +40,7 @@ export default function Portfolio({}: Props) {
   return (
     <Stack>
       <HeroSection />
-      <Works />
+      {folioData?.projects&&<Works />}
       <About />
       <Skills />
       <Testimonial />

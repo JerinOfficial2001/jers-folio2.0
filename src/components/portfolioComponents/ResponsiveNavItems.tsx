@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import ListItem from "./ListItems";
 import GButton from "../global/GButton";
+import { useFolioData } from "@/hooks/useFolioData";
 
 type Props = {
   lists: any;
@@ -23,8 +24,8 @@ export default function ResponsiveNavItems({
   const pathname: any = usePathname();
   const router = useRouter();
   const [activeMenu, setActiveMenu] = useState("");
-
-  return !isResponsive ? (
+  const { folioData } = useFolioData();
+  return (!isResponsive ? (
     <Box
       sx={{
         ...flexStyle("", { xl: 7, md: 3, sm: 2, xs: 1 }, "", ""),
@@ -33,9 +34,10 @@ export default function ResponsiveNavItems({
     >
       {lists.map((elem: any, index: number) => {
         const isSelected =
-          activeMenu == elem.id || pathname?.split("/")[2] ? true : false;
+       activeMenu == elem.id || pathname?.split("/")[2] ? true : false;
+        if(elem.lable=="Works"){
         return (
-          <ListItem
+          folioData?.projects?<ListItem
             offset={elem.offset}
             to={elem.to}
             onClick={() => {
@@ -47,8 +49,26 @@ export default function ResponsiveNavItems({
             lable={elem.lable}
             isSelected={isSelected}
             key={index}
-          />
+          />:null
         );
+        }else{
+          return (
+            <ListItem
+              offset={elem.offset}
+              to={elem.to}
+              onClick={() => {
+                setActiveMenu(elem.to);
+                if (elem.to != "works" && pathname?.split("/")[2]) {
+                  router.push(`/${pathname?.split("/")[1]}`);
+                }
+              }}
+              lable={elem.lable}
+              isSelected={isSelected}
+              key={index}
+            />
+          );
+        }
+       
       })}
       <GButton lable="Hire me!" />
     </Box>
@@ -95,5 +115,5 @@ export default function ResponsiveNavItems({
         );
       })}
     </Menu>
-  );
+  ))
 }

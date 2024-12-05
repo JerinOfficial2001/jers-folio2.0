@@ -14,6 +14,7 @@ import {
   PhoneOutlined,
 } from "@mui/icons-material";
 import useMuiBreakpoints from "@/hooks/useMuiBreakpoints";
+import { useFolioData } from "@/hooks/useFolioData";
 
 type Props = {};
 
@@ -77,21 +78,22 @@ export default function Contact({}: Props) {
       type: "largeText",
     },
   ];
+  const { folioData } = useFolioData();
   const contactDetails = [
     {
       icon: <PhoneOutlined />,
       lable: "Phone",
-      value: "+91 9384912517",
+      value: folioData?.phone,
     },
     {
       icon: <MailOutline />,
       lable: "Email",
-      value: "jerinofficial25@gmail.com",
+      value: folioData?.email,
     },
     {
       icon: <FmdGoodOutlined />,
       lable: "Address",
-      value: "Pudupeerkadavu,Erode - 638451",
+      value: folioData?.address,
     },
   ];
   return (
@@ -189,6 +191,7 @@ export default function Contact({}: Props) {
         {contactDetails.map((elem: any, index: number) => {
           return (
             <Box
+            key={index}
               sx={{
                 ...flexStyle("", 1, "center", "flex-start"),
                 marginLeft: { md: 0, sm: 10, xs: 3 },
@@ -208,7 +211,7 @@ export default function Contact({}: Props) {
               </Box>
               <Stack>
                 <TeritaryTypography name={elem.lable} />
-                <PrimaryTypography name={elem.value.split(",").join(", \n")} />
+                <PrimaryTypography name={elem.value?.split(",")?.join(", \n")} />
               </Stack>
             </Box>
           );

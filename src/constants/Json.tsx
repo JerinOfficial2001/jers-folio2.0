@@ -105,7 +105,7 @@ export const PortfolioDatas = [
     email: "jerinofficial25@gmail.com",
     about:
       "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
-    resume_url: "123",
+    resume_url: "/resumes/JerinResume.pdf",
     links: [
       {
         url: "https://github.com/JerinOfficial2001",
@@ -128,6 +128,33 @@ export const PortfolioDatas = [
         type: "instagram",
       },
     ],
+    projects:true,
+      phone:'+91 9384912517',
+    address:'Pudupeerkadavu ,Erode-638451',
+    education:[
+      {
+        course: "BE-Mechatronics Engineering",
+        year: "2019 - 2023",
+        name: "SNS College of technology",
+      },
+      {
+        course: "Higher Secondary",
+        year: "2018 - 2019",
+        name: "SARU Matric Higher Secondary School",
+      },
+      {
+        course: "SSLC",
+        year: "2016 - 2017",
+        name: "SARU Matric Higher Secondary School",
+      },
+    ],
+    experience:[
+      {
+        company_name: "Iprotecs",
+        place: "Coimbatore",
+        year: "2023 - present",
+      },
+    ]
   },
   {
     _id: 1,
@@ -141,6 +168,86 @@ export const PortfolioDatas = [
     about:
       "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
     resume_url: null,
+     phone:'+91 9384913517',
+    address:'Pudupeerkadavu ,Erode-638451',
+    education:[
+      {
+        course: "BE-CSE",
+        year: "2020 - 2024",
+        name: "SNS College of technology",
+      },
+      {
+        course: "Higher Secondary",
+        year: "2019 - 2020",
+        name: "SARU Matric Higher Secondary School",
+      },
+      {
+        course: "SSLC",
+        year: "2017 - 2018",
+        name: "SARU Matric Higher Secondary School",
+      },
+    ] ,experience:[
+      {
+        company_name: "Iprotecs",
+        place: "Coimbatore",
+        year: "2023 - present",
+      },
+    ]
+  },
+  {
+    _id: 3,
+    name: "Kavitha Subburam",
+    role: "Mern Stack Developer",
+    image_id: 13,
+    gender: "female",
+    image: null,
+    user_name: "kavitha_2042",
+    email: "kavithasubburam26@gmail.com",
+    about:
+      "MERN Stack Developer with 2 years of hands-on experience in developing and deploying scalable web applications using MongoDB, Express.js, React, and Node.js.",
+    resume_url: "/resumes/KavithaSubburam.pdf",
+    links: [
+      {
+        url: "https://github.com/Kavitha-2042",
+        type: "github",
+      },
+      {
+        url: "https://www.linkedin.com/in/kavitha-subburam-96144521b",
+        type: "linkedin",
+      },
+      
+    ],
+    phone:' - ',
+    address:'AVR building ,Telugu street',
+    education:[
+      {
+        course: "BE-CSE",
+        year: "2018 - 2022",
+        name: "Adithya institute of technology",
+      },
+      {
+        course: "Higher Secondary",
+        year: "2017 - 2018",
+        name: "St.Mary's Girls Higher Secondary School",
+      },
+      {
+        course: "SSLC",
+        year: "2015 - 2016",
+        name: "St.Mary's Girls Higher Secondary School",
+      },
+    ],
+    experience:[
+      {
+        company_name: "Iprotecs",
+        place: "Coimbatore",
+        year: "2023 - present",
+      },
+      {
+        company_name: "Metadiac Technologies",
+        place: "Coimbatore",
+        year: "2022 - 2023",
+      },
+    ]
   },
   {
     _id: 1,
@@ -154,7 +261,34 @@ export const PortfolioDatas = [
     about:
       "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
     resume_url: null,
+      phone:' - ',
+    address:'Pudupeerkadavu ,Erode-638451',
+    education:[
+      {
+        course: "BE-CSE",
+        year: "2018 - 2022",
+        name: "Adithya institute of technology",
+      },
+      {
+        course: "Higher Secondary",
+        year: "2017 - 2018",
+        name: "St.Mary's Girls Higher Secondary School",
+      },
+      {
+        course: "SSLC",
+        year: "2015 - 2016",
+        name: "St.Mary's Girls Higher Secondary School",
+      },
+    ],
+    experience:[
+      {
+        company_name: "Iprotecs",
+        place: "Coimbatore",
+        year: "2023 - present",
+      },
+    ]
   },
+
   // {
   //   _id: 1,
   //   name: "Gokul",
@@ -396,6 +530,22 @@ export const skillData: Skill[] = [
     percent: "85%",
     id: "express",
     user_name: "jerin_25_01",
+  },
+  { label: "Next Js", percent: "90%", id: "nextjs", user_name: "kavitha_2042" },
+  { label: "Node Js", percent: "85%", id: "node", user_name: "kavitha_2042" },
+  { label: "Mern Stack", percent: "85%", id: "mern", user_name: "kavitha_2042" },
+  { label: "React Js", percent: "85%", id: "react", user_name: "kavitha_2042" },
+  {
+    label: "Mongo DB",
+    percent: "85%",
+    id: "mongodb",
+    user_name: "kavitha_2042",
+  },
+  {
+    label: "Express Js",
+    percent: "85%",
+    id: "express",
+    user_name: "kavitha_2042",
   },
   { label: "Next Js", percent: "90%", id: "nextjs", user_name: "iwin_21_02" },
   { label: "Node Js", percent: "85%", id: "node", user_name: "iwin_21_02" },

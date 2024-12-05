@@ -54,7 +54,7 @@ export default function HeroSection({ isComponent }: Props) {
           alignItems: { md: "flex-start", sm: "center", xs: "center" },
         }}
       >
-        <PrimaryTypography name={`I am ${folioData?.name}`} size="lg" />
+        <PrimaryTypography name={`I'm ${folioData?.name}`} size="lg" />
         <Stack direction={{ md: "column", sm: "row", xs: "row" }}>
           <HeaderTypography
             sx={{
@@ -88,7 +88,7 @@ export default function HeroSection({ isComponent }: Props) {
             lable={folioData?.resume_url ? "Download CV" : "Resume not added"}
             sx={{ minWidth: "250px" }}
             endIcon={<FileDownload />}
-            onClickHandler={() => window.open("/JerinResume.pdf", "_blank")}
+            onClickHandler={() => window.open(folioData?.resume_url, "_blank")}
           />
           {folioData?.links?.map((elem: link, index: number) => {
             const userName =

@@ -33,11 +33,11 @@ export default function Comma({ style, isHovered }: Props) {
               y2="-0.0729991"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="1" stop-color="var(--tj-theme-primary)"></stop>
+              <stop offset="1" stopColor="var(--tj-theme-primary)"></stop>
               <stop
                 offset="1"
-                stop-color="currentColor"
-                stop-opacity="0"
+                stopColor="currentColor"
+                stopOpacity="0"
               ></stop>
             </linearGradient>
           </defs>
@@ -69,11 +69,11 @@ export default function Comma({ style, isHovered }: Props) {
               y2="-0.0729991"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="1" stop-color="var(--tj-theme-primary)"></stop>
+              <stop offset="1" stopColor="var(--tj-theme-primary)"></stop>
               <stop
                 offset="1"
-                stop-color="currentColor"
-                stop-opacity="0"
+                stopColor="currentColor"
+                stopOpacity="0"
               ></stop>
             </linearGradient>
           </defs>
