@@ -15,6 +15,7 @@ import GlobalCard from "./GlobalCard";
 import useMuiBreakpoints from "@/hooks/useMuiBreakpoints";
 import { flexStyle } from "@/styles/commonStyles";
 import { usePathname, useRouter } from "next/navigation";
+import { useGlobalStore } from "@/store/GlobalStore";
 
 export default function GlobalCarousel({
   next,
@@ -42,6 +43,8 @@ export default function GlobalCarousel({
   const pathname: any = usePathname();
   const currentVarient = variant == "primary" ? "secondary" : cardVariant;
   const myData = data ? data : [1, 2, 3];
+  const { setIsLoading } = useGlobalStore();
+
   return (
     <Stack
       sx={{
@@ -109,6 +112,7 @@ export default function GlobalCarousel({
                   elem?._id
                     ? () => {
                         router.push(pathname + "/" + elem._id);
+                        setIsLoading(true);
                       }
                     : undefined
                 }

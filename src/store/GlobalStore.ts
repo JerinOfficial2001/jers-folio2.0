@@ -11,8 +11,11 @@ interface Store {
     image: any;
     gender: "male" | "female";
     links: [];
+    resumes: [];
   };
   setProfileData: (data: any) => void;
+  isLoading: boolean;
+  setIsLoading: (state: any) => void;
 }
 export const useGlobalStore = create<Store>((set, get) => ({
   isScrolled: false,
@@ -21,9 +24,11 @@ export const useGlobalStore = create<Store>((set, get) => ({
   popUpVariant: "",
   handleOpenPopUp: (type) => set({ openPopUp: true, popUpVariant: type }),
   handleClosePopUp: () => set({ openPopUp: false }),
-  profileData: { image: "", gender: "male", links: [] },
+  profileData: { image: "", gender: "male", links: [], resumes: [] },
   setProfileData: (data) =>
     set((state) => ({
       profileData: { ...state.profileData, [data.key]: data.value },
     })),
+  isLoading: true,
+  setIsLoading: (state) => set({ isLoading: state }),
 }));

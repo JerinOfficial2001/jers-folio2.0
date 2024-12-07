@@ -6,6 +6,7 @@ import GlobalCarousel from "@/components/global/GCarousel";
 import GlobalCard from "@/components/global/GlobalCard";
 import useMuiBreakpoints from "@/hooks/useMuiBreakpoints";
 import useProjects from "@/hooks/useProjects";
+import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
 import { Box, Container, Grid2 } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
@@ -18,6 +19,7 @@ export default function Works({}: Props) {
   const { webProjectDatas, appProjects } = useProjects();
   const router = useRouter();
   const pathname: any = usePathname();
+  const { setIsLoading } = useGlobalStore();
   return (
     <Box
       sx={{
@@ -77,6 +79,7 @@ export default function Works({}: Props) {
                   data={{ image: elem.icon }}
                   onClickHandler={() => {
                     router.push(pathname + "/" + elem._id);
+                    setIsLoading(true);
                   }}
                 />
               </Grid2>

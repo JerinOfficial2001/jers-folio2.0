@@ -54,7 +54,10 @@ export default function HeroSection({ isComponent }: Props) {
           alignItems: { md: "flex-start", sm: "center", xs: "center" },
         }}
       >
-        <PrimaryTypography name={`I'm ${folioData?.name}`} size="lg" />
+        <PrimaryTypography
+          name={`I'm ${folioData?.name || "Jersfolio"}`}
+          size="lg"
+        />
         <Stack direction={{ md: "column", sm: "row", xs: "row" }}>
           <HeaderTypography
             sx={{

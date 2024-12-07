@@ -11,6 +11,9 @@ import { useRef, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { flexStyle } from "@/styles/commonStyles";
 import GButton from "./GButton";
+import { MdAdd } from "react-icons/md";
+import { useGlobalStore } from "@/store/GlobalStore";
+
 type Props = {
   fullWidth?: boolean;
   width?: string;
@@ -27,7 +30,7 @@ type Props = {
   id?: any;
   label?: string;
   labelShrink?: boolean;
-  variant?: string | "upload";
+  variant?: string | "upload" | "resume";
   disabled?: boolean;
   value?: any;
   placeholder?: string;
@@ -155,13 +158,21 @@ export default function GInput(props: Props) {
   };
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [file, setfile] = useState<any>(null);
+  const { setProfileData, profileData } = useGlobalStore();
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      setfile(files[0]);
+      if (variant == "resume") {
+        setProfileData({
+          key: "resumes",
+          value: [files[0], ...profileData.resumes],
+        });
+      } else {
+        setfile(files[0]);
+      }
     }
   };
-
   const handleButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -177,7 +188,7 @@ export default function GInput(props: Props) {
         ...flexStyle(),
       }}
     >
-      {variant != "upload" && (
+      {!variant && (
         <TextField
           multiline={multiline}
           rows={rows}
@@ -336,6 +347,35 @@ export default function GInput(props: Props) {
             size={"small"}
           />
         </Stack>
+      )}
+      {variant == "resume" && (
+        // <Box
+        //   sx={{ height: "60px", width: "60px", borderRadius: "50%" }}
+        //   component={"img"}
+        //   src={file ? URL.createObjectURL(file) : "/svgs/user.svg"}
+        // />
+        <Box
+          onClick={handleButtonClick}
+          sx={{
+            width: "100%",
+            height: "230px",
+            background: "var(--cardBg)",
+            borderRadius: "5px",
+            "&:hover": {
+              background: "var(--cardhoverBg)",
+            },
+            transition: ".3s",
+            cursor: "pointer",
+            ...flexStyle(),
+          }}
+        >
+          <MdAdd
+            style={{
+              height: "28px",
+              width: "28px",
+            }}
+          />
+        </Box>
       )}
       <input
         type="file"

@@ -6,6 +6,8 @@ import TopBar from "@/components/portfolioComponents/TopBar";
 import { useGlobalStore } from "@/store/GlobalStore";
 import SideBar from "@/components/dashboard/SideBar";
 import GlobalPopUp from "@/components/global/GlobalPopUp";
+import useRoutes from "@/hooks/useRoutes";
+import GLoader from "@/components/global/GLoader";
 
 type Props = {
   children: any;
@@ -13,7 +15,9 @@ type Props = {
 
 export default function CommonLayout({ children }: Props) {
   const pathname: any = usePathname();
-  const { setIsScrolled } = useGlobalStore();
+  const { setIsScrolled, setIsLoading } = useGlobalStore();
+
+  useRoutes();
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -23,13 +27,15 @@ export default function CommonLayout({ children }: Props) {
       }
     };
     window.addEventListener("scroll", handleScroll);
+    setIsLoading(false);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
 
   if (pathname.split("/")[1] && pathname.split("/")[1] != "dashboard") {
     return (
       <Stack>
         <TopBar />
+        <GLoader />
         {children}
       </Stack>
     );
@@ -41,6 +47,11 @@ export default function CommonLayout({ children }: Props) {
       </SideBar>
     );
   } else {
-    return children;
+    return (
+      <>
+        <GLoader />
+        {children}
+      </>
+    );
   }
 }

@@ -213,7 +213,7 @@ export default function GSelect(props: Props) {
             <InputAdornment
               style={{
                 color: "var(--primary)",
-                fontSize: "20px",
+                fontSize: "19px",
                 marginRight: 0,
               }}
               position="start"

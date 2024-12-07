@@ -7,12 +7,13 @@ import GButton from "@/components/global/GButton";
 import GlobalCard from "@/components/global/GlobalCard";
 import GlobalPopUp from "@/components/global/GlobalPopUp";
 import { PortfolioDatas } from "@/constants/Json";
+import { useFolioData } from "@/hooks/useFolioData";
 import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
 import { ArrowForward } from "@mui/icons-material";
 import { Box, Container, Grid2, Stack } from "@mui/material";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 type Props = {};
@@ -25,8 +26,18 @@ export default function LandingPage({}: Props) {
   //     }
   //   };
   //   getData();
-  const { handleOpenPopUp } = useGlobalStore();
+  const { handleOpenPopUp, setIsLoading } = useGlobalStore();
+  const { folioData } = useFolioData();
   const ClientID: any = process.env.NEXT_PUBLIC_GOOGLEAUTHCLIENTID;
+  const pathname: any = usePathname();
+  const userName = pathname.split("/")[1];
+  const handleRoute = (elem: any) => {
+    setIsLoading(true);
+    if (userName != folioData?.user_name) {
+      router.push(`/${elem.user_name}`);
+    }
+  };
+
   return (
     <Container sx={{ height: "100vh" }}>
       <Box sx={{ ...flexStyle("", "", "", "space-between"), height: "80px" }}>
@@ -58,7 +69,7 @@ export default function LandingPage({}: Props) {
                   title={elem.name}
                   variant="teritary"
                   onClickHandler={() => {
-                    router.push(`/${elem.user_name}`);
+                    handleRoute(elem);
                   }}
                   data={elem}
                 />

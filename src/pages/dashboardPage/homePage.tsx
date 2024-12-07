@@ -3,7 +3,6 @@ import {
   SecondaryTypography,
   TeritaryTypography,
 } from "@/components/CustomTypography";
-import GCrudSelectInput from "@/components/global/GCrudSelectInput";
 import GInput from "@/components/global/GInput";
 import GRadioGroup from "@/components/global/GRadioGroup";
 import { FemaleImage, links, MaleImage } from "@/constants/Json";
@@ -13,6 +12,7 @@ import { Box, Container, Grid2, Stack } from "@mui/material";
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import HeroSection from "../portfolio/HeroSection";
+import GCrudInput from "@/components/global/GCrudInput";
 type Props = {};
 
 export default function HomePage({}: Props) {
@@ -166,11 +166,22 @@ export default function HomePage({}: Props) {
           />
         </Grid2>
         <Grid2 size={{ md: 12 }}>
-          <GCrudSelectInput
+          <GCrudInput
             options={Object.keys(links).map((key) => ({
               value: key,
               ...links[key as keyof linkKey],
             }))}
+            label="Links"
+          />
+        </Grid2>
+        <Grid2 size={{ md: 12 }}>
+          <GCrudInput
+            options={Object.keys(links).map((key) => ({
+              value: key,
+              ...links[key as keyof linkKey],
+            }))}
+            varient="resume"
+            label="Resume"
           />
         </Grid2>
       </Grid2>
