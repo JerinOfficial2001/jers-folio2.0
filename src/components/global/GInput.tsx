@@ -63,10 +63,12 @@ type Props = {
   multiline?: any;
   rows?: any;
   fileHandler?: any;
+  toggleType?: string;
 };
 export default function GInput(props: Props) {
   const {
     fullWidth,
+    toggleType,
     width,
     height,
     padding,
@@ -164,10 +166,27 @@ export default function GInput(props: Props) {
     const files = event.target.files;
     if (files && files.length > 0) {
       if (variant == "resume") {
-        setProfileData({
-          key: "resumes",
-          value: [files[0], ...profileData.resumes],
-        });
+        const file = files[0];
+        if (file && file.type === "application/pdf") {
+          // Generate an object URL for the PDF file
+          const fileUploaded = files[0];
+          const reader = new FileReader();
+          const file_name = fileUploaded?.name;
+          reader.readAsDataURL(fileUploaded);
+          let fileObjectResult = null;
+          reader.onload = function () {
+            fileObjectResult = {
+              url: reader.result,
+              name: file_name,
+            };
+            setProfileData({
+              key: "resumes",
+              value: [fileObjectResult, ...profileData.resumes], // Store the PDF URL
+            });
+          };
+        } else {
+          alert("Please select a valid PDF file.");
+        }
       } else {
         setfile(files[0]);
       }
@@ -181,6 +200,7 @@ export default function GInput(props: Props) {
   const handleClearFile = () => {
     setfile(null);
   };
+
   return (
     <Box
       sx={{
@@ -358,7 +378,7 @@ export default function GInput(props: Props) {
           onClick={handleButtonClick}
           sx={{
             width: "100%",
-            height: "230px",
+            height: "280px",
             background: "var(--cardBg)",
             borderRadius: "5px",
             "&:hover": {
@@ -377,6 +397,7 @@ export default function GInput(props: Props) {
           />
         </Box>
       )}
+
       <input
         type="file"
         ref={fileInputRef}

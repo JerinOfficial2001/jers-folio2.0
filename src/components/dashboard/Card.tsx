@@ -14,6 +14,7 @@ export default function Card({ children, size }: Props) {
         padding: 2,
         borderRadius: 5,
         position: "relative",
+        overflow: "hidden",
       }}
     >
       <GIconButton

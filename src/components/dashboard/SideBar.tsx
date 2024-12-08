@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -24,11 +25,12 @@ import { LuReplaceAll } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
 import GLoader from "../global/GLoader";
 import { useGlobalStore } from "@/store/GlobalStore";
+import { Opacity } from "@mui/icons-material";
 const drawerWidth = 235;
 
 export default function SideBar({ children }: any) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const router = useRouter();
   const { setIsLoading } = useGlobalStore();
 
@@ -94,173 +96,207 @@ export default function SideBar({ children }: any) {
   };
 
   return (
-    <>
+    <Box component={"body"} sx={{ overflow: "hidden" }}>
       <GLoader />
       <Box
         sx={{
-          ...flexStyle("", 1, "", "flex-end"),
+          ...flexStyle(),
           background: "var(--background)",
-          minHeight: "100vh",
+          height: "100vh",
           padding: 5,
+          width: "100%",
         }}
       >
         <CssBaseline />
         <Box
           sx={{
-            height: "90%",
-            width: open ? 250 : 78,
-            background: "var(--cardBg)",
-            borderRadius: 8,
-            transition: ".3s",
-            ...flexStyle("column", 5),
-            position: "fixed",
-            padding: 2,
-            top: 40,
-            left: 70,
+            height: "100vh",
+            ...flexStyle(),
+            width: "max-content",
           }}
         >
-          {open ? (
-            <PrimaryTypography name={"Jers-folio"} />
-          ) : (
+          <Box
+            sx={{
+              height: "90%",
+              width: open ? 250 : 78,
+              background: "var(--cardBg)",
+              borderRadius: 8,
+              transition: ".5s",
+              ...flexStyle("column", 5),
+              padding: 2,
+              position: "relative",
+            }}
+          >
             <Box
-              component={"img"}
-              sx={{ height: "40px", width: "40px" }}
-              src="/favicon-48x48.png"
-            />
-          )}
-          <IconButton
-            onClick={handleDrawer}
-            sx={{
-              position: "absolute",
-              right: -10,
-              background: "var(--teritary)",
-              color: "var(--icon)",
-              height: "20px",
-              width: "20px",
-              zIndex: 10000,
-              top: open ? 50 : "unset",
-              transition: ".3s",
-            }}
-            size="small"
-          >
-            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-          <List
-            sx={{
-              height: "100%",
-              ...flexStyle("column", 4, "", "space-between"),
-              width: "100%",
-            }}
-          >
-            {menuArr.map((elem, index) => {
-              const isSelected = isHover[index].state || currentPath == elem.to;
-              return (
-                <ListItem
-                  onClick={() => {
-                    handleClick(elem.title, elem.to);
-                  }}
-                  key={index}
-                  disablePadding
-                  onMouseEnter={() => {
-                    handleToggle(index);
-                  }}
-                  onMouseLeave={() => {
-                    handleToggle(index);
-                  }}
-                  sx={{
-                    position: "relative",
-                    ...flexStyle(),
-                    background:
-                      !open && isSelected ? "var(--primary)" : "transparent",
-                    borderRadius: "30%",
-                    transition: ".3s",
-                  }}
-                >
-                  <Box
-                    component={"img"}
-                    src="/svgs/activeMenu.svg"
+              sx={{
+                padding: 3,
+                width: "100%",
+                ...flexStyle(),
+                position: "relative",
+              }}
+            >
+              <PrimaryTypography
+                name={"Jers-folio"}
+                sx={{
+                  opacity: open ? 1 : 0,
+                  transition: !open ? ".2s" : "2s",
+                  position: "absolute",
+                }}
+              />
+
+              <Box
+                component={"img"}
+                sx={{
+                  height: "40px",
+                  width: "40px",
+                  opacity: !open ? 1 : 0,
+                  transition: ".3s",
+                  position: "absolute",
+                }}
+                src="/favicon-48x48.png"
+              />
+            </Box>
+
+            <IconButton
+              onClick={handleDrawer}
+              sx={{
+                position: "absolute",
+                right: -10,
+                background: "var(--teritary)",
+                color: "var(--icon)",
+                height: "20px",
+                width: "20px",
+                zIndex: 10000,
+                transition: ".5s",
+                transform: open ? "translateY(-250px)" : "none",
+              }}
+              size="small"
+            >
+              <ChevronRightIcon
+                sx={{
+                  rotate: open ? "180deg" : "0deg",
+                  transition: ".3s",
+                }}
+              />
+            </IconButton>
+            <List
+              sx={{
+                height: "100%",
+                ...flexStyle("column", 4, "", "space-between"),
+                width: "100%",
+              }}
+            >
+              {menuArr.map((elem, index) => {
+                const isSelected =
+                  isHover[index].state || currentPath == elem.to;
+                return (
+                  <ListItem
+                    onClick={() => {
+                      handleClick(elem.title, elem.to);
+                    }}
+                    key={index}
+                    disablePadding
+                    onMouseEnter={() => {
+                      handleToggle(index);
+                    }}
+                    onMouseLeave={() => {
+                      handleToggle(index);
+                    }}
                     sx={{
-                      position: "absolute",
-                      right: -30,
-                      opacity: isSelected && open ? 1 : 0,
+                      position: "relative",
+                      ...flexStyle(),
+                      background:
+                        !open && isSelected ? "var(--primary)" : "transparent",
+                      borderRadius: "30%",
                       transition: ".3s",
                     }}
-                  />
-
-                  <ListItemButton
-                    sx={[
-                      {
-                        minHeight: 48,
-                        px: 2.5,
-                        transform:
-                          isSelected && open
-                            ? "rotate3d(1, 1, 1, 2deg)"
-                            : "none",
-                        transition: ".3s",
-                        marginLeft: isSelected && open ? 5 : 0,
-                        ...flexStyle(),
-                      },
-                      open
-                        ? {
-                            justifyContent: "initial",
-                          }
-                        : {
-                            justifyContent: "center",
-                          },
-                    ]}
                   >
-                    <ListItemIcon
+                    <Box
+                      component={"img"}
+                      src="/svgs/activeMenu.svg"
+                      sx={{
+                        position: "absolute",
+                        right: -30,
+                        opacity: isSelected && open ? 1 : 0,
+                        transition: ".4s",
+                      }}
+                    />
+
+                    <ListItemButton
                       sx={[
                         {
-                          justifyContent: "center",
-                          color: isSelected ? "var(--text)" : "var(--disabled)",
+                          minHeight: 48,
+                          px: 2.5,
+                          transform:
+                            isSelected && open
+                              ? "rotate3d(1, 1, 1, 2deg)"
+                              : "none",
+                          transition: ".3s",
+                          marginLeft: isSelected && open ? 5 : 0,
+                          ...flexStyle(),
                         },
-                      ]}
-                    >
-                      {elem.icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={elem.title}
-                      sx={[
                         open
                           ? {
-                              opacity: 1,
+                              justifyContent: "initial",
                             }
                           : {
-                              opacity: 0,
+                              justifyContent: "center",
                             },
-                        {
-                          "& .MuiTypography-root": {
-                            fontFamily: "Sora-medium",
-                          },
-                          color: isSelected ? "var(--text)" : "var(--disabled)",
-                        },
                       ]}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              );
-            })}
-          </List>
+                    >
+                      <ListItemIcon
+                        sx={[
+                          {
+                            justifyContent: "center",
+                            color: isSelected
+                              ? "var(--text)"
+                              : "var(--disabled)",
+                          },
+                        ]}
+                      >
+                        {elem.icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={elem.title}
+                        sx={[
+                          open
+                            ? {
+                                opacity: 1,
+                              }
+                            : {
+                                opacity: 0,
+                              },
+                          {
+                            "& .MuiTypography-root": {
+                              fontFamily: "Sora-medium",
+                            },
+                            color: isSelected
+                              ? "var(--text)"
+                              : "var(--disabled)",
+                            transition: !open ? ".2s" : "2s",
+                          },
+                        ]}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Box>
         </Box>
-        <Box
-          sx={{
-            width: open ? 250 : 78,
-            transition: ".3s",
-          }}
-        />
         <Box
           component="main"
           sx={{
             flexGrow: 1,
-            p: "0px  100px",
             background: "var(--background)",
-            minHeight: "85vh",
+            height: "85vh",
+            overflowY: "auto",
+            paddingX: 10,
           }}
         >
           {children}
         </Box>
       </Box>
-    </>
+    </Box>
   );
 }

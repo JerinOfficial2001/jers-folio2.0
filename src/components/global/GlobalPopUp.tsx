@@ -10,6 +10,8 @@ import GToggleButton from "./GToggleButton";
 import { FemaleImage, MaleImage } from "@/constants/Json";
 import { FemaleAvatar, MaleAvatar } from "@/types/interfaces";
 import GRadioGroup from "./GRadioGroup";
+import GUploadImages from "./GUploadImages";
+import { useFormDatatore } from "@/store/FormDataStore";
 
 type Props = {
   variant?: "signUp";
@@ -23,9 +25,13 @@ export default function GlobalPopUp({ variant }: Props) {
     setProfileData,
     profileData,
   } = useGlobalStore();
-  const [uploadType, setUploadType] = useState("Choose Avatar");
+  const { resetWorkForm } = useFormDatatore();
+  const [toggleType, setToggleType] = useState(
+    popUpVariant == "project" ? "Website" : "Choose Avatar"
+  );
   const handleOnchange = (e: any, value: string) => {
-    setUploadType(value);
+    setToggleType(value);
+    resetWorkForm();
   };
   const googleLogin =
     variant == "signUp"
@@ -96,6 +102,74 @@ export default function GlobalPopUp({ variant }: Props) {
       type: "password",
       width: "full",
       isVisible: true,
+    },
+  ];
+  const projectFields = [
+    {
+      label: "Images",
+      name: "images",
+      value: "",
+      onChange: "",
+      isErr: false,
+      errMsg: "Please fill out this field.",
+      type: "images",
+      width: "full",
+      isVisible: true,
+    },
+    {
+      label: "Project Name",
+      name: "name",
+      value: "",
+      onChange: "",
+      isErr: false,
+      errMsg: "Please fill out this field.",
+      type: "text",
+      width: "full",
+      isVisible: true,
+    },
+    {
+      label: "Description",
+      name: "description",
+      value: "",
+      onChange: "",
+      isErr: false,
+      errMsg: "Please fill out this field.",
+      type: "text",
+      width: "full",
+      isVisible: true,
+    },
+    {
+      label: "About",
+      name: "about",
+      value: "",
+      onChange: "",
+      isErr: false,
+      errMsg: "Please fill out this field.",
+      type: "bigText",
+      width: "full",
+      isVisible: true,
+    },
+    {
+      label: "Link",
+      name: "url",
+      value: "",
+      onChange: "",
+      isErr: false,
+      errMsg: "Please fill out this field.",
+      type: "text",
+      width: "full",
+      isVisible: toggleType == "Website",
+    },
+    {
+      label: "Apk",
+      name: "apk",
+      value: "",
+      onChange: "",
+      isErr: false,
+      errMsg: "Please fill out this field.",
+      type: "text",
+      width: "full",
+      isVisible: toggleType == "Application",
     },
   ];
   return (
@@ -220,7 +294,7 @@ export default function GlobalPopUp({ variant }: Props) {
         >
           <GToggleButton
             handleChange={handleOnchange}
-            alignment={uploadType}
+            alignment={toggleType}
             buttons={["Choose Avatar", "Upload Image"]}
             customStyle={{
               width: "230px",
@@ -318,6 +392,83 @@ export default function GlobalPopUp({ variant }: Props) {
               onClickHandler={handleClosePopUp}
             />
           )}
+        </Stack>
+      ) : popUpVariant == "project" ? (
+        <Stack
+          sx={{
+            background: "var(--background)",
+            padding: 2,
+            gap: 2,
+            borderRadius: "10px",
+            alignItems: "center",
+            width: "600px",
+            position: "relative",
+            height: "80vh",
+            overflowY: "auto",
+          }}
+        >
+          <GToggleButton
+            handleChange={handleOnchange}
+            alignment={toggleType}
+            buttons={["Website", "Application"]}
+            customStyle={{
+              width: "180px",
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+            }}
+          />
+          <Grid2 container sx={{ width: "100%" }} columnGap={1} rowGap={2}>
+            {projectFields.map((elem: any, index: number) => {
+              if (elem.isVisible) {
+                if (elem.type == "images") {
+                  return (
+                    <Grid2
+                      key={index}
+                      size={{
+                        lg: elem.width == "full" ? 12 : 5.7,
+                        sm: 12,
+                        xs: 12,
+                      }}
+                    >
+                      <GUploadImages toggleType={toggleType} />
+                    </Grid2>
+                  );
+                } else if (elem.type == "bigText") {
+                  return (
+                    <Grid2
+                      key={index}
+                      size={{
+                        lg: elem.width == "full" ? 12 : 5.7,
+                        sm: 12,
+                        xs: 12,
+                      }}
+                    >
+                      <GInput
+                        placeholder={elem.label}
+                        type={"text"}
+                        multiline={true}
+                        rows={10}
+                      />
+                    </Grid2>
+                  );
+                } else {
+                  return (
+                    <Grid2
+                      key={index}
+                      size={{
+                        lg: elem.width == "full" ? 12 : 5.7,
+                        sm: 12,
+                        xs: 12,
+                      }}
+                    >
+                      <GInput placeholder={elem.label} type={elem.type} />
+                    </Grid2>
+                  );
+                }
+              }
+            })}
+          </Grid2>
         </Stack>
       ) : (
         <div>hello</div>

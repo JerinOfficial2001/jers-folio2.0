@@ -1,4 +1,4 @@
-import ContactPage from "@/pages/dashboardPage/contactPage";
+import ContactPage from "@/allpages/dashboardPage/contactPage";
 import React from "react";
 
 type Props = {};

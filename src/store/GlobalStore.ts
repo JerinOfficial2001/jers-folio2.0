@@ -23,7 +23,7 @@ export const useGlobalStore = create<Store>((set, get) => ({
   openPopUp: false,
   popUpVariant: "",
   handleOpenPopUp: (type) => set({ openPopUp: true, popUpVariant: type }),
-  handleClosePopUp: () => set({ openPopUp: false }),
+  handleClosePopUp: () => set({ openPopUp: false, popUpVariant: "" }),
   profileData: { image: "", gender: "male", links: [], resumes: [] },
   setProfileData: (data) =>
     set((state) => ({

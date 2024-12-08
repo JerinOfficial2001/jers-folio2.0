@@ -40,8 +40,8 @@ export default function ProjectPage({}: Props) {
               lable={
                 projectData?.projectType == "website" ? "Visit" : "Download"
               }
-              variant="secondary"
-              sx={{ width: "min-content" }}
+              // variant="secondary"
+              sx={{ width: "min-content", borderRadius: "10px" }}
               onClickHandler={() => {
                 if (projectData?.projectType == "website") {
                   window.open(projectData?.link, "_blank");

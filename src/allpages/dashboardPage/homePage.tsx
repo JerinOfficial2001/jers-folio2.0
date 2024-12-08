@@ -1,8 +1,5 @@
 "use client";
-import {
-  SecondaryTypography,
-  TeritaryTypography,
-} from "@/components/CustomTypography";
+import { TeritaryTypography } from "@/components/CustomTypography";
 import GInput from "@/components/global/GInput";
 import GRadioGroup from "@/components/global/GRadioGroup";
 import { FemaleImage, links, MaleImage } from "@/constants/Json";
@@ -11,8 +8,11 @@ import { FemaleAvatar, linkKey, MaleAvatar } from "@/types/interfaces";
 import { Box, Container, Grid2, Stack } from "@mui/material";
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
-import HeroSection from "../portfolio/HeroSection";
 import GCrudInput from "@/components/global/GCrudInput";
+import { flexStyle } from "@/styles/commonStyles";
+import GButton from "@/components/global/GButton";
+import { IoIosSave } from "react-icons/io";
+
 type Props = {};
 
 export default function HomePage({}: Props) {
@@ -71,8 +71,24 @@ export default function HomePage({}: Props) {
     },
   ];
   return (
-    <Stack direction={"row"} justifyContent={"center"} alignItems={"center"}>
+    <Stack
+      sx={{
+        height: "100%",
+        width: "100%",
+        position: "relative",
+        alignItems: "center",
+        gap: 5,
+      }}
+    >
       <Grid2 container rowGap={1} columnGap={1} sx={{ width: "70%" }}>
+        <Grid2
+          size={{
+            md: 12,
+          }}
+          sx={{ ...flexStyle("", "", "", "flex-end") }}
+        >
+          <GButton lable="Save" startIcon={<IoIosSave />} />
+        </Grid2>
         <Grid2
           size={{
             md: 3,
@@ -91,7 +107,7 @@ export default function HomePage({}: Props) {
               sx={{
                 background: "var(--cardBg)",
                 "&:hover": {
-                  background: "var(--hover)",
+                  background: "var(--cardBg)",
                 },
                 height: "100%",
                 width: "100%",

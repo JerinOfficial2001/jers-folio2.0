@@ -128,10 +128,10 @@ export const PortfolioDatas = [
         type: "instagram",
       },
     ],
-    projects:true,
-      phone:'+91 9384912517',
-    address:'Pudupeerkadavu ,Erode-638451',
-    education:[
+    projects: true,
+    phone: "+91 9384912517",
+    address: "Pudupeerkadavu ,Erode-638451",
+    education: [
       {
         course: "BE-Mechatronics Engineering",
         year: "2019 - 2023",
@@ -148,13 +148,13 @@ export const PortfolioDatas = [
         name: "SARU Matric Higher Secondary School",
       },
     ],
-    experience:[
+    experience: [
       {
         company_name: "Iprotecs",
         place: "Coimbatore",
         year: "2023 - present",
       },
-    ]
+    ],
   },
   {
     _id: 1,
@@ -167,10 +167,10 @@ export const PortfolioDatas = [
     email: "iwinissacofficial@gmail.com",
     about:
       "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
-    resume_url: null,
-     phone:'+91 9384913517',
-    address:'Pudupeerkadavu ,Erode-638451',
-    education:[
+    resume_url: "/resumes/Iwin T Resume.pdf",
+    phone: "+91 9384913517",
+    address: "Pudupeerkadavu ,Erode-638451",
+    education: [
       {
         course: "BE-CSE",
         year: "2020 - 2024",
@@ -186,13 +186,24 @@ export const PortfolioDatas = [
         year: "2017 - 2018",
         name: "SARU Matric Higher Secondary School",
       },
-    ] ,experience:[
+    ],
+    experience: [
       {
-        company_name: "Iprotecs",
-        place: "Coimbatore",
-        year: "2023 - present",
+        company_name: "Greyfeathers",
+        place: "Madurai",
+        year: "2022 - present",
       },
-    ]
+    ],
+    links: [
+      {
+        url: "https://github.com/iwint",
+        type: "github",
+      },
+      {
+        url: "https://www.linkedin.com/in/iwin-t",
+        type: "linkedin",
+      },
+    ],
   },
   {
     _id: 3,
@@ -215,11 +226,10 @@ export const PortfolioDatas = [
         url: "https://www.linkedin.com/in/kavitha-subburam-96144521b",
         type: "linkedin",
       },
-      
     ],
-    phone:' - ',
-    address:'AVR building ,Telugu street',
-    education:[
+    phone: " - ",
+    address: "AVR building ,Telugu street",
+    education: [
       {
         course: "BE-CSE",
         year: "2018 - 2022",
@@ -236,7 +246,7 @@ export const PortfolioDatas = [
         name: "St.Mary's Girls Higher Secondary School",
       },
     ],
-    experience:[
+    experience: [
       {
         company_name: "Iprotecs",
         place: "Coimbatore",
@@ -247,7 +257,7 @@ export const PortfolioDatas = [
         place: "Coimbatore",
         year: "2022 - 2023",
       },
-    ]
+    ],
   },
   {
     _id: 1,
@@ -261,9 +271,9 @@ export const PortfolioDatas = [
     about:
       "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
     resume_url: null,
-      phone:' - ',
-    address:'Pudupeerkadavu ,Erode-638451',
-    education:[
+    phone: " - ",
+    address: "Pudupeerkadavu ,Erode-638451",
+    education: [
       {
         course: "BE-CSE",
         year: "2018 - 2022",
@@ -280,13 +290,13 @@ export const PortfolioDatas = [
         name: "St.Mary's Girls Higher Secondary School",
       },
     ],
-    experience:[
+    experience: [
       {
         company_name: "Iprotecs",
         place: "Coimbatore",
         year: "2023 - present",
       },
-    ]
+    ],
   },
 
   // {
@@ -533,7 +543,12 @@ export const skillData: Skill[] = [
   },
   { label: "Next Js", percent: "90%", id: "nextjs", user_name: "kavitha_2042" },
   { label: "Node Js", percent: "85%", id: "node", user_name: "kavitha_2042" },
-  { label: "Mern Stack", percent: "85%", id: "mern", user_name: "kavitha_2042" },
+  {
+    label: "Mern Stack",
+    percent: "85%",
+    id: "mern",
+    user_name: "kavitha_2042",
+  },
   { label: "React Js", percent: "85%", id: "react", user_name: "kavitha_2042" },
   {
     label: "Mongo DB",
@@ -567,9 +582,11 @@ export const skillData: Skill[] = [
   { label: "Python", percent: "85%", id: "python", user_name: "iwin_21_02" },
   { label: "Python", percent: "85%", id: "python", user_name: "@jenisha" },
   { label: "Python", percent: "85%", id: "python", user_name: "@paulJdurai" },
+  { label: "Python", percent: "85%", id: "python", user_name: "kavitha_2042" },
   { label: "Java", percent: "85%", id: "java", user_name: "@jenisha" },
   { label: "Java", percent: "85%", id: "java", user_name: "@paulJdurai" },
   { label: "Java", percent: "85%", id: "java", user_name: "iwin_21_02" },
+  { label: "Java", percent: "85%", id: "java", user_name: "kavitha_2042" },
 ];
 export const links: linkKey = {
   github: {

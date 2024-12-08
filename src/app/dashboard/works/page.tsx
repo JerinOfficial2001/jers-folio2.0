@@ -1,4 +1,4 @@
-import WorksPage from "@/pages/dashboardPage/worksPage";
+import WorksPage from "@/allpages/dashboardPage/worksPage";
 import React from "react";
 
 type Props = {};

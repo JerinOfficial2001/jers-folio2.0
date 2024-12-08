@@ -1,4 +1,4 @@
-import SkillsPage from "@/pages/dashboardPage/skillsPage";
+import SkillsPage from "@/allpages/dashboardPage/skillsPage";
 import React from "react";
 
 type Props = {};

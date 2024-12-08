@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import { PrimaryTypography, TeritaryTypography } from "../CustomTypography";
 import Comma from "../../../public/svgs/comma";
 import { getImage } from "@/hooks/getImage";
-
+import useGlobalCard from "@/hooks/useGlobalCard";
+import { PiSealCheckFill } from "react-icons/pi";
 type Props = {
   title?: string;
   projectName: string;
@@ -14,10 +15,13 @@ type Props = {
     | "teritary"
     | "website"
     | "application"
-    | "";
+    | ""
+    | string;
   count?: number;
   onClickHandler?: () => void;
   data?: any;
+  mainVariant?: any;
+  isSelected?: any;
 };
 
 export default function GlobalCard({
@@ -27,160 +31,46 @@ export default function GlobalCard({
   count,
   onClickHandler,
   data,
+  mainVariant,
+  isSelected,
 }: Props) {
-  const [isHovered, setisHovered] = useState("");
-  const showText = variant != "website" && variant != "application";
-
-  const mainCommonStyles = {
-    borderRadius: "15px",
-    background: "var(--cardBg)",
-    "&:hover": {
-      background: "var(--cardhoverBg)",
-    },
-    cursor: "pointer",
-    transition: ".3s",
-  };
-  const defaultMainStyle =
-    variant == "primary"
-      ? {
-          height: "100%",
-          width: "100%",
-          ...flexStyle("row", "10px", "center", "flex-start"),
-          padding: "10px",
-          ...mainCommonStyles,
-        }
-      : variant == "secondary"
-      ? {
-          height: "80%",
-          width: "80%",
-          ...flexStyle("column", "10px", "flex-start", "space-between"),
-          padding: "30px",
-          ...mainCommonStyles,
-        }
-      : !showText
-      ? {
-          height: "90%",
-          width: "90%",
-          cursor: "pointer",
-        }
-      : variant == "teritary"
-      ? {
-          height: "100%",
-          width: "100%",
-          ...flexStyle("row-reverse", "10px", "center", "space-between"),
-          ...mainCommonStyles,
-          paddingLeft: 1.5,
-        }
-      : {
-          height: "90%",
-          width: "90%",
-          padding: 0,
-          ...mainCommonStyles,
-        };
-  const imageContainerCommonStyle = {
-    boxShadow: "0 2px 0px 0px var(--boxShadow)",
-    ...flexStyle("", "", "flex-end", ""),
-    background:
-      isHovered == title
-        ? "var(--cardhoverSecondary)"
-        : "var(--cardBgSecondary)",
-    overflow: "hidden",
-  };
-
-  const defaultImageContainerStyle =
-    variant == "primary"
-      ? {
-          height: "100px",
-          width: "100px",
-          borderRadius: "50%",
-          ...imageContainerCommonStyle,
-        }
-      : variant == "secondary"
-      ? {
-          height: "100px",
-          width: "100px",
-          borderRadius: "5px 5px 5px 100%",
-          ...imageContainerCommonStyle,
-        }
-      : !showText
-      ? {
-          height: "100%",
-          width: "100%",
-        }
-      : variant == "teritary"
-      ? {
-          height: "150px",
-          width: "30%",
-          borderRadius: "50% 15px 15px 50% ",
-          ...imageContainerCommonStyle,
-        }
-      : {
-          height: "60%",
-          width: "100%",
-          borderRadius: "15px 15px 40% 40% ",
-          ...imageContainerCommonStyle,
-        };
-
-  const defaultImageStyle =
-    variant == "primary"
-      ? {
-          height: "100%",
-          width: "100%",
-        }
-      : variant == "secondary"
-      ? {
-          height: "100%",
-          width: "100%",
-        }
-      : !showText
-      ? {
-          height: "100%",
-          width: "100%",
-          borderRadius: "10px",
-          transition: ".3s",
-        }
-      : variant == "teritary"
-      ? {
-          height: "110%",
-          width: "100%",
-        }
-      : {
-          height: isHovered == title ? "90%" : "80%",
-          width: isHovered == title ? "90%" : "80%",
-          objectFit: "cover",
-          objectPosition: "top",
-          borderRadius: isHovered == title ? "10px" : "10px 10px 0 0",
-          transform:
-            isHovered == title ? "translateY(10px)" : "translateY(10px)",
-          transition: ".3s",
-          boxShadow: isHovered == title ? "unset" : "0px 14px 6px 6px black",
-        };
-
-  const TextContainerFlex =
-    variant == "primary" || variant == "secondary" || variant == "teritary"
-      ? "flex-start"
-      : "center";
-  const TextContainerFlexDirection =
-    variant == "primary" || variant == "teritary" ? "column-reverse" : "column";
+  const {
+    isHovered,
+    setisHovered,
+    TextContainerFlexDirection,
+    TextContainerFlex,
+    showText,
+    commonStyles,
+  } = useGlobalCard({ variant, title, mainVariant });
 
   return (
     <Box
       onMouseEnter={() => setisHovered(title || projectName)}
       onMouseLeave={() => setisHovered("")}
       sx={{
-        ...defaultMainStyle,
+        ...commonStyles.defaultMainStyle[
+          showText ? (variant ? variant : "default") : "noText"
+        ],
       }}
       onClick={onClickHandler}
     >
       {count && <PrimaryTypography name={count} />}
-      <Box sx={{ ...defaultImageContainerStyle }}>
+      <Box
+        sx={{
+          ...commonStyles.defaultImageContainerStyle[
+            showText ? (variant ? variant : "default") : "noText"
+          ],
+        }}
+      >
         <Box
           sx={{
-            ...defaultImageStyle,
+            ...commonStyles.defaultImageStyle[
+              showText ? (variant ? variant : "default") : "noText"
+            ],
             "&:hover": {
               filter: !showText ? "brightness(0.5)" : "none",
             },
-            objectFit: "cover",
+            objectFit: mainVariant == "mini-website" ? "contain" : "cover",
             objectPosition: "center",
           }}
           component="img"
@@ -193,6 +83,22 @@ export default function GlobalCard({
           }
           className="preventSelect"
         />
+        {mainVariant == "mini-website" && (
+          <Box
+            sx={{
+              height: "100%",
+              width: "100%",
+              position: "absolute",
+              color: "var(--primary)",
+              ...flexStyle(),
+              opacity: isSelected ? 1 : 0,
+              transition: ".3s",
+              pointerEvents: "none",
+            }}
+          >
+            <PiSealCheckFill style={{ height: "40%", width: "40%" }} />
+          </Box>
+        )}
       </Box>
       {variant == "secondary" && showText && (
         <Comma

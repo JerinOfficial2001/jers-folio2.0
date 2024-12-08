@@ -1,5 +1,5 @@
-import { Button } from "@mui/material";
-import React from "react";
+import { Box, Button } from "@mui/material";
+import React, { useState } from "react";
 
 type Props = {
   lable: string;
@@ -31,7 +31,7 @@ export default function GButton({
       ? "transparent"
       : variant == "contained"
       ? "var(--primary)"
-      : "var(--buttonPrimary)";
+      : "transparent";
   const hoverBackground =
     variant == "primary"
       ? "var(--primary)"
@@ -39,7 +39,7 @@ export default function GButton({
       ? "none"
       : variant == "contained"
       ? "var(--secondary)"
-      : "var(--buttonSecondary)";
+      : "transparent";
   const border =
     variant == "primary"
       ? "1.5px solid var(--border)"
@@ -59,8 +59,11 @@ export default function GButton({
       ? "var(--disabled)"
       : "var(--text)";
   const hoverColor = "var(--text)";
+  const [isHovered, setisHovered] = useState(false);
   return (
     <Button
+      onMouseEnter={() => setisHovered(true)}
+      onMouseLeave={() => setisHovered(false)}
       onClick={onClickHandler}
       size={size}
       sx={{
@@ -82,13 +85,40 @@ export default function GButton({
               }
             : {},
         padding: size ? "0px 10px" : "10px 35px",
-
+        overflow: "hidden",
+        position: "relative",
         ...sx,
       }}
-      endIcon={endIcon}
-      startIcon={startIcon}
+      endIcon={<div style={{ position: "relative", zIndex: 1 }}>{endIcon}</div>}
+      startIcon={
+        <div style={{ position: "relative", zIndex: 1 }}>{startIcon}</div>
+      }
     >
-      {lable}
+      <div style={{ position: "relative", zIndex: 1 }}>{lable}</div>
+      {!variant && (
+        <>
+          <Box
+            sx={{
+              position: "absolute",
+              opacity: isHovered ? 1 : 0,
+              background: "var(--buttonPrimary)",
+              width: "100%",
+              height: "100%",
+              transition: ".5s",
+            }}
+          />
+          <Box
+            sx={{
+              position: "absolute",
+              opacity: isHovered ? 0 : 1,
+              background: "var(--buttonSecondary)",
+              width: "100%",
+              height: "100%",
+              transition: ".5s",
+            }}
+          />
+        </>
+      )}
     </Button>
   );
 }

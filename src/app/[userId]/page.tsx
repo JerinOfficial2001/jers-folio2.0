@@ -1,5 +1,5 @@
 import React from "react";
-import Portfolio from "@/pages/portfolio";
+import Portfolio from "@/allpages/portfolio";
 type Props = {};
 
 export default function PortfolioPage({}: Props) {

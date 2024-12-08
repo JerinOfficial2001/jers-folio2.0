@@ -16,6 +16,7 @@ import useMuiBreakpoints from "@/hooks/useMuiBreakpoints";
 import { flexStyle } from "@/styles/commonStyles";
 import { usePathname, useRouter } from "next/navigation";
 import { useGlobalStore } from "@/store/GlobalStore";
+import { useFormDatatore } from "@/store/FormDataStore";
 
 export default function GlobalCarousel({
   next,
@@ -34,8 +35,9 @@ export default function GlobalCarousel({
     | "teritary"
     | "website"
     | "application"
-    | "";
-  variant?: "primary" | "secondary" | "teritary" | "";
+    | ""
+    | string;
+  variant?: "primary" | "secondary" | "teritary" | "mini-website" | "";
   data?: any;
 }) {
   const { isxs, issm } = useMuiBreakpoints();
@@ -44,7 +46,7 @@ export default function GlobalCarousel({
   const currentVarient = variant == "primary" ? "secondary" : cardVariant;
   const myData = data ? data : [1, 2, 3];
   const { setIsLoading } = useGlobalStore();
-
+  const { setWorkFormData } = useFormDatatore();
   return (
     <Stack
       sx={{
@@ -52,6 +54,8 @@ export default function GlobalCarousel({
         height:
           variant == "primary"
             ? "500px"
+            : variant == "mini-website"
+            ? "100%"
             : cardVariant == "application"
             ? "560px"
             : "300px",
@@ -109,10 +113,14 @@ export default function GlobalCarousel({
             >
               <GlobalCard
                 onClickHandler={
-                  elem?._id
+                  elem?._id || variant == "mini-website"
                     ? () => {
-                        router.push(pathname + "/" + elem._id);
-                        setIsLoading(true);
+                        if (variant == "mini-website") {
+                          setWorkFormData("primaryImage", index);
+                        } else {
+                          router.push(pathname + "/" + elem._id);
+                          setIsLoading(true);
+                        }
                       }
                     : undefined
                 }
@@ -120,6 +128,8 @@ export default function GlobalCarousel({
                 projectName={elem.title}
                 variant={currentVarient}
                 data={elem?.images ? elem?.images[elem.primaryImage] : elem}
+                mainVariant={variant}
+                isSelected={elem.isSelected}
               />
             </SwiperSlide>
           );

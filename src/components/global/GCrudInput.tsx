@@ -1,4 +1,4 @@
-import { Box, Grid2, IconButton, Stack } from "@mui/material";
+import { Grid2 } from "@mui/material";
 import React, { useState } from "react";
 import GSelect from "./GSelect";
 import GInput from "./GInput";
@@ -137,13 +137,20 @@ export default function GCrudInput({ options, varient, label }: Props) {
       {varient == "resume" ? (
         <>
           {profileData.resumes.map((elem: any, index: number) => {
+            console.log(elem);
+
             return (
               <Grid2 key={index} size={{ md: 2.9 }}>
-                <ResumeCard name={elem?.name} />
+                <ResumeCard index={index} name={elem?.name} pdfUrl={elem.url} />
               </Grid2>
             );
           })}
-          <Grid2 size={{ md: 2.9 }}>
+          <Grid2
+            size={{ md: 2.9 }}
+            sx={{
+              color: "var(--text)",
+            }}
+          >
             <GInput variant="resume" />
           </Grid2>
         </>

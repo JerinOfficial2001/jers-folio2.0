@@ -53,7 +53,7 @@ export default function LandingPage({}: Props) {
           <PrimaryTypography variant="primary" name={`Portfolio's`} />
           {/* <GButton size={"small"} lable="view more" variant="teritary" /> */}
         </Box>
-        <Grid2 container rowGap={1} columnGap={2}>
+        <Grid2 container rowGap={1} columnGap={2} sx={{ width: "100%" }}>
           {PortfolioDatas.map((elem: any, index: number) => {
             return (
               <Grid2

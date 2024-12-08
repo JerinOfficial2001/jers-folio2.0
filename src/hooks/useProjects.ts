@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { WebsiteProjectDatas } from "../constants/Json";
 import { usePathname } from "next/navigation";
 
-export default function useProjects() {
+export default function useProjects(username?: string) {
   const [webProjectDatas, setWebProjectDatas] = useState([]);
   const [appProjects, setappProjects] = useState([]);
   const [projectData, setprojectData] = useState<any>(null);
