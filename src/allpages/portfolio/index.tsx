@@ -23,11 +23,11 @@ export default function Portfolio({}: Props) {
   const { folioData } = useFolioData();
   useEffect(() => {
     Events.scrollEvent.register("begin", (to: any, element: any) => {
-      console.log("begin", to, element);
+      // console.log("begin", to, element);
     });
 
     Events.scrollEvent.register("end", (to: any, element: any) => {
-      console.log("end", to, element);
+      // console.log("end", to, element);
     });
 
     scrollSpy.update();
@@ -40,7 +40,7 @@ export default function Portfolio({}: Props) {
   return (
     <Stack>
       <HeroSection />
-      {folioData?.projects&&<Works />}
+      {folioData?.projects && <Works />}
       <About />
       <Skills />
       <Testimonial />

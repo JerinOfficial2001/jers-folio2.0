@@ -19,21 +19,31 @@ const BootstrapTooltip = styled(({ className, ...props }: TooltipProps) => (
     fontFamily: "Sora-regular",
   },
 }));
-type Props = { icon: any; title?: any; onClickHandler: any; sx?: any };
+type Props = {
+  icon: any;
+  title?: any;
+  onClickHandler: any;
+  sx?: any;
+  variant?: "primary";
+  toolTipPlacement?: "top" | "right" | "left" | "bottom";
+};
 
 export default function GIconButton({
   sx,
   icon,
   title,
   onClickHandler,
+  variant,
+  toolTipPlacement,
 }: Props) {
   return (
-    <BootstrapTooltip placement="top" title={title}>
+    <BootstrapTooltip placement={toolTipPlacement || "top"} title={title}>
       <IconButton
         onClick={onClickHandler}
         sx={{
-          color: "var(--primary)",
-          border: "1px solid var(--primary)",
+          color: variant == "primary" ? "var(--secondary)" : "var(--primary)",
+          border: variant == "primary" ? "none" : "1px solid var(--primary)",
+          background: variant == "primary" ? "var(--primary)" : "transparent",
           ...sx,
         }}
         size="small"

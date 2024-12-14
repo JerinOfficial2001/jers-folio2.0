@@ -10,9 +10,10 @@ type Props = {
   year: string;
   title: string;
   place: string;
+  sx?: any;
 };
 
-export default function AboutCard({ year, title, place }: Props) {
+export default function AboutCard({ year, title, place, sx }: Props) {
   return (
     <Stack
       sx={{
@@ -24,6 +25,7 @@ export default function AboutCard({ year, title, place }: Props) {
           background: "var(--cardhoverBg)",
         },
         transition: "background 1s",
+        ...sx,
       }}
     >
       <PrimaryTypography name={year} variant="primary" />

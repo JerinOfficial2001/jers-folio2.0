@@ -26,12 +26,9 @@ export default function GlobalPopUp({ variant }: Props) {
     profileData,
   } = useGlobalStore();
   const { resetWorkForm } = useFormDatatore();
-  const [toggleType, setToggleType] = useState(
-    popUpVariant == "project" ? "Website" : "Choose Avatar"
-  );
+  const [toggleType, setToggleType] = useState("Choose Avatar");
   const handleOnchange = (e: any, value: string) => {
     setToggleType(value);
-    resetWorkForm();
   };
   const googleLogin =
     variant == "signUp"
@@ -158,7 +155,7 @@ export default function GlobalPopUp({ variant }: Props) {
       errMsg: "Please fill out this field.",
       type: "text",
       width: "full",
-      isVisible: toggleType == "Website",
+      isVisible: popUpVariant == "Website",
     },
     {
       label: "Apk",
@@ -169,11 +166,18 @@ export default function GlobalPopUp({ variant }: Props) {
       errMsg: "Please fill out this field.",
       type: "text",
       width: "full",
-      isVisible: toggleType == "Application",
+      isVisible: popUpVariant == "Application",
     },
   ];
   return (
-    <Modal sx={{ ...flexStyle() }} open={openPopUp} onClose={handleClosePopUp}>
+    <Modal
+      sx={{ ...flexStyle() }}
+      open={openPopUp}
+      onClose={() => {
+        handleClosePopUp();
+        resetWorkForm();
+      }}
+    >
       {variant == "signUp" ? (
         <Stack
           sx={{
@@ -393,7 +397,7 @@ export default function GlobalPopUp({ variant }: Props) {
             />
           )}
         </Stack>
-      ) : popUpVariant == "project" ? (
+      ) : popUpVariant == "Website" || popUpVariant == "Application" ? (
         <Stack
           sx={{
             background: "var(--background)",
@@ -407,9 +411,9 @@ export default function GlobalPopUp({ variant }: Props) {
             overflowY: "auto",
           }}
         >
-          <GToggleButton
+          {/* <GToggleButton
             handleChange={handleOnchange}
-            alignment={toggleType}
+            alignment={popUpVariant}
             buttons={["Website", "Application"]}
             customStyle={{
               width: "180px",
@@ -417,7 +421,7 @@ export default function GlobalPopUp({ variant }: Props) {
               top: 0,
               zIndex: 1,
             }}
-          />
+          /> */}
           <Grid2 container sx={{ width: "100%" }} columnGap={1} rowGap={2}>
             {projectFields.map((elem: any, index: number) => {
               if (elem.isVisible) {
@@ -431,7 +435,7 @@ export default function GlobalPopUp({ variant }: Props) {
                         xs: 12,
                       }}
                     >
-                      <GUploadImages toggleType={toggleType} />
+                      <GUploadImages toggleType={popUpVariant} />
                     </Grid2>
                   );
                 } else if (elem.type == "bigText") {
@@ -468,6 +472,16 @@ export default function GlobalPopUp({ variant }: Props) {
                 }
               }
             })}
+            <Grid2
+              size={{
+                lg: 12,
+                sm: 12,
+                xs: 12,
+              }}
+              sx={{ ...flexStyle() }}
+            >
+              <GButton lable="Submit" />
+            </Grid2>
           </Grid2>
         </Stack>
       ) : (

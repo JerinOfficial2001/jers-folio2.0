@@ -26,7 +26,15 @@ export default function WorksPage({}: Props) {
   const { handleOpenPopUp } = useGlobalStore();
   const { webProjectDatas, appProjects } = useProjects();
   const projects = project == "Website" ? webProjectDatas : appProjects;
-
+  const defaultImageStyle = {
+    height: "100%",
+    width: "100%",
+    objectFit: "cover",
+    borderRadius: 3,
+  };
+  const isWebsite = project == "Website" ? true : false;
+  const slicedArr = (elem: any) =>
+    isWebsite ? elem.images.slice(1, 3) : elem.images.slice(1);
   return (
     <Stack
       sx={{
@@ -51,7 +59,7 @@ export default function WorksPage({}: Props) {
           sx={{ ...flexStyle("", "", "", "flex-end") }}
         >
           <GButton
-            onClickHandler={() => handleOpenPopUp("project")}
+            onClickHandler={() => handleOpenPopUp(project)}
             lable="Add"
             startIcon={<MdAdd />}
           />
@@ -64,7 +72,7 @@ export default function WorksPage({}: Props) {
               }}
               key={index}
             >
-              <Card>
+              <Card btnDirection="row">
                 <Stack direction={"row"} gap={3} sx={{ width: "100%" }}>
                   <Box
                     sx={{ height: "100%", overflow: "hidden", width: "460px" }}
@@ -75,62 +83,85 @@ export default function WorksPage({}: Props) {
                       rowGap={1}
                       sx={{ ...flexStyle("", 1, "", "space-between") }}
                     >
-                      <Grid2 size={8}>
+                      <Grid2 size={isWebsite ? 8 : 2.75}>
                         <Box
                           src={elem.images[elem.primaryImage].image}
                           component={"img"}
                           sx={{
-                            height: "100%",
-                            width: "100%",
-                            objectFit: "cover",
+                            ...defaultImageStyle,
                           }}
                         />
                       </Grid2>
-                      <Grid2 size={3.7}>
+
+                      <Grid2 size={isWebsite ? 3.7 : 8.5}>
                         <Grid2
                           container
                           columnGap={1}
-                          rowGap={1.5}
+                          rowGap={isWebsite ? 1.5 : 1}
                           sx={{
-                            ...flexStyle("", 1, "", "space-between"),
+                            ...flexStyle(
+                              "",
+                              isWebsite ? 1 : 2,
+                              "",
+                              isWebsite ? "space-between" : ""
+                            ),
                             width: "100%",
                           }}
                         >
-                          {elem.images
-                            .slice(1, 3)
-                            .map((elem: any, index: number) => {
-                              return (
-                                <Grid2 key={index} size={12}>
-                                  <Box
-                                    src={elem.image}
-                                    component={"img"}
-                                    sx={{
-                                      height: "100%",
-                                      width: "100%",
-                                      objectFit: "cover",
-                                    }}
-                                  />
-                                </Grid2>
-                              );
-                            })}
+                          {slicedArr(elem).map((elem: any, index: number) => {
+                            return (
+                              <Grid2 key={index} size={isWebsite ? 12 : 1.9}>
+                                <Box
+                                  src={elem.image}
+                                  component={"img"}
+                                  sx={{
+                                    ...defaultImageStyle,
+                                  }}
+                                />
+                              </Grid2>
+                            );
+                          })}
                         </Grid2>
                       </Grid2>
 
-                      {elem.images.slice(3).map((elem: any, index: number) => {
-                        return (
-                          <Grid2 key={index} size={3.7}>
-                            <Box
-                              src={elem.image}
-                              component={"img"}
-                              sx={{
-                                height: "100%",
-                                width: "100%",
-                                objectFit: "cover",
-                              }}
-                            />
-                          </Grid2>
-                        );
-                      })}
+                      {isWebsite &&
+                        elem.images
+                          .slice(3, 6)
+                          .map((data: any, index: number) => {
+                            return (
+                              <Grid2
+                                key={index}
+                                size={3.7}
+                                sx={{ position: "relative" }}
+                              >
+                                {elem.images?.slice(6)?.length != 0 &&
+                                  index == 2 && (
+                                    <Box
+                                      sx={{
+                                        ...defaultImageStyle,
+                                        position: "absolute",
+                                        background: "#00000085",
+                                        backdropFilter: "blur(1px)",
+                                        ...flexStyle(),
+                                      }}
+                                    >
+                                      <SecondaryTypography
+                                        name={
+                                          "+" + elem.images?.slice(6)?.length
+                                        }
+                                      />
+                                    </Box>
+                                  )}
+                                <Box
+                                  src={data.image}
+                                  component={"img"}
+                                  sx={{
+                                    ...defaultImageStyle,
+                                  }}
+                                />
+                              </Grid2>
+                            );
+                          })}
                     </Grid2>
                   </Box>
                   <Stack sx={{ width: "50%" }}>

@@ -80,7 +80,7 @@ export default function HomePage({}: Props) {
         gap: 5,
       }}
     >
-      <Grid2 container rowGap={1} columnGap={1} sx={{ width: "70%" }}>
+      <Grid2 container rowGap={1} columnGap={1} sx={{ width: "80%" }}>
         <Grid2
           size={{
             md: 12,

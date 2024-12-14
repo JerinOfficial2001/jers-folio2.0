@@ -11,9 +11,10 @@ import useMuiBreakpoints from "@/hooks/useMuiBreakpoints";
 type Props = {
   imageSrc: any;
   percent: number | string;
+  sx?: any;
 };
 
-export default function SkillsCard({ percent, imageSrc }: Props) {
+export default function SkillsCard({ sx, percent, imageSrc }: Props) {
   const [isHovered, setisHovered] = useState(false);
   const { isxs } = useMuiBreakpoints();
   return (
@@ -36,6 +37,7 @@ export default function SkillsCard({ percent, imageSrc }: Props) {
         justifyContent: "center",
         gap: 1,
         maxWidth: isxs ? "130px" : "180px",
+        ...sx,
       }}
     >
       <Image

@@ -40,7 +40,7 @@ export default function ResumeCard({ name, pdfUrl, index }: Props) {
       onMouseLeave={() => setisHover(false)}
       sx={{
         width: "100%",
-        height: "280px",
+        height: "250px",
         background: "var(--cardBg)",
         borderRadius: "5px",
         transition: ".3s",

@@ -128,7 +128,6 @@ export default function GCrudInput({ options, varient, label }: Props) {
         varient == "resume" ? {} : { ...flexStyle("", 1) },
         { width: "100%" },
       ]}
-      columnGap={1}
       rowGap={1}
     >
       <Grid2 size={{ md: 12 }}>
@@ -140,13 +139,13 @@ export default function GCrudInput({ options, varient, label }: Props) {
             console.log(elem);
 
             return (
-              <Grid2 key={index} size={{ md: 2.9 }}>
+              <Grid2 key={index} size={{ md: 3 }}>
                 <ResumeCard index={index} name={elem?.name} pdfUrl={elem.url} />
               </Grid2>
             );
           })}
           <Grid2
-            size={{ md: 2.9 }}
+            size={{ md: 3 }}
             sx={{
               color: "var(--text)",
             }}

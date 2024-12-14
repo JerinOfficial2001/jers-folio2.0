@@ -378,7 +378,7 @@ export default function GInput(props: Props) {
           onClick={handleButtonClick}
           sx={{
             width: "100%",
-            height: "280px",
+            height: "250px",
             background: "var(--cardBg)",
             borderRadius: "5px",
             "&:hover": {
