@@ -5,6 +5,7 @@ import GButton from "@/components/global/GButton";
 import GlobalCard from "@/components/global/GlobalCard";
 import GToggleButton from "@/components/global/GToggleButton";
 import AboutCard from "@/components/portfolioComponents/AboutCard";
+import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
 import { Grid2, Stack } from "@mui/material";
 import React, { useState } from "react";
@@ -14,6 +15,7 @@ type Props = {};
 
 export default function AboutPage({}: Props) {
   const [type, setType] = useState("Experience");
+  const { handleOpenPopUp } = useGlobalStore();
   const handleOnchange = (e: any, value: string) => {
     setType(value);
   };
@@ -40,7 +42,11 @@ export default function AboutPage({}: Props) {
           }}
           sx={{ ...flexStyle("", "", "", "flex-end") }}
         >
-          <GButton lable="Add" startIcon={<MdAdd />} />
+          <GButton
+            onClickHandler={() => handleOpenPopUp(type)}
+            lable="Add"
+            startIcon={<MdAdd />}
+          />
         </Grid2>
         {[1, 2, 3].map((elem: any, index: number) => {
           return (

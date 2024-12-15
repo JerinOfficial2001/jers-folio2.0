@@ -1,5 +1,6 @@
 "use client";
 import {
+  PrimaryTypography,
   SecondaryTypography,
   TeritaryTypography,
 } from "@/components/CustomTypography";
@@ -23,6 +24,13 @@ export default function TestimonialsPage({}: Props) {
       }}
     >
       <Grid2 container sx={{ width: "100%" }} columnGap={1} rowGap={1}>
+        <Grid2
+          size={{
+            md: 12,
+          }}
+        >
+          <PrimaryTypography name={"Testimonials"} />
+        </Grid2>
         {[1, 2, 3, 4, 5, 6].map((elem: any, index: number) => {
           return (
             <Grid2
@@ -31,7 +39,12 @@ export default function TestimonialsPage({}: Props) {
               }}
               key={index}
             >
-              <Card btnDirection="column" toolTipPlacement="right" size="sm">
+              <Card
+                showSwitch={true}
+                btnDirection="column"
+                toolTipPlacement="right"
+                size="sm"
+              >
                 <Stack sx={{ width: "80%" }}>
                   <Grid2
                     container

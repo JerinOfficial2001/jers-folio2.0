@@ -236,7 +236,10 @@ export default function GSelect(props: Props) {
                   //   },
                   // },
                   color: "var(--text)",
+                  height: "165px",
                   ...additionalMenuItemsStyle,
+                  overflowY: "auto",
+                  marginTop: 1,
                 },
                 ref: selectMenuRef,
               },
@@ -247,6 +250,17 @@ export default function GSelect(props: Props) {
         value={value}
         error={error}
       >
+        <MenuItem
+          value={-1}
+          sx={{
+            cursor: "pointer",
+            fontSize: "0.8rem",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          --none--
+        </MenuItem>
         {options?.map((option: any) => (
           <MenuItem
             key={option.value}

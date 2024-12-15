@@ -10,10 +10,11 @@ type Props = {
   year: string;
   title: string;
   place: string;
+  message?: string;
   sx?: any;
 };
 
-export default function AboutCard({ year, title, place, sx }: Props) {
+export default function AboutCard({ message, year, title, place, sx }: Props) {
   return (
     <Stack
       sx={{
@@ -31,6 +32,7 @@ export default function AboutCard({ year, title, place, sx }: Props) {
       <PrimaryTypography name={year} variant="primary" />
       <PrimaryTypography name={title} size="md" variant="secondary" />
       <TeritaryTypography name={place} />
+      {message && <TeritaryTypography name={message} />}
     </Stack>
   );
 }

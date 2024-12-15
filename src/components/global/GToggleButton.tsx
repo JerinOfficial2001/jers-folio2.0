@@ -28,7 +28,7 @@ const defaultStyle = {
     padding: "8px 15px",
     border: "none",
   },
-  background: "var(--cardBg)",
+  background: "var(--secondary)",
   borderRadius: "10px",
   justifyContent: "space-between",
   width: "100%",

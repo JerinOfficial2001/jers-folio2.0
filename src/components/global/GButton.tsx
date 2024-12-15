@@ -12,12 +12,14 @@ type Props = {
     | "outlined";
   sx?: any;
   endIcon?: any;
+  ref?: any;
   startIcon?: any;
   size?: any;
   onClickHandler?: (e?: any) => void;
 };
 
 export default function GButton({
+  ref,
   onClickHandler,
   lable,
   variant,
@@ -62,6 +64,7 @@ export default function GButton({
   const [isHovered, setisHovered] = useState(false);
   return (
     <Button
+      ref={ref}
       onMouseEnter={() => setisHovered(true)}
       onMouseLeave={() => setisHovered(false)}
       onClick={onClickHandler}

@@ -1,4 +1,4 @@
-import { Grid2 } from "@mui/material";
+import { Box, Grid2 } from "@mui/material";
 import React, { useState } from "react";
 import GSelect from "./GSelect";
 import GInput from "./GInput";
@@ -120,7 +120,14 @@ export default function GCrudInput({ options, varient, label }: Props) {
     );
     setProfileData({ key: "links", value: filteredLinks });
   };
-
+  const emptyArrCount =
+    profileData?.resumes?.length == 0
+      ? [1, 2, 3]
+      : profileData?.resumes?.length == 1
+      ? [1, 2]
+      : profileData?.resumes?.length == 2
+      ? [1]
+      : [];
   return (
     <Grid2
       container
@@ -129,6 +136,7 @@ export default function GCrudInput({ options, varient, label }: Props) {
         { width: "100%" },
       ]}
       rowGap={1}
+      columnGap={1}
     >
       <Grid2 size={{ md: 12 }}>
         <TeritaryTypography name={label} size="sm" />
@@ -136,22 +144,46 @@ export default function GCrudInput({ options, varient, label }: Props) {
       {varient == "resume" ? (
         <>
           {profileData.resumes.map((elem: any, index: number) => {
-            console.log(elem);
-
             return (
-              <Grid2 key={index} size={{ md: 3 }}>
+              <Grid2 key={index} size={{ md: 2.9 }}>
                 <ResumeCard index={index} name={elem?.name} pdfUrl={elem.url} />
               </Grid2>
             );
           })}
           <Grid2
-            size={{ md: 3 }}
+            size={{ md: 2.9 }}
             sx={{
               color: "var(--text)",
             }}
           >
             <GInput variant="resume" />
           </Grid2>
+          {emptyArrCount.map((elem: any, index: number) => {
+            return (
+              <Grid2
+                size={{ md: 2.9 }}
+                key={index}
+                sx={{
+                  color: "var(--text)",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "250px",
+                    borderRadius: "5px",
+                    border: "2px dashed var(--disabled)",
+                    ...flexStyle(),
+                  }}
+                >
+                  <TeritaryTypography
+                    name={"Resume"}
+                    sx={{ color: "var(--disabled)" }}
+                  />
+                </Box>
+              </Grid2>
+            );
+          })}
         </>
       ) : (
         <>

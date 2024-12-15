@@ -201,28 +201,6 @@ export default function HomePage({}: Props) {
           />
         </Grid2>
       </Grid2>
-      {/* <Stack
-        sx={{
-          width: "30%",
-          position: "relative",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box
-          sx={{
-            width: "30%",
-            height: "300px",
-            position: "fixed",
-            right: 10,
-            borderRadius: "10px",
-          }}
-        >
-          <Container>
-            <HeroSection isComponent={true} />
-          </Container>
-        </Box>
-      </Stack> */}
     </Stack>
   );
 }

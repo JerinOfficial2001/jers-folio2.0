@@ -166,7 +166,7 @@ export default function SideBar({ children }: any) {
                 color: "var(--icon)",
                 height: "20px",
                 width: "20px",
-                zIndex: 10000,
+                zIndex: 10,
                 transition: ".5s",
                 transform: open ? "translateY(-250px)" : "none",
               }}

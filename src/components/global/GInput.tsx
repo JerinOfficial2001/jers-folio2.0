@@ -287,7 +287,7 @@ export default function GInput(props: Props) {
                   fontSize: "10px",
                   margin: "0px",
                   fontFamily: "Sora-regular",
-                  color: "#d32f2f",
+                  color: "var(--error)",
                 }}
               >
                 {helperText}

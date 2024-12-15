@@ -6,7 +6,8 @@ import {
 import Card from "@/components/dashboard/Card";
 import GButton from "@/components/global/GButton";
 import GIconButton from "@/components/global/GIconButton";
-import { links } from "@/constants/Json";
+import { GridDatas, links } from "@/constants/Json";
+import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
 import { linkKey, linkType } from "@/types/interfaces";
 import { Box, Grid2, Stack } from "@mui/material";
@@ -16,80 +17,8 @@ import React from "react";
 type Props = {};
 
 export default function DashboardPage({}: Props) {
-  const GridDatas = [
-    {
-      title: "Home",
-      data: "",
-      content: [],
-      type: "Custom",
-      to: "/dashboard/home",
-    },
-    {
-      title: "Work",
-      data: "",
-      content: [
-        {
-          title: "Home",
-          data: "",
-          width: 12,
-          card: "xs",
-        },
-        {
-          title: "Website",
-          data: "",
-          width: 5.9,
-          card: "sm",
-          image: "/global/website.png",
-          to: "/dashboard/works",
-        },
-        {
-          title: "Application",
-          data: "",
-          width: 5.9,
-          card: "sm",
-          image: "/global/android.png",
-          to: "/dashboard/works",
-        },
-      ],
-    },
-    {
-      title: "About",
-      data: "",
-      content: [],
-      image: "/dashboard/About.png",
-      to: "/dashboard/about",
-    },
-    {
-      title: "Skills",
-      data: "",
-      content: [],
-      image: "/dashboard/skills.png",
-      to: "/dashboard/skills",
-    },
-    {
-      title: "Contact Us",
-      data: "",
-      content: [],
-      image: "/dashboard/Contact.png",
-      to: "/dashboard/contact",
-    },
-
-    {
-      title: "Testimonials",
-      data: "",
-      content: [],
-      image: "/dashboard/testimonial.png",
-      to: "/dashboard/testimonials",
-    },
-    {
-      title: "Resume Builder",
-      data: "",
-      content: [],
-      image: "",
-      to: "/dashboard",
-    },
-  ];
   const router = useRouter();
+  const { handleOpenPopUp } = useGlobalStore();
   return (
     <Stack sx={{ height: "100%", justifyContent: "flex-start" }}>
       <Grid2
@@ -104,7 +33,10 @@ export default function DashboardPage({}: Props) {
             ...flexStyle("column", "", "flex-end", "space-between"),
           }}
         >
-          <GButton lable="Publish" />
+          <GButton
+            onClickHandler={() => handleOpenPopUp("progress")}
+            lable="Publish"
+          />
         </Grid2>
         {GridDatas.map((elem: any, index: number) => {
           if (elem?.type == "Custom") {

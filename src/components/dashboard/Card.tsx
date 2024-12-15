@@ -1,14 +1,16 @@
 import { Box, Stack } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import GIconButton from "../global/GIconButton";
 import { GrFormEdit } from "react-icons/gr";
 import { MdDeleteOutline } from "react-icons/md";
+import GSwitch from "../global/GSwitch";
 type Props = {
   btnDirection?: "row" | "column";
   children: any;
   size?: "sm" | "xs";
   onClickHandler?: () => void;
   toolTipPlacement?: "top" | "right" | "left" | "bottom";
+  showSwitch?: boolean;
 };
 
 export default function Card({
@@ -17,7 +19,12 @@ export default function Card({
   onClickHandler,
   btnDirection,
   toolTipPlacement,
+  showSwitch,
 }: Props) {
+  const [isVisible, setisVisible] = useState(false);
+  const handleOnchange = (e: any) => {
+    setisVisible(e.target.checked);
+  };
   return (
     <Box
       sx={{
@@ -33,7 +40,13 @@ export default function Card({
     >
       <Stack
         direction={btnDirection}
-        sx={{ position: "absolute", top: 10, right: 8, gap: 1 }}
+        sx={{
+          position: "absolute",
+          top: 10,
+          right: 8,
+          gap: 1,
+          alignItems: "center",
+        }}
       >
         <GIconButton
           toolTipPlacement={toolTipPlacement || "top"}
@@ -47,6 +60,13 @@ export default function Card({
             icon={<MdDeleteOutline />}
             title={"Delete"}
             onClickHandler={onClickHandler}
+          />
+        )}
+        {showSwitch && (
+          <GSwitch
+            value={isVisible}
+            name="visible"
+            handleChange={handleOnchange}
           />
         )}
       </Stack>

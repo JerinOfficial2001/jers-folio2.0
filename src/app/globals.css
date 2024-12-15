@@ -57,6 +57,7 @@
     #8750f7 100%
   );
   --hover: #020202d9;
+  --error: #d32f2f;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -186,6 +187,28 @@ body {
   animation: loading2_713 3.5s ease both infinite;
 }
 
+.ant-picker {
+  background-color: var(--secondaryBg) !important;
+  border: none !important;
+  box-shadow: 0 0 0 1.3px var(--borderSecondary);
+  height: 50px;
+  color: var(--text) !important;
+  font-family: Sora-medium;
+}
+.ant-picker:focus-within {
+  border: none !important;
+  box-shadow: 0 0 0 1.3px var(--primary) !important;
+}
+.ant-picker-suffix,
+.ant-picker-separator {
+  color: var(--text) !important;
+}
+.ant-picker-active-bar {
+  background-color: var(--secondary) !important;
+}
+input::placeholder {
+  color: var(--disabled) !important;
+}
 @keyframes text_713 {
   0% {
     letter-spacing: 1px;

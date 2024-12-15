@@ -298,20 +298,6 @@ export const PortfolioDatas = [
       },
     ],
   },
-
-  // {
-  //   _id: 1,
-  //   name: "Gokul",
-  //   role: "React Native Developer",
-  //   image_id: 8,
-  //   gender: "male",
-  //   image: null,
-  //   user_name: "gokul_24_08",
-  //   email: "gokulpga@gmail.com",
-  //   about:
-  //     "I break down complex user experience problems to create integrity focussed solutions that connect billions of people",
-  //   resume_url: "123",
-  // },
 ];
 const JersAppApkImages = [
   {
@@ -610,3 +596,78 @@ export const links: linkKey = {
     icon: <AiFillInstagram />,
   },
 };
+
+//*Dashboard
+export const GridDatas = [
+  {
+    title: "Home",
+    data: "",
+    content: [],
+    type: "Custom",
+    to: "/dashboard/home",
+  },
+  {
+    title: "Work",
+    data: "",
+    content: [
+      {
+        title: "Home",
+        data: "",
+        width: 12,
+        card: "xs",
+      },
+      {
+        title: "Website",
+        data: "",
+        width: 5.9,
+        card: "sm",
+        image: "/global/website.png",
+        to: "/dashboard/works",
+      },
+      {
+        title: "Application",
+        data: "",
+        width: 5.9,
+        card: "sm",
+        image: "/global/android.png",
+        to: "/dashboard/works",
+      },
+    ],
+  },
+  {
+    title: "About",
+    data: "",
+    content: [],
+    image: "/dashboard/About.png",
+    to: "/dashboard/about",
+  },
+  {
+    title: "Skills",
+    data: "",
+    content: [],
+    image: "/dashboard/skills.png",
+    to: "/dashboard/skills",
+  },
+  {
+    title: "Contact Us",
+    data: "",
+    content: [],
+    image: "/dashboard/Contact.png",
+    to: "/dashboard/contact",
+  },
+
+  {
+    title: "Testimonials",
+    data: "",
+    content: [],
+    image: "/dashboard/testimonial.png",
+    to: "/dashboard/testimonials",
+  },
+  {
+    title: "Resume Builder",
+    data: "",
+    content: [],
+    image: "",
+    to: "/dashboard",
+  },
+];

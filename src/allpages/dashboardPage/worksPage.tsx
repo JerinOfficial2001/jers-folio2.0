@@ -72,7 +72,7 @@ export default function WorksPage({}: Props) {
               }}
               key={index}
             >
-              <Card btnDirection="row">
+              <Card btnDirection="row" showSwitch={true}>
                 <Stack direction={"row"} gap={3} sx={{ width: "100%" }}>
                   <Box
                     sx={{ height: "100%", overflow: "hidden", width: "460px" }}
