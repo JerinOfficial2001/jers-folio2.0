@@ -15,8 +15,11 @@
     "@mui/icons-material": "^6.1.7",
     "@mui/material": "^6.1.7",
     "@react-oauth/google": "^0.12.1",
+    "@tanstack/react-query": "^5.62.8",
     "antd": "^5.22.5",
     "axios": "^1.7.7",
+    "cookie": "^1.0.2",
+    "js-cookie": "^3.0.5",
     "next": "15.0.3",
     "pdfjs-dist": "^4.9.155",
     "react": "^18.3.1",
@@ -28,6 +31,8 @@
     "zustand": "^5.0.1"
   },
   "devDependencies": {
+    "@types/cookie": "^1.0.0",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

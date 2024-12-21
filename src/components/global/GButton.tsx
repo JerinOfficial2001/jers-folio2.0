@@ -1,5 +1,6 @@
 import { Box, Button } from "@mui/material";
 import React, { useState } from "react";
+import { FaArrowsRotate } from "react-icons/fa6";
 
 type Props = {
   lable: string;
@@ -16,6 +17,7 @@ type Props = {
   startIcon?: any;
   size?: any;
   onClickHandler?: (e?: any) => void;
+  loading?: boolean;
 };
 
 export default function GButton({
@@ -27,6 +29,7 @@ export default function GButton({
   endIcon,
   startIcon,
   size,
+  loading,
 }: Props) {
   const background =
     variant == "primary" || variant == "teritary" || variant == "outlined"
@@ -62,12 +65,24 @@ export default function GButton({
       : "var(--text)";
   const hoverColor = "var(--text)";
   const [isHovered, setisHovered] = useState(false);
+
+  const rotateAnimation = {
+    animation: "spin 2s linear infinite",
+  };
+
+  const styles = {
+    "@keyframes spin": {
+      "0%": { transform: "rotate(0deg)" },
+      "100%": { transform: "rotate(360deg)" },
+    },
+  };
+
   return (
     <Button
       ref={ref}
       onMouseEnter={() => setisHovered(true)}
       onMouseLeave={() => setisHovered(false)}
-      onClick={onClickHandler}
+      onClick={loading ? undefined : onClickHandler}
       size={size}
       sx={{
         border: border,
@@ -91,13 +106,16 @@ export default function GButton({
         overflow: "hidden",
         position: "relative",
         ...sx,
+        ...styles,
       }}
       endIcon={<div style={{ position: "relative", zIndex: 1 }}>{endIcon}</div>}
       startIcon={
         <div style={{ position: "relative", zIndex: 1 }}>{startIcon}</div>
       }
     >
-      <div style={{ position: "relative", zIndex: 1 }}>{lable}</div>
+      <div style={{ position: "relative", zIndex: 1 }}>
+        {loading ? <FaArrowsRotate style={rotateAnimation} /> : lable}
+      </div>
       {!variant && (
         <>
           <Box

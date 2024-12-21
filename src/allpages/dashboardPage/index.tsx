@@ -7,6 +7,7 @@ import Card from "@/components/dashboard/Card";
 import GButton from "@/components/global/GButton";
 import GIconButton from "@/components/global/GIconButton";
 import { GridDatas, links } from "@/constants/Json";
+import { logout } from "@/services/auth";
 import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
 import { linkKey, linkType } from "@/types/interfaces";
@@ -33,6 +34,7 @@ export default function DashboardPage({}: Props) {
             ...flexStyle("column", "", "flex-end", "space-between"),
           }}
         >
+          <GButton onClickHandler={() => logout()} lable="Logout" />
           <GButton
             onClickHandler={() => handleOpenPopUp("progress")}
             lable="Publish"

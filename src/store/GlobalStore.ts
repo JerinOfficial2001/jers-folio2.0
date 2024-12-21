@@ -16,6 +16,10 @@ interface Store {
   setProfileData: (data: any) => void;
   isLoading: boolean;
   setIsLoading: (state: any) => void;
+  userData: any;
+  setUserData: (value: any) => void;
+  setIsAuthenticated: (state: boolean) => void;
+  isAuthenticated: boolean;
 }
 export const useGlobalStore = create<Store>((set, get) => ({
   isScrolled: false,
@@ -31,4 +35,8 @@ export const useGlobalStore = create<Store>((set, get) => ({
     })),
   isLoading: true,
   setIsLoading: (state) => set({ isLoading: state }),
+  userData: null,
+  setUserData: (value) => set({ userData: value }),
+  isAuthenticated: false,
+  setIsAuthenticated: (value) => set({ isAuthenticated: value }),
 }));

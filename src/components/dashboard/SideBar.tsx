@@ -96,7 +96,7 @@ export default function SideBar({ children }: any) {
   };
 
   return (
-    <Box component={"body"} sx={{ overflow: "hidden" }}>
+    <Box sx={{ overflow: "hidden" }}>
       <GLoader />
       <Box
         sx={{

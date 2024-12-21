@@ -120,7 +120,7 @@ export default function VerticalLinearStepper() {
         orientation="vertical"
       >
         {steps.map((step, index) => (
-          <Step key={step.label}>
+          <Step key={index}>
             <StepLabel
               sx={{
                 "& .MuiStepLabel-label": {
@@ -142,7 +142,10 @@ export default function VerticalLinearStepper() {
             <StepContent>
               {Object.keys(step.messages).map((msg: any, msgIndex) => {
                 return (
-                  <Box sx={{ ...flexStyle("", "", "", "flex-start") }}>
+                  <Box
+                    key={msgIndex}
+                    sx={{ ...flexStyle("", "", "", "flex-start") }}
+                  >
                     <IoClose style={{ color: "red" }} />
                     {/* <TeritaryTypography
                       key={msgIndex}

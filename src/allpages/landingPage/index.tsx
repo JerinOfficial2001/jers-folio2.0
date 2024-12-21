@@ -26,7 +26,7 @@ export default function LandingPage({}: Props) {
   //     }
   //   };
   //   getData();
-  const { handleOpenPopUp, setIsLoading } = useGlobalStore();
+  const { handleOpenPopUp, setIsLoading, isAuthenticated } = useGlobalStore();
   const { folioData } = useFolioData();
   const ClientID: any = process.env.NEXT_PUBLIC_GOOGLEAUTHCLIENTID;
   const pathname: any = usePathname();
@@ -43,8 +43,10 @@ export default function LandingPage({}: Props) {
       <Box sx={{ ...flexStyle("", "", "", "space-between"), height: "80px" }}>
         <HeaderTypography name={"Jers-folio"} size="md" />
         <GButton
-          onClickHandler={handleOpenPopUp}
-          lable="Let's get started"
+          onClickHandler={
+            isAuthenticated ? () => router.push("/dashboard") : handleOpenPopUp
+          }
+          lable={isAuthenticated ? "Go to dashboard" : "Let's get started"}
           endIcon={<ArrowForward />}
         />
       </Box>

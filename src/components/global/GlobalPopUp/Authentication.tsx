@@ -8,16 +8,26 @@ import React, { useState } from "react";
 import GInput from "../GInput";
 import GButton from "../GButton";
 import { flexStyle } from "@/styles/commonStyles";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { login } from "@/services/auth";
 
 type Props = {};
 
 export default function Authentication({}: Props) {
+  const queryClient = useQueryClient();
+
+  const { mutate: handleLogin, isPending: loginProcessing } = useMutation({
+    mutationFn: login,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["login"] });
+    },
+  });
   const googleLogin = useGoogleLogin({
     onError: () => {},
     onSuccess: (res: any) => {
-      const formData = {
-        token: res.access_token,
-      };
+      handleLogin({
+        access_token: res.access_token,
+      });
     },
   });
   const [isAuthTypeChanged, setisAuthTypeChanged] = useState(false);
@@ -141,7 +151,7 @@ export default function Authentication({}: Props) {
       <Box
         sx={{
           marginBottom: 2,
-          ...flexStyle("", 0.5),
+          ...flexStyle("", 0.3),
         }}
       >
         <TeritaryTypography
@@ -154,6 +164,7 @@ export default function Authentication({}: Props) {
           onClickHandler={() => {
             setisAuthTypeChanged(!isAuthTypeChanged);
           }}
+          sx={{ padding: 0 }}
         />
       </Box>
       <Divider
@@ -168,6 +179,7 @@ export default function Authentication({}: Props) {
         {"( or )"}
       </Divider>
       <GButton
+        loading={loginProcessing}
         variant="primary"
         lable="Continue with Google"
         sx={{
