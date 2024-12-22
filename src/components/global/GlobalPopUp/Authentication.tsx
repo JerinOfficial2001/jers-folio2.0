@@ -4,40 +4,79 @@ import {
 } from "@/components/CustomTypography";
 import { Box, Divider, Grid2, Stack } from "@mui/material";
 import { useGoogleLogin } from "@react-oauth/google";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GInput from "../GInput";
 import GButton from "../GButton";
 import { flexStyle } from "@/styles/commonStyles";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { login } from "@/services/auth";
+import { login, register } from "@/services/auth";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { errorHandler } from "@/utils/errorHandler";
+import { useGlobalStore } from "@/store/GlobalStore";
+import useErrorHandler from "@/hooks/useErrorHandler";
 
 type Props = {};
 
 export default function Authentication({}: Props) {
   const queryClient = useQueryClient();
-
+  const router = useRouter();
+  const [authType, setauthType] = useState("");
+  const [inputDatas, setinputDatas] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+  });
+  const { handleClosePopUp } = useGlobalStore();
+  const { errorMsgs, handleErrors } = useErrorHandler();
   const { mutate: handleLogin, isPending: loginProcessing } = useMutation({
     mutationFn: login,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["login"] });
+    onSuccess: (res) => {
+      toast.success(res.message);
+      router.push("/dashboard");
+      handleClosePopUp();
+    },
+    onError: (res: any) => {
+      handleErrors(res);
     },
   });
+  const { mutate: handleRegister, isPending: registerProcessing } = useMutation(
+    {
+      mutationFn: register,
+      onSuccess: (res: any) => {
+        toast.success("Logged In Successfully");
+        router.push("/dashboard");
+        handleClosePopUp();
+      },
+      onError: (res: any) => {
+        handleErrors(res);
+      },
+    }
+  );
   const googleLogin = useGoogleLogin({
     onError: () => {},
     onSuccess: (res: any) => {
+      setauthType("google");
       handleLogin({
         access_token: res.access_token,
       });
     },
   });
   const [isAuthTypeChanged, setisAuthTypeChanged] = useState(false);
-
+  const handleOnchange = (e: any) => {
+    const { name, value } = e.target;
+    setinputDatas((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
   const inputs = [
     {
       label: "Profile Picture",
       name: "image",
       value: "",
-      onChange: "",
+      onChange: handleOnchange,
       isErr: false,
       errMsg: "Please fill out this field.",
       type: "file",
@@ -48,21 +87,21 @@ export default function Authentication({}: Props) {
     {
       label: "Name",
       name: "name",
-      value: "",
-      onChange: "",
-      isErr: false,
-      errMsg: "Please fill out this field.",
+      value: inputDatas.name,
+      onChange: handleOnchange,
+      isErr: errorMsgs?.name,
+      errMsg: errorMsgs?.name,
       type: "text",
       width: "half",
       isVisible: isAuthTypeChanged,
     },
     {
       label: "User name",
-      name: "user_name",
-      value: "",
-      onChange: "",
-      isErr: false,
-      errMsg: "Please fill out this field.",
+      name: "username",
+      value: inputDatas.username,
+      onChange: handleOnchange,
+      isErr: errorMsgs?.username,
+      errMsg: errorMsgs?.username,
       type: "text",
       width: "half",
       isVisible: isAuthTypeChanged,
@@ -70,10 +109,10 @@ export default function Authentication({}: Props) {
     {
       label: "Email address",
       name: "email",
-      value: "",
-      onChange: "",
-      isErr: false,
-      errMsg: "Please fill out this field.",
+      value: inputDatas.email,
+      onChange: handleOnchange,
+      isErr: errorMsgs?.email,
+      errMsg: errorMsgs?.email,
       type: "text",
       width: "full",
       isVisible: true,
@@ -81,15 +120,34 @@ export default function Authentication({}: Props) {
     {
       label: "Password",
       name: "password",
-      value: "",
-      onChange: "",
+      value: inputDatas.password,
+      onChange: handleOnchange,
       isErr: false,
-      errMsg: "Please fill out this field.",
-      type: "password",
+      errMsg: errorMsgs?.password,
+      type: errorMsgs?.password,
       width: "full",
       isVisible: true,
     },
   ];
+  useEffect(() => {
+    setauthType("");
+  }, []);
+  const handleSubmit = () => {
+    setauthType("normal");
+    if (isAuthTypeChanged) {
+      handleRegister({
+        name: inputDatas.name,
+        username: inputDatas.username,
+        email: inputDatas.email,
+        password: inputDatas.password,
+      });
+    } else {
+      handleLogin({
+        email: inputDatas.email,
+        password: inputDatas.password,
+      });
+    }
+  };
   return (
     <Stack
       sx={{
@@ -135,7 +193,15 @@ export default function Authentication({}: Props) {
                     xs: 12,
                   }}
                 >
-                  <GInput placeholder={elem.label} type={elem.type} />
+                  <GInput
+                    placeholder={elem.label}
+                    type={elem.type}
+                    name={elem.name}
+                    value={elem.value}
+                    onChangeHandler={elem.onChange}
+                    error={elem.isErr}
+                    helperText={elem.errMsg}
+                  />
                 </Grid2>
               );
             }
@@ -147,6 +213,10 @@ export default function Authentication({}: Props) {
         sx={{
           minWidth: "150px",
         }}
+        loading={
+          authType == "normal" ? loginProcessing || registerProcessing : false
+        }
+        onClickHandler={handleSubmit}
       />
       <Box
         sx={{
@@ -179,7 +249,7 @@ export default function Authentication({}: Props) {
         {"( or )"}
       </Divider>
       <GButton
-        loading={loginProcessing}
+        loading={authType == "google" ? loginProcessing : false}
         variant="primary"
         lable="Continue with Google"
         sx={{

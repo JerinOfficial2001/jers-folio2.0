@@ -1,22 +1,14 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import cookie from "cookie";
 
-export function middleware(req: NextRequest) {
-  const cookies = cookie.parse(req.headers.get("cookie") || "");
-  const authToken = cookies["JERSFOLIO-V2-AUTH"];
-  const isAuthenticated = !!authToken;
-
+export async function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
+  const token = req.cookies.get("token")?.value;
 
-  if (!isAuthenticated && url.pathname.startsWith("/dashboard")) {
+  if (!token && url.pathname.startsWith("/dashboard")) {
     url.pathname = "/";
     return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
 }
-
-export const config = {
-  matcher: ["/dashboard/:path*"],
-};

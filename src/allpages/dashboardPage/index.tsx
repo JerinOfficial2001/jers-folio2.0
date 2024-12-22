@@ -12,14 +12,28 @@ import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
 import { linkKey, linkType } from "@/types/interfaces";
 import { Box, Grid2, Stack } from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
-
+import toast from "react-hot-toast";
 type Props = {};
 
 export default function DashboardPage({}: Props) {
   const router = useRouter();
   const { handleOpenPopUp } = useGlobalStore();
+  const queryClient = useQueryClient();
+
+  const { mutate: handleLogout, isPending: logoutProcessing } = useMutation({
+    mutationFn: logout,
+    onSuccess: (res) => {
+      // queryClient.invalidateQueries({ queryKey: ["login"] });
+      router.push("/");
+      toast.success(res.message);
+    },
+    onError: (res: any) => {
+      toast.error(res.error);
+    },
+  });
   return (
     <Stack sx={{ height: "100%", justifyContent: "flex-start" }}>
       <Grid2
@@ -34,7 +48,11 @@ export default function DashboardPage({}: Props) {
             ...flexStyle("column", "", "flex-end", "space-between"),
           }}
         >
-          <GButton onClickHandler={() => logout()} lable="Logout" />
+          <GButton
+            loading={logoutProcessing}
+            onClickHandler={handleLogout}
+            lable="Logout"
+          />
           <GButton
             onClickHandler={() => handleOpenPopUp("progress")}
             lable="Publish"

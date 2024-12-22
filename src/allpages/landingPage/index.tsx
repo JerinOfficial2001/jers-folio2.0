@@ -10,6 +10,7 @@ import { PortfolioDatas } from "@/constants/Json";
 import { useFolioData } from "@/hooks/useFolioData";
 import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
+import { isAuthenticated } from "@/utils/auth";
 import { ArrowForward } from "@mui/icons-material";
 import { Box, Container, Grid2, Stack } from "@mui/material";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -20,13 +21,7 @@ type Props = {};
 
 export default function LandingPage({}: Props) {
   const router = useRouter();
-  //   const getData = () => {
-  //     for (let index = 1; index < 35; index++) {
-  //       console.log(`${index}:'/femaleAvatar/${index}.png',`);
-  //     }
-  //   };
-  //   getData();
-  const { handleOpenPopUp, setIsLoading, isAuthenticated } = useGlobalStore();
+  const { handleOpenPopUp, setIsLoading } = useGlobalStore();
   const { folioData } = useFolioData();
   const ClientID: any = process.env.NEXT_PUBLIC_GOOGLEAUTHCLIENTID;
   const pathname: any = usePathname();
@@ -37,16 +32,21 @@ export default function LandingPage({}: Props) {
       router.push(`/${elem.user_name}`);
     }
   };
-
+  const handleButton = () => {
+    if (isAuthenticated()) {
+      setIsLoading(true);
+      router.push("/dashboard");
+    } else {
+      handleOpenPopUp();
+    }
+  };
   return (
     <Container sx={{ height: "100vh" }}>
       <Box sx={{ ...flexStyle("", "", "", "space-between"), height: "80px" }}>
         <HeaderTypography name={"Jers-folio"} size="md" />
         <GButton
-          onClickHandler={
-            isAuthenticated ? () => router.push("/dashboard") : handleOpenPopUp
-          }
-          lable={isAuthenticated ? "Go to dashboard" : "Let's get started"}
+          onClickHandler={handleButton}
+          lable={isAuthenticated() ? "Go to dashboard" : "Let's get started"}
           endIcon={<ArrowForward />}
         />
       </Box>
