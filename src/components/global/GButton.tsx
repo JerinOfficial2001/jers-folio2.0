@@ -10,7 +10,8 @@ type Props = {
     | "secondary"
     | "teritary"
     | "disabled"
-    | "outlined";
+    | "outlined"
+    | string;
   sx?: any;
   endIcon?: any;
   ref?: any;

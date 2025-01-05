@@ -25,7 +25,7 @@ export default function DashboardPage({}: Props) {
 
   const { mutate: handleLogout, isPending: logoutProcessing } = useMutation({
     mutationFn: logout,
-    onSuccess: (res) => {
+    onSuccess: (res: any) => {
       // queryClient.invalidateQueries({ queryKey: ["login"] });
       router.push("/");
       toast.success(res.message);

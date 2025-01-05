@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 
-const API_BASE_URL =
-  process.env.NODE_ENV == "production"
-    ? process.env.NEXT_PUBLIC_API_BASE_URL
-    : process.env.NEXT_PUBLIC_API_LOCAL_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+process.env.NODE_ENV == "production"
+  ? process.env.NEXT_PUBLIC_API_BASE_URL
+  : process.env.NEXT_PUBLIC_API_LOCAL_URL;
 
 export const GET_API = async (
   endpoint: string
@@ -23,10 +23,11 @@ export const POST_API = async (
 ): Promise<AxiosResponse<any>> => {
   try {
     const response = await axios.post(`${API_BASE_URL}${endpoint}`, data, {
-      ...options,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: options
+        ? options
+        : {
+            "Content-Type": "application/json",
+          },
     });
     return response;
   } catch (error) {

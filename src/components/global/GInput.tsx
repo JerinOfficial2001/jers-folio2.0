@@ -64,6 +64,9 @@ type Props = {
   rows?: any;
   fileHandler?: any;
   toggleType?: string;
+  imgInputSize?: string;
+  imgInputType?: string;
+  direction?: "row" | "column";
 };
 export default function GInput(props: Props) {
   const {
@@ -116,6 +119,9 @@ export default function GInput(props: Props) {
     rows,
     multiline,
     fileHandler,
+    direction,
+    imgInputSize,
+    imgInputType,
   } = props;
 
   function removeUnderscoreAndCapitalize(name: string) {
@@ -189,6 +195,7 @@ export default function GInput(props: Props) {
         }
       } else {
         setfile(files[0]);
+        setProfileData({ key: "image", value: files[0] });
       }
     }
   };
@@ -353,17 +360,23 @@ export default function GInput(props: Props) {
             gap: 2,
             alignItems: "center",
           }}
-          direction={"row"}
+          direction={direction}
         >
           <Box
-            sx={{ height: "60px", width: "60px", borderRadius: "50%" }}
+            sx={{
+              height: imgInputSize || "60px",
+              width: imgInputSize || "60px",
+              borderRadius: "50%",
+            }}
             component={"img"}
             src={file ? URL.createObjectURL(file) : "/svgs/user.svg"}
           />
           <GButton
-            onClickHandler={handleButtonClick}
+            onClickHandler={
+              onChangeHandler ? onChangeHandler : handleButtonClick
+            }
             lable="Upload"
-            variant="outlined"
+            variant={imgInputType ? imgInputType : "outlined"}
             size={"small"}
           />
         </Stack>

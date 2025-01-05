@@ -22,13 +22,13 @@ export default function Authentication({}: Props) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [authType, setauthType] = useState("");
-  const [inputDatas, setinputDatas] = useState({
+  const [inputDatas, setinputDatas] = useState<any>({
     name: "",
     username: "",
     email: "",
     password: "",
   });
-  const { handleClosePopUp } = useGlobalStore();
+  const { handleClosePopUp, handleOpenPopUp, profileData } = useGlobalStore();
   const { errorMsgs, handleErrors } = useErrorHandler();
   const { mutate: handleLogin, isPending: loginProcessing } = useMutation({
     mutationFn: login,
@@ -66,7 +66,7 @@ export default function Authentication({}: Props) {
   const [isAuthTypeChanged, setisAuthTypeChanged] = useState(false);
   const handleOnchange = (e: any) => {
     const { name, value } = e.target;
-    setinputDatas((prev) => ({
+    setinputDatas((prev: any) => ({
       ...prev,
       [name]: value,
     }));
@@ -75,7 +75,6 @@ export default function Authentication({}: Props) {
     {
       label: "Profile Picture",
       name: "image",
-      value: "",
       onChange: handleOnchange,
       isErr: false,
       errMsg: "Please fill out this field.",
@@ -135,12 +134,14 @@ export default function Authentication({}: Props) {
   const handleSubmit = () => {
     setauthType("normal");
     if (isAuthTypeChanged) {
-      handleRegister({
-        name: inputDatas.name,
-        username: inputDatas.username,
-        email: inputDatas.email,
-        password: inputDatas.password,
+      const formData = new FormData();
+      if (profileData.image) {
+        formData.append("image", profileData.image);
+      }
+      Object.keys(inputDatas).forEach((key: any) => {
+        formData.append(key, inputDatas[key]);
       });
+      handleRegister(formData);
     } else {
       handleLogin({
         email: inputDatas.email,
@@ -180,7 +181,11 @@ export default function Authentication({}: Props) {
                     xs: 12,
                   }}
                 >
-                  <GInput placeholder={elem.label} variant="upload" />
+                  <GInput
+                    direction="row"
+                    placeholder={elem.label}
+                    variant="upload"
+                  />
                 </Grid2>
               );
             } else {

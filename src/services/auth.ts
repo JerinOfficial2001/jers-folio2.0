@@ -4,8 +4,13 @@ import { setEncryptedCookie } from "@/utils/encryptedCookies";
 import Cookies from "js-cookie";
 
 export const register = (payload: any) => {
-  return POST_API(API_PATHS.REGISTER, {
-    ...payload,
+  return POST_API(API_PATHS.REGISTER, payload, {
+    "Content-Type": "multipart/form-data",
+  }).then((response) => {
+    const { token, expireTime } = response.data;
+    setEncryptedCookie("token", token);
+    setEncryptedCookie("expireTime", expireTime);
+    return response.data;
   });
 };
 
@@ -24,12 +29,13 @@ export const login = (payload: any) => {
   });
 };
 
-export const logout = () => {
-  return POST_API(API_PATHS.LOGOUT, {}).then((response) => {
-    Cookies.remove("token");
-    Cookies.remove("expireTime");
-    return response.data;
-  });
+export const logout = (): any => {
+  // return POST_API(API_PATHS.LOGOUT, {}).then((response) => {
+  Cookies.remove("token");
+  Cookies.remove("expireTime");
+  return { message: "Logged out successfully" };
+  // return response.data;
+  // });
 };
 
 // export const getCurrentUser = () => {
