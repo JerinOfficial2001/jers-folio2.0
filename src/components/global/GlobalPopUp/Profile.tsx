@@ -7,11 +7,14 @@ import GRadioGroup from "../GRadioGroup";
 import { FemaleImage, MaleImage } from "@/constants/Json";
 import { FemaleAvatar, MaleAvatar } from "@/types/interfaces";
 import GInput from "../GInput";
+import { useFormDatatore } from "@/store/FormDataStore";
 
 type Props = {};
 
 export default function Profile({}: Props) {
-  const { handleClosePopUp, setProfileData, profileData } = useGlobalStore();
+  const { handleClosePopUp } = useGlobalStore();
+  const { profileData, setProfileData } = useFormDatatore();
+
   const [toggleType, setToggleType] = useState("Choose Avatar");
   const handleOnchange = (e: any, value: string) => {
     setToggleType(value);

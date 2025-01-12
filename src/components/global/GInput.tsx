@@ -13,6 +13,7 @@ import { flexStyle } from "@/styles/commonStyles";
 import GButton from "./GButton";
 import { MdAdd } from "react-icons/md";
 import { useGlobalStore } from "@/store/GlobalStore";
+import { useFormDatatore } from "@/store/FormDataStore";
 
 type Props = {
   fullWidth?: boolean;
@@ -166,7 +167,7 @@ export default function GInput(props: Props) {
   };
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [file, setfile] = useState<any>(null);
-  const { setProfileData, profileData } = useGlobalStore();
+  const { setProfileData, profileData } = useFormDatatore();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;

@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export async function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
-  const token = req.cookies.get("token")?.value;
+  const token = req.cookies.get("jersfolioV2-token")?.value;
 
   if (!token && url.pathname.startsWith("/dashboard")) {
     url.pathname = "/";

@@ -11,6 +11,7 @@ import { IoRemoveCircleSharp } from "react-icons/io5";
 import { useGlobalStore } from "@/store/GlobalStore";
 import ResumeCard from "../dashboard/ResumeCard";
 import { TeritaryTypography } from "../CustomTypography";
+import { useFormDatatore } from "@/store/FormDataStore";
 
 type Props = {
   options: any;
@@ -22,7 +23,7 @@ type FormDatas = {
   url: string;
 };
 export default function GCrudInput({ options, varient, label }: Props) {
-  const { profileData, setProfileData } = useGlobalStore();
+  const { profileData, setProfileData } = useFormDatatore();
   const [formDatas, setformDatas] = useState<FormDatas>({
     type: "",
     url: "",

@@ -8,6 +8,7 @@ import { Document, Page, pdfjs } from "react-pdf"; // Import react-pdf component
 import "react-pdf/dist/esm/Page/AnnotationLayer.css"; // Add annotation layer styles
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import { useGlobalStore } from "@/store/GlobalStore";
+import { useFormDatatore } from "@/store/FormDataStore";
 
 type Props = {
   name: string;
@@ -19,7 +20,8 @@ export default function ResumeCard({ name, pdfUrl, index }: Props) {
   const [isHover, setisHover] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [numPages, setNumPages] = useState(0);
-  const { setProfileData, profileData } = useGlobalStore();
+  const { profileData, setProfileData } = useFormDatatore();
+
   // Function to handle the onLoad success event for the document
   function onDocumentLoadSuccess({ numPages }: any) {
     setNumPages(numPages);

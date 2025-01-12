@@ -8,7 +8,7 @@ export const register = (payload: any) => {
     "Content-Type": "multipart/form-data",
   }).then((response) => {
     const { token, expireTime } = response.data;
-    setEncryptedCookie("token", token);
+    setEncryptedCookie("jersfolioV2-token", token);
     setEncryptedCookie("expireTime", expireTime);
     return response.data;
   });
@@ -23,7 +23,7 @@ export const login = (payload: any) => {
     {}
   ).then((response) => {
     const { token, expireTime } = response.data;
-    setEncryptedCookie("token", token);
+    setEncryptedCookie("jersfolioV2-token", token);
     setEncryptedCookie("expireTime", expireTime);
     return response.data;
   });
@@ -31,7 +31,7 @@ export const login = (payload: any) => {
 
 export const logout = (): any => {
   // return POST_API(API_PATHS.LOGOUT, {}).then((response) => {
-  Cookies.remove("token");
+  Cookies.remove("jersfolioV2-token");
   Cookies.remove("expireTime");
   return { message: "Logged out successfully" };
   // return response.data;

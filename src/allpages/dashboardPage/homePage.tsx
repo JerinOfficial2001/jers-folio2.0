@@ -6,39 +6,68 @@ import { FemaleImage, links, MaleImage } from "@/constants/Json";
 import { useGlobalStore } from "@/store/GlobalStore";
 import { FemaleAvatar, linkKey, MaleAvatar } from "@/types/interfaces";
 import { Box, Container, Grid2, Stack } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import GCrudInput from "@/components/global/GCrudInput";
 import { flexStyle } from "@/styles/commonStyles";
 import GButton from "@/components/global/GButton";
 import { IoIosSave } from "react-icons/io";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getUser, updateUser } from "@/services/user";
+import { useFormDatatore } from "@/store/FormDataStore";
+import { handleArrayOfObjectFormData, handleFormData } from "@/helpers";
 
 type Props = {};
 
 export default function HomePage({}: Props) {
-  const { handleOpenPopUp, profileData, setProfileData } = useGlobalStore();
+  const { handleOpenPopUp } = useGlobalStore();
+  const { profileData, setProfileData } = useFormDatatore();
+  const {
+    data: User,
+    isLoading: userLoading,
+    error: userError,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
+  });
+  const { mutate: SaveUser, isPending: saveLoading } = useMutation({
+    mutationKey: ["saveUser"],
+    mutationFn: (data: any) => updateUser(data?.payload, data?.id),
+  });
+  const handleOnchange = (e: any) => {
+    const { name, value } = e.target;
+    setProfileData({ key: name, value });
+  };
+  useEffect(() => {
+    if (User) {
+      const profileKeys = Object.keys(profileData);
+      Object.keys(User).forEach((elem: any) => {
+        if (profileKeys.includes(elem))
+          setProfileData({ key: elem, value: User[elem] || "" });
+      });
+    }
+  }, [User]);
   const fields = [
     {
       label: "Name",
       name: "name",
-      onChange: () => {},
-      value: "",
+      onChange: handleOnchange,
+      value: profileData.name,
       type: "text",
       size: 5.9,
     },
     {
       label: "Username",
-      name: "user_name",
-      onChange: () => {},
-      value: "",
+      name: "username",
+      onChange: handleOnchange,
+      value: profileData.username,
       type: "text",
       size: 5.9,
     },
     {
       label: "Gender",
       name: "gender",
-      onChange: (e: any) =>
-        setProfileData({ key: "gender", value: e.target.value }),
+      onChange: handleOnchange,
       value: profileData.gender,
       type: "radio",
       content: [
@@ -56,20 +85,54 @@ export default function HomePage({}: Props) {
     {
       label: "Role",
       name: "role",
-      onChange: () => {},
-      value: "",
+      onChange: handleOnchange,
+      value: profileData.role,
       type: "text",
       size: 5.9,
     },
     {
       label: "Email",
       name: "email",
-      onChange: () => {},
-      value: "",
+      onChange: handleOnchange,
+      value: profileData.email,
       type: "email",
       size: 12,
     },
   ];
+  console.log(profileData.resumes, "resume");
+  const handleSaveUser = () => {
+    const formData = new FormData();
+    let tempData: any = { ...profileData };
+    delete tempData.links;
+    // if (
+    //   tempData.resumes.length>0&&tempData.resumes.some(
+    //     (resume: any) => resume instanceof File
+    //   )
+    // ) {
+    //   tempData.resumes.forEach((resume:any) => {
+    //     if (resume instanceof File) {
+    //       tempData.resumes = tempData.resumes.filter((elem:any)=>elem!=resume);
+    //     }
+    //   });;
+    // }
+    profileData.resumes.forEach((link: any) => {
+      formData.append("pdf", link);
+    });
+
+    if (profileData?.links.length > 0) {
+      handleArrayOfObjectFormData(profileData.links, formData, "links");
+    }
+    handleFormData(tempData, formData);
+    SaveUser({ payload: formData, id: User?._id });
+  };
+
+  const ImageSrc: any = profileData.image?.url
+    ? profileData.image?.url
+    : profileData?.image instanceof File
+    ? URL.createObjectURL(profileData?.image)
+    : profileData.gender == "male"
+    ? MaleImage[profileData.image as keyof MaleAvatar]
+    : FemaleImage[profileData.image as keyof FemaleAvatar];
   return (
     <Stack
       sx={{
@@ -87,7 +150,11 @@ export default function HomePage({}: Props) {
           }}
           sx={{ ...flexStyle("", "", "", "flex-end") }}
         >
-          <GButton lable="Save" startIcon={<IoIosSave />} />
+          <GButton
+            onClickHandler={handleSaveUser}
+            lable="Save"
+            startIcon={<IoIosSave />}
+          />
         </Grid2>
         <Grid2
           size={{
@@ -121,13 +188,10 @@ export default function HomePage({}: Props) {
                 sx={{
                   height: "100%",
                   width: "100%",
+                  borderRadius: "50%",
                 }}
                 component={"img"}
-                src={
-                  profileData.gender == "male"
-                    ? MaleImage[profileData.image as keyof MaleAvatar]
-                    : FemaleImage[profileData.image as keyof FemaleAvatar]
-                }
+                src={ImageSrc}
               />
             ) : (
               <FaUserCircle
@@ -165,6 +229,8 @@ export default function HomePage({}: Props) {
                       name={elem.name}
                       placeholder={elem.label}
                       type={elem.type}
+                      value={elem.value}
+                      onChangeHandler={elem.onChange}
                     />
                   </Grid2>
                 );

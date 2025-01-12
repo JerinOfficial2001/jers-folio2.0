@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import { errorHandler } from "@/utils/errorHandler";
 import { useGlobalStore } from "@/store/GlobalStore";
 import useErrorHandler from "@/hooks/useErrorHandler";
+import { handleFormData } from "@/helpers";
 
 type Props = {};
 
@@ -138,9 +139,7 @@ export default function Authentication({}: Props) {
       if (profileData.image) {
         formData.append("image", profileData.image);
       }
-      Object.keys(inputDatas).forEach((key: any) => {
-        formData.append(key, inputDatas[key]);
-      });
+      handleFormData(inputDatas, formData);
       handleRegister(formData);
     } else {
       handleLogin({

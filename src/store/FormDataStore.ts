@@ -1,6 +1,18 @@
 import { create } from "zustand";
 
 interface Store {
+  profileData: {
+    image: any;
+    gender: "male" | "female";
+    links: [];
+    resumes: [];
+    name: "";
+    username: "";
+    role: "";
+    email: "";
+    about: "";
+  };
+  setProfileData: (data: any) => void;
   workFormData: any;
   setWorkFormData: (key: string, value: any) => void;
   skillFormData: any;
@@ -8,6 +20,21 @@ interface Store {
   resetWorkForm: () => void;
 }
 export const useFormDatatore = create<Store>((set, get) => ({
+  profileData: {
+    image: "",
+    gender: "male",
+    links: [],
+    resumes: [],
+    name: "",
+    username: "",
+    role: "",
+    email: "",
+    about: "",
+  },
+  setProfileData: (data) =>
+    set((state) => ({
+      profileData: { ...state.profileData, [data.key]: data.value },
+    })),
   workFormData: { images: [], primaryImage: 0 },
   setWorkFormData: (key, value) =>
     set((state) => ({
