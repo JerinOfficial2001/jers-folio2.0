@@ -6,16 +6,28 @@ import {
 import Card from "@/components/dashboard/Card";
 import GButton from "@/components/global/GButton";
 import GIconButton from "@/components/global/GIconButton";
-import { GridDatas, links } from "@/constants/Json";
+import { FemaleImage, GridDatas, links, MaleImage } from "@/constants/Json";
 import { logout } from "@/services/auth";
+import { getUser } from "@/services/user";
 import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
-import { linkKey, linkType } from "@/types/interfaces";
+import {
+  FemaleAvatar,
+  linkKey,
+  linkType,
+  MaleAvatar,
+} from "@/types/interfaces";
+import {
+  extractGitHubUsername,
+  extractInstagramUsername,
+  extractLinkedInUsername,
+} from "@/utils/methods";
 import { Box, Grid2, Stack } from "@mui/material";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
+import { HiOutlineLogout } from "react-icons/hi";
 type Props = {};
 
 export default function DashboardPage({}: Props) {
@@ -35,6 +47,20 @@ export default function DashboardPage({}: Props) {
       toast.error(res.error);
     },
   });
+  const {
+    data: User,
+    isLoading: userLoading,
+    error: userError,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
+  });
+  const ImageSrc: any =
+    User?.image && typeof User?.image == "object"
+      ? User?.image?.url
+      : User?.gender == "male"
+      ? MaleImage[User?.image as keyof MaleAvatar]
+      : FemaleImage[User?.image as keyof FemaleAvatar];
   return (
     <Stack sx={{ height: "100%", justifyContent: "flex-start" }}>
       <Grid2
@@ -46,17 +72,17 @@ export default function DashboardPage({}: Props) {
         <Grid2
           size={12}
           sx={{
-            ...flexStyle("column", "", "flex-end", "space-between"),
+            ...flexStyle("row", 1, "center", "flex-end"),
           }}
         >
           <GButton
-            loading={logoutProcessing}
-            onClickHandler={handleLogout}
-            lable="Logout"
-          />
-          <GButton
             onClickHandler={() => handleOpenPopUp("progress")}
             lable="Publish"
+          />
+          <GIconButton
+            loading={logoutProcessing}
+            onClickHandler={handleLogout}
+            icon={<HiOutlineLogout />}
           />
         </Grid2>
         {GridDatas.map((elem: any, index: number) => {
@@ -81,7 +107,7 @@ export default function DashboardPage({}: Props) {
                     zIndex: 1,
                     boxShadow: "-9px 9px 10px 0px var(--boxShadow)",
                   }}
-                  src="/maleAvatar/3.png"
+                  src={ImageSrc}
                 />
                 <Card
                   onClickHandler={() => {
@@ -97,8 +123,11 @@ export default function DashboardPage({}: Props) {
                     }}
                   >
                     <Stack sx={{ width: "50%" }}>
-                      <PrimaryTypography name={"Jerin T"} size="lg" />
-                      <SecondaryTypography name={"MERN Stack Developer"} />
+                      <PrimaryTypography
+                        name={User?.name || "Name"}
+                        size="lg"
+                      />
+                      <SecondaryTypography name={User?.role || "Role"} />
                     </Stack>
                     <Box
                       sx={{
@@ -106,13 +135,24 @@ export default function DashboardPage({}: Props) {
                         ...flexStyle("", "", "center", "space-between"),
                       }}
                     >
-                      {Object.keys(links).map((btn: any, btnIndex: number) => {
+                      {User?.links?.map((elem: any, btnIndex: number) => {
+                        const userName =
+                          elem.type == "linkedin"
+                            ? extractLinkedInUsername(elem.url)
+                            : elem.type == "github"
+                            ? extractGitHubUsername(elem.url)
+                            : elem.type == "instagram"
+                            ? extractInstagramUsername(elem.url)
+                            : links[elem.type as keyof linkKey]?.label;
                         return (
                           <GIconButton
                             variant="primary"
                             key={btnIndex}
-                            icon={links[btn as keyof linkKey]?.icon}
-                            onClickHandler={() => {}}
+                            icon={links[elem.type as keyof linkKey]?.icon}
+                            title={userName}
+                            onClickHandler={() => {
+                              window.open(elem.url, "_blank");
+                            }}
                           />
                         );
                       })}

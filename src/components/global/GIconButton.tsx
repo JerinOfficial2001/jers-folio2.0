@@ -6,6 +6,7 @@ import {
   TooltipProps,
 } from "@mui/material";
 import React from "react";
+import { FaArrowsRotate } from "react-icons/fa6";
 
 const BootstrapTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} arrow classes={{ popper: className }} />
@@ -22,6 +23,7 @@ const BootstrapTooltip = styled(({ className, ...props }: TooltipProps) => (
 type Props = {
   icon: any;
   title?: any;
+  loading?: boolean;
   onClickHandler: any;
   sx?: any;
   variant?: "primary";
@@ -35,7 +37,11 @@ export default function GIconButton({
   onClickHandler,
   variant,
   toolTipPlacement,
+  loading,
 }: Props) {
+  const rotateAnimation = {
+    animation: "spin 2s linear infinite",
+  };
   return (
     <BootstrapTooltip placement={toolTipPlacement || "top"} title={title}>
       <IconButton
@@ -48,7 +54,7 @@ export default function GIconButton({
         }}
         size="small"
       >
-        {icon}
+        {loading ? <FaArrowsRotate style={rotateAnimation} /> : icon}
       </IconButton>
     </BootstrapTooltip>
   );
