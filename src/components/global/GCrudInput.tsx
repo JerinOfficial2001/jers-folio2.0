@@ -129,6 +129,7 @@ export default function GCrudInput({ options, varient, label }: Props) {
       : profileData?.resumes?.length == 2
       ? [1]
       : [];
+
   return (
     <Grid2
       container
@@ -147,7 +148,12 @@ export default function GCrudInput({ options, varient, label }: Props) {
           {profileData.resumes.map((elem: any, index: number) => {
             return (
               <Grid2 key={index} size={{ md: 2.9 }}>
-                <ResumeCard index={index} name={elem?.name} pdfUrl={elem.url} />
+                <ResumeCard
+                  index={index}
+                  name={elem?.name}
+                  pdfUrl={elem.url}
+                  id={elem?.public_id}
+                />
               </Grid2>
             );
           })}

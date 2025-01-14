@@ -185,6 +185,7 @@ export default function GInput(props: Props) {
             fileObjectResult = {
               url: reader.result,
               name: file_name,
+              file: file,
             };
             setProfileData({
               key: "resumes",

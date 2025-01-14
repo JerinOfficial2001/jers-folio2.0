@@ -99,32 +99,32 @@ export default function HomePage({}: Props) {
       size: 12,
     },
   ];
-  console.log(profileData.resumes, "resume");
   const handleSaveUser = () => {
     const formData = new FormData();
     let tempData: any = { ...profileData };
     delete tempData.links;
-    // if (
-    //   tempData.resumes.length>0&&tempData.resumes.some(
-    //     (resume: any) => resume instanceof File
-    //   )
-    // ) {
-    //   tempData.resumes.forEach((resume:any) => {
-    //     if (resume instanceof File) {
-    //       tempData.resumes = tempData.resumes.filter((elem:any)=>elem!=resume);
-    //     }
-    //   });;
-    // }
-    profileData.resumes.forEach((link: any) => {
-      formData.append("pdf", link);
+    delete tempData.resumes;
+    delete tempData.resumeIds;
+    profileData.resumes.forEach((resume: any) => {
+      if (resume.file) formData.append("pdf", resume.file);
     });
 
     if (profileData?.links.length > 0) {
       handleArrayOfObjectFormData(profileData.links, formData, "links");
     }
+    if (profileData?.resumeIds.length > 0) {
+      profileData.resumeIds.forEach((elem: any) => {
+        formData.append("resumeIds[]", elem);
+      });
+    }
     handleFormData(tempData, formData);
     SaveUser({ payload: formData, id: User?._id });
+    setProfileData({
+      key: "resumeIds",
+      value: [],
+    });
   };
+  console.log(profileData.resumeIds, "ids");
 
   const ImageSrc: any = profileData.image?.url
     ? profileData.image?.url
@@ -245,6 +245,8 @@ export default function HomePage({}: Props) {
             type={"text"}
             multiline={true}
             rows={10}
+            value={profileData.about}
+            onChangeHandler={handleOnchange}
           />
         </Grid2>
         <Grid2 size={{ md: 12 }}>

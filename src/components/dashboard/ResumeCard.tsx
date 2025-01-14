@@ -14,9 +14,10 @@ type Props = {
   name: string;
   pdfUrl: string; // Add the pdfUrl prop to pass the file path or URL
   index: number;
+  id?: any;
 };
 
-export default function ResumeCard({ name, pdfUrl, index }: Props) {
+export default function ResumeCard({ name, pdfUrl, index, id }: Props) {
   const [isHover, setisHover] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [numPages, setNumPages] = useState(0);
@@ -31,6 +32,12 @@ export default function ResumeCard({ name, pdfUrl, index }: Props) {
       (elem: any, resumeIndex: number) => resumeIndex != index
     );
     setProfileData({ key: "resumes", value: tempPdfs });
+    if (id) {
+      setProfileData({
+        key: "resumeIds",
+        value: [...profileData.resumeIds, id],
+      });
+    }
   };
   useEffect(() => {
     pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";

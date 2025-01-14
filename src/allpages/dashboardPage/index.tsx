@@ -24,6 +24,7 @@ export default function DashboardPage({}: Props) {
   const queryClient = useQueryClient();
 
   const { mutate: handleLogout, isPending: logoutProcessing } = useMutation({
+    mutationKey: ["logout"],
     mutationFn: logout,
     onSuccess: (res: any) => {
       // queryClient.invalidateQueries({ queryKey: ["login"] });

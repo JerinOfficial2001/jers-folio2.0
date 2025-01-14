@@ -73,16 +73,16 @@ export default function Authentication({}: Props) {
     }));
   };
   const inputs = [
-    {
-      label: "Profile Picture",
-      name: "image",
-      onChange: handleOnchange,
-      isErr: false,
-      errMsg: "Please fill out this field.",
-      type: "file",
-      width: "full",
-      isVisible: isAuthTypeChanged,
-    },
+    // {
+    //   label: "Profile Picture",
+    //   name: "image",
+    //   onChange: handleOnchange,
+    //   isErr: false,
+    //   errMsg: "Please fill out this field.",
+    //   type: "file",
+    //   width: "full",
+    //   isVisible: isAuthTypeChanged,
+    // },
 
     {
       label: "Name",

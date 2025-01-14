@@ -6,11 +6,12 @@ interface Store {
     gender: "male" | "female";
     links: [];
     resumes: [];
-    name: "";
-    username: "";
-    role: "";
-    email: "";
-    about: "";
+    name: string;
+    username: string;
+    role: string;
+    email: string;
+    about: string;
+    resumeIds: [];
   };
   setProfileData: (data: any) => void;
   workFormData: any;
@@ -30,6 +31,7 @@ export const useFormDatatore = create<Store>((set, get) => ({
     role: "",
     email: "",
     about: "",
+    resumeIds: [],
   },
   setProfileData: (data) =>
     set((state) => ({
