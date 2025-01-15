@@ -4,7 +4,7 @@ interface Store {
   isScrolled: boolean;
   setIsScrolled: (data: boolean) => void;
   openPopUp: boolean;
-  handleOpenPopUp: (type?: string) => void;
+  handleOpenPopUp: (type?: string, id?: any) => void;
   handleClosePopUp: () => void;
   popUpVariant: string;
   profileData: {
@@ -20,23 +20,31 @@ interface Store {
   setUserData: (value: any) => void;
   setIsAuthenticated: (state: boolean) => void;
   isAuthenticated: boolean;
+  id: any;
+  resetGlobalStore: (value: string) => void;
 }
-export const useGlobalStore = create<Store>((set, get) => ({
+const initialStates: any = {
   isScrolled: false,
-  setIsScrolled: (data) => set({ isScrolled: data }),
   openPopUp: false,
   popUpVariant: "",
-  handleOpenPopUp: (type) => set({ openPopUp: true, popUpVariant: type }),
-  handleClosePopUp: () => set({ openPopUp: false, popUpVariant: "" }),
+  id: "",
   profileData: { image: "", gender: "male", links: [], resumes: [] },
+  isLoading: true,
+  userData: null,
+  isAuthenticated: false,
+};
+export const useGlobalStore = create<Store>((set, get) => ({
+  ...initialStates,
+  setIsScrolled: (data) => set({ isScrolled: data }),
+  handleOpenPopUp: (type, id) =>
+    set({ openPopUp: true, popUpVariant: type, id }),
+  handleClosePopUp: () => set({ openPopUp: false, popUpVariant: "", id: "" }),
   setProfileData: (data) =>
     set((state) => ({
       profileData: { ...state.profileData, [data.key]: data.value },
     })),
-  isLoading: true,
   setIsLoading: (state) => set({ isLoading: state }),
-  userData: null,
   setUserData: (value) => set({ userData: value }),
-  isAuthenticated: false,
   setIsAuthenticated: (value) => set({ isAuthenticated: value }),
+  resetGlobalStore: (form) => set({ [form]: initialStates[form] }),
 }));

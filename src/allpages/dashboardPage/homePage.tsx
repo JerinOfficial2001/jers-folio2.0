@@ -124,7 +124,6 @@ export default function HomePage({}: Props) {
       value: [],
     });
   };
-  console.log(profileData.resumeIds, "ids");
 
   const ImageSrc: any = profileData.image?.url
     ? profileData.image?.url

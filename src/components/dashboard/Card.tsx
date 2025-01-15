@@ -8,23 +8,29 @@ type Props = {
   btnDirection?: "row" | "column";
   children: any;
   size?: "sm" | "xs";
-  onClickHandler?: () => void;
+  deleteHandler?: (id: any) => void;
+  editHandler?: (id: any) => void;
   toolTipPlacement?: "top" | "right" | "left" | "bottom";
   showSwitch?: boolean;
+  isVisible?: any;
+  handleOnchange?: (e: any) => void;
 };
 
 export default function Card({
   children,
   size,
-  onClickHandler,
+  deleteHandler,
   btnDirection,
   toolTipPlacement,
   showSwitch,
+  isVisible,
+  handleOnchange,
+  editHandler,
 }: Props) {
-  const [isVisible, setisVisible] = useState(false);
-  const handleOnchange = (e: any) => {
-    setisVisible(e.target.checked);
-  };
+  // const [isVisible, setisVisible] = useState(false);
+  // const handleOnchange = (e: any) => {
+  //   setisVisible(e.target.checked);
+  // };
   return (
     <Box
       sx={{
@@ -52,14 +58,14 @@ export default function Card({
           toolTipPlacement={toolTipPlacement || "top"}
           icon={<GrFormEdit />}
           title={"Edit"}
-          onClickHandler={onClickHandler}
+          onClickHandler={editHandler}
         />
         {btnDirection && (
           <GIconButton
             toolTipPlacement={toolTipPlacement || "top"}
             icon={<MdDeleteOutline />}
             title={"Delete"}
-            onClickHandler={onClickHandler}
+            onClickHandler={deleteHandler}
           />
         )}
         {showSwitch && (

@@ -471,7 +471,7 @@ export const WebsiteProjectDatas: any = [
     title: "JersApp",
     description: "Real time chat application",
     about:
-      "Account Book is a full-stack financial tracking application built using the MERN stack (MongoDB, Express, React, Node.js) for the backend and Next.js for the frontend. It allows users to easily manage and track their credits and expenses by recording transactions, categorizing them, and viewing detailed financial summaries. The application features real-time updates, secure user authentication, and an intuitive interface, making it easy to maintain a personal financial ledger. This project demonstrates proficiency in full-stack development, database management, and creating functional, user-friendly applications.",
+      "JersApp is a real-time chat application built using the MERN stack (MongoDB, Express, React, Node.js) and React Native, offering a seamless communication experience similar to WhatsApp. Users can engage in personal or group chats, post statuses, and update their profile pictures with ease. JersApp supports dynamic theme changes for personalization and allows users to connect their accounts to the web using secure QR code authentication. The app provides a fast, intuitive interface with real-time updates, ensuring smooth communication across all devices. This project showcases expertise in real-time functionality, cross-platform development, and secure user authentication.",
     primaryImage: 1,
     projectType: "application",
     link: "https://account-book-gilt.vercel.app",
@@ -484,7 +484,7 @@ export const WebsiteProjectDatas: any = [
     description:
       "Simplify your music practice with instant access to chords and lyrics.",
     about:
-      "Account Book is a full-stack financial tracking application built using the MERN stack (MongoDB, Express, React, Node.js) for the backend and Next.js for the frontend. It allows users to easily manage and track their credits and expenses by recording transactions, categorizing them, and viewing detailed financial summaries. The application features real-time updates, secure user authentication, and an intuitive interface, making it easy to maintain a personal financial ledger. This project demonstrates proficiency in full-stack development, database management, and creating functional, user-friendly applications.",
+      "ChordLyrics is a feature-rich application designed for keyboard players to view chords seamlessly integrated with song lyrics. Built using the MERN stack (MongoDB, Express, React, Node.js) and React Native, the app provides an intuitive platform for musicians to practice and perform. Users can access a vast library of songs, view synchronized lyrics and chords, and customize the display for optimal readability. ChordLyrics supports offline access, making it convenient for live performances and practice sessions. This project highlights expertise in real-time rendering, cross-platform development, and creating user-friendly tools tailored for musicians.",
     primaryImage: 1,
     projectType: "application",
     link: "https://account-book-gilt.vercel.app",

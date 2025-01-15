@@ -3,4 +3,5 @@ export const API_PATHS = {
   REGISTER: "/auth/register",
   LOGOUT: "/auth/logout",
   USER: "/user",
+  PROJECT: "/project",
 };

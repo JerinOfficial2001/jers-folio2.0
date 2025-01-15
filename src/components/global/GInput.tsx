@@ -14,6 +14,7 @@ import GButton from "./GButton";
 import { MdAdd } from "react-icons/md";
 import { useGlobalStore } from "@/store/GlobalStore";
 import { useFormDatatore } from "@/store/FormDataStore";
+import { SecondaryTypography, TeritaryTypography } from "../CustomTypography";
 
 type Props = {
   fullWidth?: boolean;
@@ -214,9 +215,10 @@ export default function GInput(props: Props) {
     <Box
       sx={{
         width: "100%",
-        ...flexStyle(),
+        ...flexStyle("column", 1, "flex-start"),
       }}
     >
+      {label && <TeritaryTypography name={label} size="xs" />}
       {!variant && (
         <TextField
           multiline={multiline}
@@ -226,7 +228,6 @@ export default function GInput(props: Props) {
           size={size || "small"}
           type={type == "password" ? (isHide ? "password" : "text") : type}
           id={id}
-          label={label}
           onClick={onClick}
           onKeyDown={onKeyDown}
           onKeyUp={onKeyUp}
@@ -297,6 +298,7 @@ export default function GInput(props: Props) {
                   margin: "0px",
                   fontFamily: "Sora-regular",
                   color: "var(--error)",
+                  border: "none",
                 }}
               >
                 {helperText}

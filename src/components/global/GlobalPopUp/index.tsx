@@ -23,8 +23,9 @@ type Props = {
 };
 
 export default function GlobalPopUp({ variant }: Props) {
-  const { openPopUp, handleClosePopUp, popUpVariant } = useGlobalStore();
-  const { resetWorkForm } = useFormDatatore();
+  const { openPopUp, handleClosePopUp, popUpVariant, resetGlobalStore } =
+    useGlobalStore();
+  const { resetForm } = useFormDatatore();
 
   return (
     <Modal
@@ -43,15 +44,16 @@ export default function GlobalPopUp({ variant }: Props) {
       }}
       open={openPopUp}
       onClose={() => {
+        resetGlobalStore("id");
+        resetForm("workFormData");
         handleClosePopUp();
-        resetWorkForm();
       }}
     >
       {variant == "signUp" ? (
         <Authentication />
       ) : popUpVariant == "profile" ? (
         <Profile />
-      ) : popUpVariant == "Website" || popUpVariant == "Application" ? (
+      ) : popUpVariant == "website" || popUpVariant == "application" ? (
         <WebApp />
       ) : popUpVariant == "progress" ? (
         <Progress />

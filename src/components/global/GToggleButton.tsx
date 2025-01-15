@@ -22,7 +22,7 @@ const defaultStyle = {
   },
   "& .MuiButtonBase-root": {
     color: "var(--text) !important",
-    textTransform: "unset",
+    textTransform: "Capitalize",
     fontFamily: "Sora-medium",
     fontSize: "10px",
     padding: "8px 15px",

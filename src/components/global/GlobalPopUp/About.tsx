@@ -7,16 +7,23 @@ import GButton from "../GButton";
 import { flexStyle } from "@/styles/commonStyles";
 import { PrimaryTypography } from "@/components/CustomTypography";
 import { DatePicker, Space } from "antd";
+import { useFormDatatore } from "@/store/FormDataStore";
 
 type Props = {};
 
 export default function About({}: Props) {
   const { popUpVariant } = useGlobalStore();
+  const {
+    expirenceFormData,
+    setExpirenceFormData,
+    educationFormData,
+    setEducationFormData,
+  } = useFormDatatore();
   const aboutFields = [
     {
       label: "Company Name",
       name: "company_name",
-      value: "",
+      value: expirenceFormData.company_name,
       onChange: "",
       isErr: false,
       errMsg: "Please fill out this field.",
@@ -27,7 +34,7 @@ export default function About({}: Props) {
     {
       label: "Place",
       name: "place",
-      value: "",
+      value: expirenceFormData.place || educationFormData.place,
       onChange: "",
       isErr: false,
       errMsg: "Please fill out this field.",
@@ -38,7 +45,7 @@ export default function About({}: Props) {
     {
       label: "Institution",
       name: "institution",
-      value: "",
+      value: educationFormData.institution,
       onChange: "",
       isErr: false,
       errMsg: "Please fill out this field.",
@@ -50,7 +57,7 @@ export default function About({}: Props) {
     {
       label: "Course",
       name: "course",
-      value: "",
+      value: educationFormData.course,
       onChange: "",
       isErr: false,
       errMsg: "Please fill out this field.",
@@ -62,7 +69,7 @@ export default function About({}: Props) {
     {
       label: "Year",
       name: "year",
-      value: "",
+      value: expirenceFormData.place || educationFormData.place,
       onChange: "",
       isErr: false,
       errMsg: "Please fill out this field.",
