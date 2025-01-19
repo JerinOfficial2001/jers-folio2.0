@@ -667,7 +667,7 @@ export const GridDatas = [
     title: "Resume Builder",
     data: "",
     content: [],
-    image: "",
+    image: "/dashboard/resume.png",
     to: "/dashboard",
   },
 ];

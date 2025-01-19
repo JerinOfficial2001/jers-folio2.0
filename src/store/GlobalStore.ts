@@ -22,6 +22,7 @@ interface Store {
   isAuthenticated: boolean;
   id: any;
   resetGlobalStore: (value: string) => void;
+  resetAllGlobalStore: () => void;
 }
 const initialStates: any = {
   isScrolled: false,
@@ -47,4 +48,5 @@ export const useGlobalStore = create<Store>((set, get) => ({
   setUserData: (value) => set({ userData: value }),
   setIsAuthenticated: (value) => set({ isAuthenticated: value }),
   resetGlobalStore: (form) => set({ [form]: initialStates[form] }),
+  resetAllGlobalStore: () => set(initialStates),
 }));

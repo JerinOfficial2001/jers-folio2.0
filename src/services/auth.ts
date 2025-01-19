@@ -33,6 +33,7 @@ export const logout = (): any => {
   // return POST_API(API_PATHS.LOGOUT, {}).then((response) => {
   Cookies.remove("jersfolioV2-token");
   Cookies.remove("expireTime");
+  window.location.reload();
   return { message: "Logged out successfully" };
   // return response.data;
   // });

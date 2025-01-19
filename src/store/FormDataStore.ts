@@ -43,6 +43,7 @@ interface Store {
   };
   setEducationFormData: (key: string, value: any) => void;
   resetForm: (form: string) => void;
+  resetAllForm: () => void;
 }
 const initialStates: any = {
   profileData: {
@@ -73,13 +74,12 @@ const initialStates: any = {
   expirenceFormData: {
     company_name: "",
     place: "",
-    year: "",
+    year: [],
   },
   educationFormData: {
-    place: "",
     institution: "",
     course: "",
-    year: "",
+    year: [],
   },
 };
 export const useFormDatatore = create<Store>((set, get) => ({
@@ -97,12 +97,17 @@ export const useFormDatatore = create<Store>((set, get) => ({
       skillFormData: [...state.skillFormData, value],
     })),
   setExpirenceFormData: (key, value) =>
-    set((state) => ({
-      expirenceFormData: { ...state.expirenceFormData, [key]: value },
-    })),
+    set((state) => {
+      return {
+        expirenceFormData: { ...state.expirenceFormData, [key]: value },
+      };
+    }),
   setEducationFormData: (key, value) =>
-    set((state) => ({
-      educationFormData: { ...state.educationFormData, [key]: value },
-    })),
+    set((state) => {
+      return {
+        educationFormData: { ...state.educationFormData, [key]: value },
+      };
+    }),
   resetForm: (form) => set({ [form]: initialStates[form] }),
+  resetAllForm: () => set(initialStates),
 }));

@@ -9,6 +9,7 @@ type Props = {
   children: any;
   size?: "sm" | "xs";
   deleteHandler?: (id: any) => void;
+  onClickHandler?: () => void;
   editHandler?: (id: any) => void;
   toolTipPlacement?: "top" | "right" | "left" | "bottom";
   showSwitch?: boolean;
@@ -26,6 +27,7 @@ export default function Card({
   isVisible,
   handleOnchange,
   editHandler,
+  onClickHandler,
 }: Props) {
   // const [isVisible, setisVisible] = useState(false);
   // const handleOnchange = (e: any) => {
@@ -58,7 +60,7 @@ export default function Card({
           toolTipPlacement={toolTipPlacement || "top"}
           icon={<GrFormEdit />}
           title={"Edit"}
-          onClickHandler={editHandler}
+          onClickHandler={editHandler || onClickHandler}
         />
         {btnDirection && (
           <GIconButton

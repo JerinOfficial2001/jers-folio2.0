@@ -25,7 +25,7 @@ type Props = {
 export default function GlobalPopUp({ variant }: Props) {
   const { openPopUp, handleClosePopUp, popUpVariant, resetGlobalStore } =
     useGlobalStore();
-  const { resetForm } = useFormDatatore();
+  const { resetAllForm } = useFormDatatore();
 
   return (
     <Modal
@@ -45,7 +45,7 @@ export default function GlobalPopUp({ variant }: Props) {
       open={openPopUp}
       onClose={() => {
         resetGlobalStore("id");
-        resetForm("workFormData");
+        resetAllForm();
         handleClosePopUp();
       }}
     >

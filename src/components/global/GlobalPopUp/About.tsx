@@ -1,13 +1,14 @@
 import { useGlobalStore } from "@/store/GlobalStore";
 import { Grid2, Stack } from "@mui/material";
 import React from "react";
-import GUploadImages from "../GUploadImages";
 import GInput from "../GInput";
 import GButton from "../GButton";
 import { flexStyle } from "@/styles/commonStyles";
 import { PrimaryTypography } from "@/components/CustomTypography";
 import { DatePicker, Space } from "antd";
 import { useFormDatatore } from "@/store/FormDataStore";
+import dayjs from "dayjs";
+import useAboutFunction from "@/hooks/functions/useAboutFunction";
 
 type Props = {};
 
@@ -19,23 +20,33 @@ export default function About({}: Props) {
     educationFormData,
     setEducationFormData,
   } = useFormDatatore();
+  const { AddEducation, AddExperience, creatingEducation, creatingExperience } =
+    useAboutFunction();
+  const handleEducationOnchange = (e: any) => {
+    const { name, value } = e.target;
+    setEducationFormData(name, value);
+  };
+  const handleExperienceOnchange = (e: any) => {
+    const { name, value } = e.target;
+    setExpirenceFormData(name, value);
+  };
   const aboutFields = [
     {
       label: "Company Name",
       name: "company_name",
       value: expirenceFormData.company_name,
-      onChange: "",
+      onChange: (e: any) => handleExperienceOnchange(e),
       isErr: false,
       errMsg: "Please fill out this field.",
-      type: "images",
+      type: "text",
       width: "full",
       isVisible: "Experience",
     },
     {
       label: "Place",
       name: "place",
-      value: expirenceFormData.place || educationFormData.place,
-      onChange: "",
+      value: expirenceFormData.place,
+      onChange: (e: any) => handleExperienceOnchange(e),
       isErr: false,
       errMsg: "Please fill out this field.",
       type: "text",
@@ -46,7 +57,7 @@ export default function About({}: Props) {
       label: "Institution",
       name: "institution",
       value: educationFormData.institution,
-      onChange: "",
+      onChange: (e: any) => handleEducationOnchange(e),
       isErr: false,
       errMsg: "Please fill out this field.",
       type: "text",
@@ -58,7 +69,7 @@ export default function About({}: Props) {
       label: "Course",
       name: "course",
       value: educationFormData.course,
-      onChange: "",
+      onChange: (e: any) => handleEducationOnchange(e),
       isErr: false,
       errMsg: "Please fill out this field.",
       type: "text",
@@ -69,8 +80,15 @@ export default function About({}: Props) {
     {
       label: "Year",
       name: "year",
-      value: expirenceFormData.place || educationFormData.place,
-      onChange: "",
+      value:
+        popUpVariant != "Education"
+          ? expirenceFormData.year
+          : educationFormData.year,
+      onChange: (e: any, dateRange: any) => {
+        popUpVariant != "Education"
+          ? setExpirenceFormData("year", dateRange)
+          : setEducationFormData("year", dateRange);
+      },
       isErr: false,
       errMsg: "Please fill out this field.",
       type: "datepicker",
@@ -78,6 +96,13 @@ export default function About({}: Props) {
       isVisible: true,
     },
   ];
+  const handleSubmit = () => {
+    if (popUpVariant == "Education") {
+      AddEducation(educationFormData);
+    } else {
+      AddExperience(expirenceFormData);
+    }
+  };
   return (
     <Stack
       sx={{
@@ -99,6 +124,11 @@ export default function About({}: Props) {
         {aboutFields.map((elem: any, index: number) => {
           if (elem.isVisible == popUpVariant || elem.isVisible == true) {
             if (elem.type == "datepicker") {
+              const Value =
+                elem.value.length > 0
+                  ? elem.value.map((date: any) => dayjs(date, "YYYY-MM-DD"))
+                  : [];
+
               return (
                 <Grid2
                   key={index}
@@ -111,6 +141,9 @@ export default function About({}: Props) {
                 >
                   <Space direction="vertical" style={{ width: "100%" }}>
                     <DatePicker.RangePicker
+                      name={elem.name}
+                      value={Value}
+                      onChange={elem.onChange}
                       status="warning"
                       style={{ width: "100%" }}
                       getPopupContainer={(trigger: any) => trigger.parentNode}
@@ -128,7 +161,13 @@ export default function About({}: Props) {
                     xs: 12,
                   }}
                 >
-                  <GInput placeholder={elem.label} type={elem.type} />
+                  <GInput
+                    name={elem.name}
+                    value={elem.value}
+                    onChangeHandler={elem.onChange}
+                    placeholder={elem.label}
+                    type={elem.type}
+                  />
                 </Grid2>
               );
             }
@@ -142,7 +181,7 @@ export default function About({}: Props) {
           }}
           sx={{ ...flexStyle() }}
         >
-          <GButton lable="Submit" />
+          <GButton onClickHandler={handleSubmit} lable="Submit" />
         </Grid2>
       </Grid2>
     </Stack>

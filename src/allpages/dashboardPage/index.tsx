@@ -9,6 +9,7 @@ import GIconButton from "@/components/global/GIconButton";
 import { FemaleImage, GridDatas, links, MaleImage } from "@/constants/Json";
 import { logout } from "@/services/auth";
 import { getUser } from "@/services/user";
+import { useFormDatatore } from "@/store/FormDataStore";
 import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
 import {
@@ -22,7 +23,7 @@ import {
   extractInstagramUsername,
   extractLinkedInUsername,
 } from "@/utils/methods";
-import { Box, Grid2, Stack } from "@mui/material";
+import { Box, Grid2, Skeleton, Stack } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -32,7 +33,8 @@ type Props = {};
 
 export default function DashboardPage({}: Props) {
   const router = useRouter();
-  const { handleOpenPopUp } = useGlobalStore();
+  const { handleOpenPopUp, resetAllGlobalStore } = useGlobalStore();
+  const { resetAllForm } = useFormDatatore();
   const queryClient = useQueryClient();
 
   const { mutate: handleLogout, isPending: logoutProcessing } = useMutation({
@@ -42,6 +44,8 @@ export default function DashboardPage({}: Props) {
       // queryClient.invalidateQueries({ queryKey: ["login"] });
       router.push("/");
       toast.success(res.message);
+      resetAllForm();
+      resetAllGlobalStore();
     },
     onError: (res: any) => {
       toast.error(res.error);
@@ -51,16 +55,17 @@ export default function DashboardPage({}: Props) {
     data: User,
     isLoading: userLoading,
     error: userError,
-  } = useQuery({
+  }: any = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
   });
-  const ImageSrc: any =
-    User?.image && typeof User?.image == "object"
+  const ImageSrc: any = User?.image
+    ? User?.image && typeof User?.image == "object"
       ? User?.image?.url
       : User?.gender == "male"
       ? MaleImage[User?.image as keyof MaleAvatar]
-      : FemaleImage[User?.image as keyof FemaleAvatar];
+      : FemaleImage[User?.image as keyof FemaleAvatar]
+    : "/svgs/user.svg";
   return (
     <Stack sx={{ height: "100%", justifyContent: "flex-start" }}>
       <Grid2
@@ -95,20 +100,38 @@ export default function DashboardPage({}: Props) {
                   position: "relative",
                 }}
               >
-                <Box
-                  component={"img"}
-                  sx={{
-                    width: "220px",
-                    height: "220px",
-                    borderRadius: "50%",
-                    position: "absolute",
-                    top: -40,
-                    left: -10,
-                    zIndex: 1,
-                    boxShadow: "-9px 9px 10px 0px var(--boxShadow)",
-                  }}
-                  src={ImageSrc}
-                />
+                {userLoading ? (
+                  <Skeleton
+                    sx={{
+                      width: "220px",
+                      height: "220px",
+                      borderRadius: "50%",
+                      position: "absolute",
+                      top: -40,
+                      left: -15,
+                      zIndex: 1,
+                      background: "var(--skeleton)",
+                    }}
+                    variant="rounded"
+                  />
+                ) : (
+                  <Box
+                    component={"img"}
+                    sx={{
+                      width: "220px",
+                      height: "220px",
+                      borderRadius: "50%",
+                      position: "absolute",
+                      top: -40,
+                      left: -15,
+                      zIndex: 1,
+                      boxShadow: "-9px 9px 10px 0px var(--boxShadow)",
+                      background: "var(--secondary)",
+                    }}
+                    src={ImageSrc}
+                  />
+                )}
+
                 <Card
                   onClickHandler={() => {
                     router.push(elem?.to);
@@ -132,30 +155,53 @@ export default function DashboardPage({}: Props) {
                     <Box
                       sx={{
                         width: "100%",
-                        ...flexStyle("", "", "center", "space-between"),
+                        ...flexStyle(
+                          userLoading ||
+                            (User?.links && User?.links?.length > 0)
+                            ? ""
+                            : "row-reverse",
+                          "",
+                          "center",
+                          "space-between"
+                        ),
                       }}
                     >
-                      {User?.links?.map((elem: any, btnIndex: number) => {
-                        const userName =
-                          elem.type == "linkedin"
-                            ? extractLinkedInUsername(elem.url)
-                            : elem.type == "github"
-                            ? extractGitHubUsername(elem.url)
-                            : elem.type == "instagram"
-                            ? extractInstagramUsername(elem.url)
-                            : links[elem.type as keyof linkKey]?.label;
-                        return (
-                          <GIconButton
-                            variant="primary"
-                            key={btnIndex}
-                            icon={links[elem.type as keyof linkKey]?.icon}
-                            title={userName}
-                            onClickHandler={() => {
-                              window.open(elem.url, "_blank");
-                            }}
-                          />
-                        );
-                      })}
+                      {userLoading
+                        ? [1, 2, 3, 4, 5].map((elem) => {
+                            return (
+                              <Skeleton
+                                key={elem}
+                                variant="rounded"
+                                sx={{
+                                  width: "29.6px",
+                                  height: "29.6px",
+                                  borderRadius: "50%",
+                                  background: "var(--skeleton)",
+                                }}
+                              />
+                            );
+                          })
+                        : User?.links?.map((elem: any, btnIndex: number) => {
+                            const userName =
+                              elem.type == "linkedin"
+                                ? extractLinkedInUsername(elem.url)
+                                : elem.type == "github"
+                                ? extractGitHubUsername(elem.url)
+                                : elem.type == "instagram"
+                                ? extractInstagramUsername(elem.url)
+                                : links[elem.type as keyof linkKey]?.label;
+                            return (
+                              <GIconButton
+                                variant="primary"
+                                key={btnIndex}
+                                icon={links[elem.type as keyof linkKey]?.icon}
+                                title={userName}
+                                onClickHandler={() => {
+                                  window.open(elem.url, "_blank");
+                                }}
+                              />
+                            );
+                          })}
                       <GButton lable="View Resume" />
                     </Box>
                   </Stack>
@@ -244,7 +290,10 @@ export default function DashboardPage({}: Props) {
                     router.push(elem.to);
                   }}
                 >
-                  <SecondaryTypography name={elem.title} />
+                  <SecondaryTypography
+                    sx={{ position: "absolute" }}
+                    name={elem.title}
+                  />
                   {elem.image && (
                     <Box
                       sx={{
@@ -258,8 +307,13 @@ export default function DashboardPage({}: Props) {
                         src={elem.image}
                         sx={{
                           width: "100%",
-                          height: "150px",
+                          height:
+                            elem.title == "Resume Builder" ? "250px" : "150px",
                           objectFit: "contain",
+                          transform:
+                            elem.title == "Resume Builder"
+                              ? "rotate(350deg)"
+                              : "none",
                         }}
                       />
                     </Box>

@@ -6,10 +6,9 @@ import {
 } from "@/components/CustomTypography";
 import Card from "@/components/dashboard/Card";
 import NoDataFound from "@/components/dashboard/NoDataFound";
+import { WorkSkeleton } from "@/components/dashboard/skeleton/WorkSkeleton";
 import GButton from "@/components/global/GButton";
-import GlobalCard from "@/components/global/GlobalCard";
 import GToggleButton from "@/components/global/GToggleButton";
-import useProjects from "@/hooks/useProjects";
 import {
   deleteProjectById,
   getProjectsByType,
@@ -18,7 +17,7 @@ import {
 import { useFormDatatore } from "@/store/FormDataStore";
 import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
-import { Box, Grid2, Stack } from "@mui/material";
+import { Box, Grid2, Skeleton, Stack } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -34,7 +33,6 @@ export default function WorksPage({}: Props) {
   const queryClient = useQueryClient();
 
   const { handleOpenPopUp } = useGlobalStore();
-  const { webProjectDatas, appProjects } = useProjects();
   const { resetForm, setWorkFormData } = useFormDatatore();
 
   //*FUNCTIONS
@@ -141,125 +139,150 @@ export default function WorksPage({}: Props) {
             startIcon={<MdAdd />}
           />
         </Grid2>
-        {Projects?.map((elem: any, index: number) => {
-          return (
-            <Grid2
-              size={{
-                md: 12,
-              }}
-              key={index}
-            >
-              <Card
-                editHandler={() => handleEditProject(elem._id)}
-                deleteHandler={() => handleDeleteProject(elem._id)}
-                isVisible={projectVisiblity[index]?.isVisible || false}
-                handleOnchange={(e: any) =>
-                  handleVisiblityOnchange(e, index, elem._id)
-                }
-                btnDirection="row"
-                showSwitch={true}
-              >
-                <Stack direction={"row"} gap={3} sx={{ width: "100%" }}>
-                  <Box
-                    sx={{ height: "100%", overflow: "hidden", width: "460px" }}
-                  >
-                    <Grid2
-                      container
-                      columnGap={1}
-                      rowGap={1}
-                      sx={{ ...flexStyle("", 1, "", "space-between") }}
-                    >
-                      <Grid2 size={isWebsite ? 8 : 2.75}>
-                        <Box
-                          src={elem.images[elem.primaryImage]?.url}
-                          component={"img"}
-                          sx={{
-                            ...defaultImageStyle,
-                          }}
-                        />
-                      </Grid2>
 
-                      <Grid2 size={isWebsite ? 3.7 : 8.5}>
+        {projectsLoading
+          ? [1, 2, 3, 4, 5]?.map((elem: any, index: number) => {
+              return (
+                <WorkSkeleton
+                  index={index}
+                  defaultImageStyle={defaultImageStyle}
+                  isWebsite={isWebsite}
+                  key={index}
+                />
+              );
+            })
+          : Projects?.map((elem: any, index: number) => {
+              return (
+                <Grid2
+                  size={{
+                    md: 12,
+                  }}
+                  key={index}
+                >
+                  <Card
+                    editHandler={() => handleEditProject(elem._id)}
+                    deleteHandler={() => handleDeleteProject(elem._id)}
+                    isVisible={projectVisiblity[index]?.isVisible || false}
+                    handleOnchange={(e: any) =>
+                      handleVisiblityOnchange(e, index, elem._id)
+                    }
+                    btnDirection="row"
+                    showSwitch={true}
+                  >
+                    <Stack direction={"row"} gap={3} sx={{ width: "100%" }}>
+                      <Box
+                        sx={{
+                          height: "100%",
+                          overflow: "hidden",
+                          width: "460px",
+                        }}
+                      >
                         <Grid2
                           container
                           columnGap={1}
-                          rowGap={isWebsite ? 1.5 : 1}
-                          sx={{
-                            ...flexStyle(
-                              "",
-                              isWebsite ? 1 : 2,
-                              "",
-                              isWebsite ? "space-between" : ""
-                            ),
-                            width: "100%",
-                          }}
+                          rowGap={1}
+                          sx={{ ...flexStyle("", 1, "", "space-between") }}
                         >
-                          {slicedArr(elem).map((elem: any, index: number) => {
-                            return (
-                              <Grid2 key={index} size={isWebsite ? 12 : 1.9}>
-                                <Box
-                                  src={elem?.url}
-                                  component={"img"}
-                                  sx={{
-                                    ...defaultImageStyle,
-                                  }}
-                                />
-                              </Grid2>
-                            );
-                          })}
-                        </Grid2>
-                      </Grid2>
+                          <Grid2 size={isWebsite ? 8 : 2.75}>
+                            <Box
+                              src={elem.images[elem.primaryImage]?.url}
+                              component={"img"}
+                              sx={{
+                                ...defaultImageStyle,
+                              }}
+                            />
+                          </Grid2>
 
-                      {isWebsite &&
-                        elem.images
-                          .slice(3, 6)
-                          .map((data: any, index: number) => {
-                            return (
-                              <Grid2
-                                key={index}
-                                size={3.7}
-                                sx={{ position: "relative" }}
-                              >
-                                {elem.images?.slice(6)?.length != 0 &&
-                                  index == 2 && (
+                          <Grid2 size={isWebsite ? 3.7 : 8.5}>
+                            <Grid2
+                              container
+                              columnGap={1}
+                              rowGap={isWebsite ? 1.5 : 1}
+                              sx={{
+                                ...flexStyle(
+                                  "",
+                                  isWebsite ? 1 : 2,
+                                  "",
+                                  isWebsite ? "space-between" : ""
+                                ),
+                                width: "100%",
+                              }}
+                            >
+                              {slicedArr(elem).map(
+                                (elem: any, index: number) => {
+                                  return (
+                                    <Grid2
+                                      key={index}
+                                      size={isWebsite ? 12 : 1.9}
+                                    >
+                                      <Box
+                                        src={elem?.url}
+                                        component={"img"}
+                                        sx={{
+                                          ...defaultImageStyle,
+                                        }}
+                                      />
+                                    </Grid2>
+                                  );
+                                }
+                              )}
+                            </Grid2>
+                          </Grid2>
+
+                          {isWebsite &&
+                            elem.images
+                              .slice(3, 6)
+                              .map((data: any, index: number) => {
+                                return (
+                                  <Grid2
+                                    key={index}
+                                    size={3.7}
+                                    sx={{ position: "relative" }}
+                                  >
+                                    {elem.images?.slice(6)?.length != 0 &&
+                                      index == 2 && (
+                                        <Box
+                                          sx={{
+                                            ...defaultImageStyle,
+                                            position: "absolute",
+                                            background: "#00000085",
+                                            backdropFilter: "blur(1px)",
+                                            ...flexStyle(),
+                                          }}
+                                        >
+                                          <SecondaryTypography
+                                            name={
+                                              "+" +
+                                              elem.images?.slice(6)?.length
+                                            }
+                                          />
+                                        </Box>
+                                      )}
                                     <Box
+                                      src={data.url}
+                                      component={"img"}
                                       sx={{
                                         ...defaultImageStyle,
-                                        position: "absolute",
-                                        background: "#00000085",
-                                        backdropFilter: "blur(1px)",
-                                        ...flexStyle(),
                                       }}
-                                    >
-                                      <SecondaryTypography
-                                        name={
-                                          "+" + elem.images?.slice(6)?.length
-                                        }
-                                      />
-                                    </Box>
-                                  )}
-                                <Box
-                                  src={data.url}
-                                  component={"img"}
-                                  sx={{
-                                    ...defaultImageStyle,
-                                  }}
-                                />
-                              </Grid2>
-                            );
-                          })}
-                    </Grid2>
-                  </Box>
-                  <Stack sx={{ width: "50%" }}>
-                    <PrimaryTypography name={elem.title} variant="primary" />
-                    <TeritaryTypography name={elem.description} />
-                    <TeritaryTypography name={elem.about} size="xs" />
-                  </Stack>
-                </Stack>
-              </Card>
-            </Grid2>
-          );
-        })}
+                                    />
+                                  </Grid2>
+                                );
+                              })}
+                        </Grid2>
+                      </Box>
+                      <Stack sx={{ width: "50%" }}>
+                        <PrimaryTypography
+                          name={elem.title}
+                          variant="primary"
+                        />
+                        <TeritaryTypography name={elem.description} />
+                        <TeritaryTypography name={elem.about} size="xs" />
+                      </Stack>
+                    </Stack>
+                  </Card>
+                </Grid2>
+              );
+            })}
       </Grid2>
       {Projects?.length == 0 && <NoDataFound />}
     </Stack>
