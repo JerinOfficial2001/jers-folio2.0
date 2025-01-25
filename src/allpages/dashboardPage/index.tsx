@@ -7,6 +7,7 @@ import Card from "@/components/dashboard/Card";
 import GButton from "@/components/global/GButton";
 import GIconButton from "@/components/global/GIconButton";
 import { FemaleImage, GridDatas, links, MaleImage } from "@/constants/Json";
+import usePortfolioFunction from "@/hooks/functions/usePortfolioFunction";
 import { logout } from "@/services/auth";
 import { getUser } from "@/services/user";
 import { useFormDatatore } from "@/store/FormDataStore";
@@ -36,7 +37,14 @@ export default function DashboardPage({}: Props) {
   const { handleOpenPopUp, resetAllGlobalStore } = useGlobalStore();
   const { resetAllForm } = useFormDatatore();
   const queryClient = useQueryClient();
-
+  const {
+    handlePublish,
+    publishError,
+    publishLoading,
+    portfolioBuildsError,
+    portfolioBuildsLoading,
+    portfolioBuilds,
+  } = usePortfolioFunction({});
   const { mutate: handleLogout, isPending: logoutProcessing } = useMutation({
     mutationKey: ["logout"],
     mutationFn: logout,
@@ -44,6 +52,7 @@ export default function DashboardPage({}: Props) {
       // queryClient.invalidateQueries({ queryKey: ["login"] });
       router.push("/");
       toast.success(res.message);
+      window.location.reload();
       resetAllForm();
       resetAllGlobalStore();
     },
@@ -81,7 +90,9 @@ export default function DashboardPage({}: Props) {
           }}
         >
           <GButton
-            onClickHandler={() => handleOpenPopUp("progress")}
+            onClickHandler={() => {
+              handleOpenPopUp("progress");
+            }}
             lable="Publish"
           />
           <GIconButton
@@ -166,42 +177,45 @@ export default function DashboardPage({}: Props) {
                         ),
                       }}
                     >
-                      {userLoading
-                        ? [1, 2, 3, 4, 5].map((elem) => {
-                            return (
-                              <Skeleton
-                                key={elem}
-                                variant="rounded"
-                                sx={{
-                                  width: "29.6px",
-                                  height: "29.6px",
-                                  borderRadius: "50%",
-                                  background: "var(--skeleton)",
-                                }}
-                              />
-                            );
-                          })
-                        : User?.links?.map((elem: any, btnIndex: number) => {
-                            const userName =
-                              elem.type == "linkedin"
-                                ? extractLinkedInUsername(elem.url)
-                                : elem.type == "github"
-                                ? extractGitHubUsername(elem.url)
-                                : elem.type == "instagram"
-                                ? extractInstagramUsername(elem.url)
-                                : links[elem.type as keyof linkKey]?.label;
-                            return (
-                              <GIconButton
-                                variant="primary"
-                                key={btnIndex}
-                                icon={links[elem.type as keyof linkKey]?.icon}
-                                title={userName}
-                                onClickHandler={() => {
-                                  window.open(elem.url, "_blank");
-                                }}
-                              />
-                            );
-                          })}
+                      <Stack direction={"row"} gap={1}>
+                        {userLoading
+                          ? [1, 2, 3, 4, 5].map((elem) => {
+                              return (
+                                <Skeleton
+                                  key={elem}
+                                  variant="rounded"
+                                  sx={{
+                                    width: "29.6px",
+                                    height: "29.6px",
+                                    borderRadius: "50%",
+                                    background: "var(--skeleton)",
+                                  }}
+                                />
+                              );
+                            })
+                          : User?.links?.map((elem: any, btnIndex: number) => {
+                              const userName =
+                                elem.type == "linkedin"
+                                  ? extractLinkedInUsername(elem.url)
+                                  : elem.type == "github"
+                                  ? extractGitHubUsername(elem.url)
+                                  : elem.type == "instagram"
+                                  ? extractInstagramUsername(elem.url)
+                                  : links[elem.type as keyof linkKey]?.label;
+                              return (
+                                <GIconButton
+                                  variant="primary"
+                                  key={btnIndex}
+                                  icon={links[elem.type as keyof linkKey]?.icon}
+                                  title={userName}
+                                  onClickHandler={() => {
+                                    window.open(elem.url, "_blank");
+                                  }}
+                                />
+                              );
+                            })}
+                      </Stack>
+
                       <GButton lable="View Resume" />
                     </Box>
                   </Stack>

@@ -50,7 +50,72 @@ export default function LandingPage({}: Props) {
           endIcon={<ArrowForward />}
         />
       </Box>
-      <Stack gap={1}>
+      <Stack
+        direction={"row"}
+        gap={1}
+        sx={{ height: "70vh", width: "100%", marginBottom: 12 }}
+      >
+        <Box
+          sx={{
+            ...flexStyle("column", "", "flex-start", "center"),
+            width: "40%",
+            height: "100%",
+          }}
+        >
+          <HeaderTypography name={`Welcome to`} />
+          <PrimaryTypography name={`Jersfolio Builder`} />
+          {/* <GButton size={"small"} lable="view more" variant="teritary" /> */}
+        </Box>
+        <Box
+          sx={{
+            width: "60%",
+            ...flexStyle("column", "", "center", "center"),
+            position: "relative",
+            height: "100%",
+          }}
+        >
+          <Box
+            component={"img"}
+            src="/landingPage/dashboard.png"
+            sx={{
+              borderRadius: "10px",
+              height: "240px",
+              width: "490px",
+              boxShadow: "0px 0px 2px 2px var(--secondary)",
+              objectFit: "contain",
+            }}
+          />
+          <Box
+            component={"img"}
+            src="/landingPage/project.png"
+            sx={{
+              height: "179px",
+              width: "300px",
+              position: "absolute",
+              bottom: 20,
+              left: 0,
+              borderRadius: "10px",
+              boxShadow: "0px 0px 2px 2px var(--secondary)",
+              objectFit: "contain",
+            }}
+          />
+          <Box
+            component={"img"}
+            src="/landingPage/builds.png"
+            sx={{
+              height: "300px",
+              width: "206px",
+              position: "absolute",
+              bottom: 0,
+              right: 0,
+              borderRadius: "10px",
+              boxShadow: "0px 0px 2px 2px var(--secondary)",
+              objectFit: "contain",
+            }}
+          />
+        </Box>
+      </Stack>
+      <Stack gap={1} sx={{ paddingBottom: 10 }}>
         <Box sx={{ ...flexStyle("", "", "", "space-between"), marginTop: 5 }}>
           <PrimaryTypography variant="primary" name={`Portfolio's`} />
           {/* <GButton size={"small"} lable="view more" variant="teritary" /> */}
@@ -80,6 +145,7 @@ export default function LandingPage({}: Props) {
           })}
         </Grid2>
       </Stack>
+
       <GoogleOAuthProvider clientId={ClientID}>
         <GlobalPopUp variant="signUp" />
       </GoogleOAuthProvider>

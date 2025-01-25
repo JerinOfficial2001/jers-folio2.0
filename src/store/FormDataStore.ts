@@ -42,6 +42,13 @@ interface Store {
     year: string;
   };
   setEducationFormData: (key: string, value: any) => void;
+  contactFormData: {
+    phone: string;
+    email: string;
+    address: string;
+  };
+  setContactFormData: (key: string, value: any) => void;
+  setContactFormDatas: (value: any) => void;
   resetForm: (form: string) => void;
   resetAllForm: () => void;
 }
@@ -81,6 +88,11 @@ const initialStates: any = {
     course: "",
     year: [],
   },
+  contactFormData: {
+    phone: "",
+    email: "",
+    address: "",
+  },
 };
 export const useFormDatatore = create<Store>((set, get) => ({
   ...initialStates,
@@ -106,6 +118,18 @@ export const useFormDatatore = create<Store>((set, get) => ({
     set((state) => {
       return {
         educationFormData: { ...state.educationFormData, [key]: value },
+      };
+    }),
+  setContactFormData: (key, value) =>
+    set((state) => {
+      return {
+        contactFormData: { ...state.contactFormData, [key]: value },
+      };
+    }),
+  setContactFormDatas: (value) =>
+    set((state) => {
+      return {
+        contactFormData: value,
       };
     }),
   resetForm: (form) => set({ [form]: initialStates[form] }),

@@ -52,7 +52,12 @@ export default function SkillsCard({ sx, percent, imageSrc }: Props) {
           objectFit: "contain",
         }}
       />
-      <PrimaryTypography name={percent} variant="primary" size="sm" />
+      <PrimaryTypography
+        sx={{ textTransform: "capitalize" }}
+        name={percent}
+        variant="primary"
+        size="sm"
+      />
     </Stack>
   );
 }

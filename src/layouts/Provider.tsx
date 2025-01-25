@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 
 type Props = { children: any };
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 export default function Providers({ children }: Props) {
   return (

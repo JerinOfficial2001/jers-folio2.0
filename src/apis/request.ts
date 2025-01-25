@@ -34,7 +34,7 @@ export const POST_API = async (
 
 export const PUT_API = async (
   endpoint: string,
-  data: any,
+  data?: any,
   options = {}
 ): Promise<AxiosResponse<any>> => {
   const params = data?.params ? "/" + data?.params : "";

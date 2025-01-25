@@ -5,6 +5,7 @@ import GButton from "@/components/global/GButton";
 import GSelect from "@/components/global/GSelect";
 import SkillsCard from "@/components/portfolioComponents/SkillsCard";
 import { SkillsImage } from "@/constants/Json";
+import useSkillFunction from "@/hooks/functions/useSkillsFunction";
 import { useSkills } from "@/hooks/useSkills";
 import { useFormDatatore } from "@/store/FormDataStore";
 import { flexStyle } from "@/styles/commonStyles";
@@ -18,11 +19,23 @@ type Props = {};
 export default function SkillsPage({}: Props) {
   const { setSkillFormData, skillFormData } = useFormDatatore();
   const [skill, setskill] = useState<any>(-1);
+
+  const {
+    Skills,
+    skillsLoading,
+    skillsError,
+    skillsRefetch,
+    AddSkill,
+    addingSkill,
+    deletingSkill,
+    DeleteSkill,
+  } = useSkillFunction();
   const handleAddSkill = () => {
     if (skill != -1) {
       const label = Object.keys(SkillsImage)[skill as any];
       if (label) {
-        setSkillFormData({ label, id: skill });
+        // setSkillFormData({ label, id: skill });
+        AddSkill({ key: skill, label });
         setskill(-1);
       } else {
         console.log("skill label not found");
@@ -69,7 +82,7 @@ export default function SkillsPage({}: Props) {
             startIcon={<MdAdd />}
           />
         </Grid2>
-        {skillFormData.map((elem: any, index: number) => {
+        {Skills?.map((elem: any, index: number) => {
           const imageSource = SkillsImage[elem.label as keyof Skills];
 
           return (
@@ -79,7 +92,14 @@ export default function SkillsPage({}: Props) {
               }}
               key={index}
             >
-              <Card toolTipPlacement="right" btnDirection="column" size="sm">
+              <Card
+                deleteHandler={() => {
+                  DeleteSkill(elem._id);
+                }}
+                toolTipPlacement="right"
+                btnDirection="column"
+                size="sm"
+              >
                 <SkillsCard
                   key={index}
                   imageSrc={imageSource}
@@ -90,7 +110,7 @@ export default function SkillsPage({}: Props) {
           );
         })}
       </Grid2>
-      {skillFormData.length == 0 && <NoDataFound />}
+      {Skills?.length == 0 && <NoDataFound />}
     </Stack>
   );
 }

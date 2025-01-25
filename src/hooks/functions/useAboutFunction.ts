@@ -4,12 +4,14 @@ import {
   getExperienceById,
   getExperiences,
 } from "@/services/experience";
+import { useGlobalStore } from "@/store/GlobalStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import toast from "react-hot-toast";
 
 export default function useAboutFunction(type?: string) {
   const queryClient = useQueryClient();
+  const { handleClosePopUp } = useGlobalStore();
 
   //*API CALLS
   const {
@@ -29,6 +31,7 @@ export default function useAboutFunction(type?: string) {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["experiences"] });
       toast.success(data.message);
+      handleClosePopUp();
     },
   });
 
@@ -48,6 +51,7 @@ export default function useAboutFunction(type?: string) {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["educations"] });
       toast.success(data.message);
+      handleClosePopUp();
     },
   });
   return {

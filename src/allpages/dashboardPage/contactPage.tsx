@@ -9,29 +9,62 @@ import GButton from "@/components/global/GButton";
 import GInput from "@/components/global/GInput";
 import GlobalCard from "@/components/global/GlobalCard";
 import AboutCard from "@/components/portfolioComponents/AboutCard";
+import useContactsFunction from "@/hooks/functions/useContactsFunction";
+import { useFormDatatore } from "@/store/FormDataStore";
 import { flexStyle } from "@/styles/commonStyles";
 import { Grid2, Stack } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { IoIosSave } from "react-icons/io";
 import { MdAdd } from "react-icons/md";
 
 type Props = {};
 
 export default function ContactPage({}: Props) {
+  const {
+    Contact,
+    contactLoading,
+    contactError,
+    contactRefetch,
+    AddContact,
+    addingContact,
+    updatingContact,
+    UpdateContact,
+  } = useContactsFunction();
+  const {
+    setContactFormData,
+    setContactFormDatas,
+    contactFormData,
+    resetForm,
+  } = useFormDatatore();
+  const handleOnchange = (e: any) => {
+    const { name, value } = e.target;
+    setContactFormData(name, value);
+  };
+  useEffect(() => {
+    if (Contact) {
+      setContactFormDatas({
+        phone: Contact.phone.length > 9 ? Contact.phone : "",
+        address: Contact.address,
+        email: Contact.email,
+      });
+    }
+  }, [Contact]);
+
   const fields = [
     {
       content: [
         {
           label: "Phone",
           name: "phone",
-          onChange: () => {},
-          value: "",
+          onChange: handleOnchange,
+          value: contactFormData.phone,
           type: "number",
         },
         {
           label: "Email",
           name: "email",
-          onChange: () => {},
-          value: "",
+          onChange: handleOnchange,
+          value: contactFormData.email,
           type: "email",
         },
       ],
@@ -39,13 +72,25 @@ export default function ContactPage({}: Props) {
     {
       label: "Address",
       name: "address",
-      onChange: () => {},
-      value: "",
+      onChange: handleOnchange,
+      value: contactFormData.address,
       type: "text",
       content: [],
       size: "big",
     },
   ];
+  const handleSaveContact = () => {
+    const formData = {
+      ...contactFormData,
+      phone: contactFormData.phone ? contactFormData.phone : "-",
+    };
+    if (!Contact) {
+      AddContact(formData);
+    } else {
+      UpdateContact({ payload: formData, id: Contact._id });
+    }
+  };
+
   return (
     <Stack
       sx={{
@@ -61,9 +106,15 @@ export default function ContactPage({}: Props) {
           size={{
             md: 12,
           }}
+          sx={{ ...flexStyle("", "", "", "space-between") }}
         >
           <PrimaryTypography name={"Contact Details"} />
-        </Grid2>{" "}
+          <GButton
+            onClickHandler={handleSaveContact}
+            lable="Save"
+            startIcon={<IoIosSave />}
+          />
+        </Grid2>
         {fields.map((elem: any, index: number) => {
           if (elem.content.length > 0) {
             return (
@@ -82,6 +133,8 @@ export default function ContactPage({}: Props) {
                       name={subElem.name}
                       placeholder={subElem.label}
                       type={subElem.type}
+                      value={subElem.value}
+                      onChangeHandler={subElem.onChange}
                     />
                   );
                 })}
@@ -101,6 +154,8 @@ export default function ContactPage({}: Props) {
                   type={elem.type}
                   multiline={true}
                   rows={6}
+                  value={elem.value}
+                  onChangeHandler={elem.onChange}
                 />
               </Grid2>
             );
