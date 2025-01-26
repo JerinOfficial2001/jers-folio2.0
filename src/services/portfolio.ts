@@ -18,7 +18,11 @@ export const getPortfolioById = (id: any) => {
 };
 export const getPortfolioByUserName = (username: any) => {
   return GET_API(API_PATHS.PORTFOLIOS + "/" + username).then((response) => {
-    return response.data;
+    if (response.data) {
+      return response.data;
+    } else {
+      window.location.href = "/";
+    }
   });
 };
 export const publishPortfolio = (payload: any) => {

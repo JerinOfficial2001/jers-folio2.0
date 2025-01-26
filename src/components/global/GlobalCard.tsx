@@ -79,7 +79,10 @@ export default function GlobalCard({
               ? "/maleAvatar/2.png"
               : // : variant == "primary"
                 // ? "/global/android.png"
-                getImage(data?.gender, data?.image || data?.image_id)
+                getImage(
+                  data?.gender,
+                  data?.image || data?.image_id || data?.url
+                )
           }
           className="preventSelect"
         />

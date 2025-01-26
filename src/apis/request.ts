@@ -8,8 +8,10 @@ export const GET_API = async (
   try {
     const response = await axiosInstance.get(`${endpoint}`);
     return response;
-  } catch (error) {
-    throw error;
+  } catch (error: any) {
+    return error?.response?.data;
+
+    // throw error;
   }
 };
 

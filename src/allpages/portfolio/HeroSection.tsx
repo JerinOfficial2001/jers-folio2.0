@@ -20,11 +20,10 @@ import { FileDownload } from "@mui/icons-material";
 import { Box, Container, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
-type Props = { isComponent?: boolean };
+type Props = { isLoading: boolean; user: any };
 
-export default function HeroSection({ isComponent }: Props) {
+export default function HeroSection({ isLoading, user: folioData }: Props) {
   const { isxs, issm } = useMuiBreakpoints();
-  const { folioData } = useFolioData();
   // const text = "MERN STACK";
   // const title2 = "APP DEVELOPER";
   // const title = title2
@@ -43,7 +42,7 @@ export default function HeroSection({ isComponent }: Props) {
           "",
           "center"
         ),
-        height: isComponent ? "100%" : "90dvh",
+        height: "90dvh",
       }}
     >
       <Stack
@@ -85,34 +84,40 @@ export default function HeroSection({ isComponent }: Props) {
           }}
           name={folioData?.about}
         />
-        <Box sx={{ ...flexStyle("", 1) }}>
+        <Box
+          sx={{ ...flexStyle({ md: "row", sm: "column", xs: "column" }, 1) }}
+        >
           <GButton
-            variant={folioData?.resume_url ? "primary" : "disabled"}
-            lable={folioData?.resume_url ? "Download CV" : "Resume not added"}
+            variant={folioData?.resumes ? "primary" : "disabled"}
+            lable={folioData?.resumes ? "Download CV" : "Resume not added"}
             sx={{ minWidth: "250px" }}
             endIcon={<FileDownload />}
-            onClickHandler={() => window.open(folioData?.resume_url, "_blank")}
+            onClickHandler={() =>
+              window.open(folioData?.resumes[0]?.url, "_blank")
+            }
           />
-          {folioData?.links?.map((elem: link, index: number) => {
-            const userName =
-              elem.type == "linkedin"
-                ? extractLinkedInUsername(elem.url)
-                : elem.type == "github"
-                ? extractGitHubUsername(elem.url)
-                : elem.type == "instagram"
-                ? extractInstagramUsername(elem.url)
-                : links[elem.type]?.label;
-            return (
-              <GIconButton
-                onClickHandler={() => {
-                  window.open(elem.url, "_blank");
-                }}
-                title={userName}
-                icon={links[elem.type]?.icon}
-                key={index}
-              />
-            );
-          })}
+          <Stack direction={"row"} gap={1}>
+            {folioData?.links?.map((elem: link, index: number) => {
+              const userName =
+                elem.type == "linkedin"
+                  ? extractLinkedInUsername(elem.url)
+                  : elem.type == "github"
+                  ? extractGitHubUsername(elem.url)
+                  : elem.type == "instagram"
+                  ? extractInstagramUsername(elem.url)
+                  : links[elem.type]?.label;
+              return (
+                <GIconButton
+                  onClickHandler={() => {
+                    window.open(elem.url, "_blank");
+                  }}
+                  title={userName}
+                  icon={links[elem.type]?.icon}
+                  key={index}
+                />
+              );
+            })}
+          </Stack>
         </Box>
       </Stack>
       <Stack

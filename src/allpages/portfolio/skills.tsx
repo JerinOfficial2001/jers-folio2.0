@@ -6,13 +6,13 @@ import SkillsCard from "@/components/portfolioComponents/SkillsCard";
 import { SkillsImage } from "@/constants/Json";
 import { useSkills } from "@/hooks/useSkills";
 import { flexStyle } from "@/styles/commonStyles";
+import { Skills } from "@/types/interfaces";
 import { Box, Container } from "@mui/material";
 import React from "react";
 
-type Props = {};
+type Props = { isLoading: boolean; skills: any };
 
-export default function Skills({}: Props) {
-  const { skillsData } = useSkills();
+export default function Skill({ isLoading, skills: skillsData }: Props) {
   return (
     <Box
       sx={{
@@ -46,8 +46,9 @@ export default function Skills({}: Props) {
             flexFlow: "wrap",
           }}
         >
-          {skillsData?.map((elem, index) => {
-            const imageSource = SkillsImage[elem.id];
+          {skillsData?.map((elem: { label: keyof Skills }, index: number) => {
+            const imageSource = SkillsImage[elem.label];
+
             return (
               <SkillsCard
                 key={index}

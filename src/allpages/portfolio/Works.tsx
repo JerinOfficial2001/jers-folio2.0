@@ -12,11 +12,17 @@ import { Box, Container, Grid2 } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
-type Props = {};
+type Props = {
+  works: any;
+  isLoading: boolean;
+};
 
-export default function Works({}: Props) {
+export default function Works({ works, isLoading }: Props) {
   const { isxs, issm } = useMuiBreakpoints();
-  const { webProjectDatas, appProjects } = useProjects();
+  const { websites: webProjectDatas, applications: appProjects } = works || {
+    websites: [],
+    applications: [],
+  };
   const router = useRouter();
   const pathname: any = usePathname();
   const { setIsLoading } = useGlobalStore();
@@ -36,56 +42,70 @@ export default function Works({}: Props) {
         }}
         maxWidth={isxs || issm ? "xl" : "lg"}
       >
-        <HeaderTypography name="My Recent Works" variant="teritary" size="lg" />
-        <SecondaryTypography
-          name={"Websites"}
-          sx={{ width: "90%", margin: "50px 0 20px 0" }}
-        />
-        <GlobalCarousel
-          next="swiper-button-next"
-          prev="swiper-button-prev"
-          data={webProjectDatas}
-        />
-        <SecondaryTypography
-          name={"Application"}
-          sx={{ width: "90%", margin: "50px 0 20px 0" }}
-        />
-        <Grid2
-          container
-          sx={{
-            width: "90%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          rowGap={2}
-          columnGap={2}
-        >
-          {appProjects?.map((elem: any, index: number) => {
-            return (
-              <Grid2
-                key={index}
-                size={{
-                  lg: 3.87,
-                  sm: 12,
-                  xs: 12,
-                }}
-              >
-                <GlobalCard
-                  count={index + 1}
-                  projectName={elem.title}
-                  // title={elem.description}
-                  variant="primary"
-                  data={{ image: elem.icon }}
-                  onClickHandler={() => {
-                    router.push(pathname + "/" + elem._id);
-                    setIsLoading(true);
+        {webProjectDatas?.length > 0 && (
+          <HeaderTypography
+            name="My Recent Works"
+            variant="teritary"
+            size="lg"
+          />
+        )}
+        {webProjectDatas?.length > 0 && (
+          <SecondaryTypography
+            name={"Websites"}
+            sx={{ width: "90%", margin: "50px 0 20px 0" }}
+          />
+        )}
+        {webProjectDatas?.length > 0 && (
+          <GlobalCarousel
+            next="swiper-button-next"
+            prev="swiper-button-prev"
+            data={webProjectDatas}
+          />
+        )}
+        {appProjects?.length > 0 && (
+          <SecondaryTypography
+            name={"Application"}
+            sx={{ width: "90%", margin: "50px 0 20px 0" }}
+          />
+        )}
+        {appProjects?.length > 0 && (
+          <Grid2
+            container
+            sx={{
+              width: "90%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            rowGap={2}
+            columnGap={2}
+          >
+            {appProjects?.map((elem: any, index: number) => {
+              return (
+                <Grid2
+                  key={index}
+                  size={{
+                    lg: 3.87,
+                    sm: 12,
+                    xs: 12,
                   }}
-                />
-              </Grid2>
-            );
-          })}
-        </Grid2>
+                >
+                  <GlobalCard
+                    count={index + 1}
+                    projectName={elem.title}
+                    // title={elem.description}
+                    variant="primary"
+                    data={elem.icon}
+                    onClickHandler={() => {
+                      router.push(pathname + "/" + elem._id);
+                      setIsLoading(true);
+                    }}
+                  />
+                </Grid2>
+              );
+            })}
+          </Grid2>
+        )}
       </Container>
     </Box>
   );

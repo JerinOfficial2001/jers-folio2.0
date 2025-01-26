@@ -12,6 +12,7 @@ import { getSkills } from "@/services/skills";
 import { getUser } from "@/services/user";
 import { useGlobalStore } from "@/store/GlobalStore";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -21,11 +22,10 @@ export default function usePortfolioFunction({
   builds,
 }: {
   portFolios?: boolean;
-  single?: boolean;
+  single?: string;
   builds?: boolean;
 }) {
   //*API CALLS
-
   const {
     mutate: handlePublish,
     isPending: publishLoading,
@@ -37,6 +37,7 @@ export default function usePortfolioFunction({
       queryClient.invalidateQueries({ queryKey: ["portfolioBuilds"] });
     },
   });
+
   const {
     data: portfolios,
     isLoading: portfoliosLoading,
@@ -61,9 +62,7 @@ export default function usePortfolioFunction({
     error: portfolioError,
   } = useQuery({
     queryKey: ["portfolio"],
-    queryFn: (userName) => {
-      getPortfolioByUserName(userName);
-    },
+    queryFn: () => getPortfolioByUserName(single),
     enabled: !!single,
   });
 

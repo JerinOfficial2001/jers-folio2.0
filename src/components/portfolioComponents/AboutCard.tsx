@@ -15,6 +15,8 @@ type Props = {
 };
 
 export default function AboutCard({ message, year, title, place, sx }: Props) {
+  const from = year[0].split("-")[0];
+  const to = year[1].split("-")[0];
   return (
     <Stack
       sx={{
@@ -29,7 +31,7 @@ export default function AboutCard({ message, year, title, place, sx }: Props) {
         ...sx,
       }}
     >
-      <PrimaryTypography name={year} variant="primary" />
+      <PrimaryTypography name={from + " - " + to} variant="primary" />
       <PrimaryTypography name={title} size="md" variant="secondary" />
       <TeritaryTypography name={place} />
       {message && <TeritaryTypography name={message} />}

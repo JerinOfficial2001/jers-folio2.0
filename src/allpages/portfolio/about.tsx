@@ -6,11 +6,10 @@ import { flexStyle } from "@/styles/commonStyles";
 import { Box, Container, Stack } from "@mui/material";
 import React from "react";
 
-type Props = {};
+type Props = { isLoading: boolean; about: any };
 
-export default function About({}: Props) {
+export default function About({ isLoading, about: folioData }: Props) {
   const { isxs, issm } = useMuiBreakpoints();
-  const { folioData } = useFolioData();
   return (
     <Container
       sx={{
@@ -55,7 +54,7 @@ export default function About({}: Props) {
         {folioData?.education?.map((elem: any, index: number) => {
           return (
             <AboutCard
-              place={elem.name}
+              place={elem.institution}
               year={elem.year}
               key={index}
               title={elem.course}
