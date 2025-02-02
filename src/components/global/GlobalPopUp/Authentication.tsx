@@ -124,7 +124,7 @@ export default function Authentication({}: Props) {
       onChange: handleOnchange,
       isErr: false,
       errMsg: errorMsgs?.password,
-      type: errorMsgs?.password,
+      type: "password",
       width: "full",
       isVisible: true,
     },

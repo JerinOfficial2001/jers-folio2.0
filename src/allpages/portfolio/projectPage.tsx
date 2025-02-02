@@ -6,20 +6,33 @@ import {
 import GButton from "@/components/global/GButton";
 import GlobalCarousel from "@/components/global/GCarousel";
 import BackDrop from "@/components/portfolioComponents/BackDrop";
-import useProjects from "@/hooks/useProjects";
+import useProjectsFunction from "@/hooks/functions/useProjectsFunction";
+import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
 import { Box, Stack } from "@mui/material";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 type Props = {};
 
 export default function ProjectPage({}: Props) {
-  const { projectData } = useProjects();
   const router = useRouter();
+  const pathname: any = usePathname();
+  const project_id = pathname.split("/")[2];
+  const { projectData, projectLoading, projectError, projectRefetch } =
+    useProjectsFunction({ project_id });
+  const { setIsLoading } = useGlobalStore();
+  useEffect(() => {
+    if (projectLoading) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [projectLoading]);
+
   return (
     <Stack id="works">
-      <BackDrop image={projectData?.images[projectData?.primaryImage]?.image}>
+      <BackDrop image={projectData?.images[projectData?.primaryImage]?.url}>
         <Stack sx={{ position: "absolute", width: "max-content" }}>
           <PrimaryTypography name={projectData?.title} size="lg" />
           <TeritaryTypography name={projectData?.description} />
@@ -34,7 +47,7 @@ export default function ProjectPage({}: Props) {
                 background: projectData?.icon ? "transparent" : "var(--cardBg)",
               }}
               component={"img"}
-              src={projectData?.icon}
+              src={projectData?.icon?.url}
             ></Box>
             <GButton
               lable={
