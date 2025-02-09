@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaArrowsRotate } from "react-icons/fa6";
 
 type Props = {
-  lable: string;
+  lable: any;
   variant?:
     | "contained"
     | "primary"

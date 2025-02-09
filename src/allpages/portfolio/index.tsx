@@ -56,7 +56,7 @@ export default function Portfolio({}: Props) {
       <About isLoading={portfolioLoading} about={portfolio?.about} />
       <Skills isLoading={portfolioLoading} skills={portfolio?.skills} />
       <Testimonial />
-      <Contact />
+      <Contact isLoading={portfolioLoading} contact={portfolio?.contact} />
     </Stack>
   );
 }

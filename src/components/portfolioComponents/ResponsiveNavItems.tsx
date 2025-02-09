@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import ListItem from "./ListItems";
 import GButton from "../global/GButton";
 import { useFolioData } from "@/hooks/useFolioData";
+import { Link } from "react-scroll";
 
 type Props = {
   lists: any;
@@ -25,7 +26,7 @@ export default function ResponsiveNavItems({
   const router = useRouter();
   const [activeMenu, setActiveMenu] = useState("");
   const { folioData } = useFolioData();
-  return (!isResponsive ? (
+  return !isResponsive ? (
     <Box
       sx={{
         ...flexStyle("", { xl: 7, md: 3, sm: 2, xs: 1 }, "", ""),
@@ -34,24 +35,24 @@ export default function ResponsiveNavItems({
     >
       {lists.map((elem: any, index: number) => {
         const isSelected =
-       activeMenu == elem.id || pathname?.split("/")[2] ? true : false;
-        if(elem.lable=="Works"){
-        return (
-          folioData?.projects?<ListItem
-            offset={elem.offset}
-            to={elem.to}
-            onClick={() => {
-              setActiveMenu(elem.to);
-              if (elem.to != "works" && pathname?.split("/")[2]) {
-                router.push(`/${pathname?.split("/")[1]}`);
-              }
-            }}
-            lable={elem.lable}
-            isSelected={isSelected}
-            key={index}
-          />:null
-        );
-        }else{
+          activeMenu == elem.id || pathname?.split("/")[2] ? true : false;
+        if (elem.lable == "Works") {
+          return folioData?.projects ? (
+            <ListItem
+              offset={elem.offset}
+              to={elem.to}
+              onClick={() => {
+                setActiveMenu(elem.to);
+                if (elem.to != "works" && pathname?.split("/")[2]) {
+                  router.push(`/${pathname?.split("/")[1]}`);
+                }
+              }}
+              lable={elem.lable}
+              isSelected={isSelected}
+              key={index}
+            />
+          ) : null;
+        } else {
           return (
             <ListItem
               offset={elem.offset}
@@ -68,9 +69,24 @@ export default function ResponsiveNavItems({
             />
           );
         }
-       
       })}
-      <GButton lable="Hire me!" />
+      <GButton
+        lable={
+          <Link
+            activeClass="link-active"
+            to={"contact"}
+            spy={true}
+            smooth={true}
+            offset={11}
+            duration={100}
+          >
+            Hire me!
+          </Link>
+        }
+        onClickHandler={() => {
+          setActiveMenu("contact");
+        }}
+      />
     </Box>
   ) : (
     <Menu
@@ -115,5 +131,5 @@ export default function ResponsiveNavItems({
         );
       })}
     </Menu>
-  ))
+  );
 }

@@ -4,8 +4,8 @@ import {
   TeritaryTypography,
 } from "@/components/CustomTypography";
 import { flexStyle } from "@/styles/commonStyles";
-import { Box, Container, Grid2, Stack } from "@mui/material";
-import React from "react";
+import { Box, Container, Grid2, Skeleton, Stack } from "@mui/material";
+import React, { useState } from "react";
 import GInput from "@/components/global/GInput";
 import GButton from "@/components/global/GButton";
 import {
@@ -15,87 +15,108 @@ import {
 } from "@mui/icons-material";
 import useMuiBreakpoints from "@/hooks/useMuiBreakpoints";
 import { useFolioData } from "@/hooks/useFolioData";
+import useEnquiryFunction from "@/hooks/functions/useEnquiryFunction";
 
-type Props = {};
+type Props = { contact: any; isLoading: boolean };
 
-export default function Contact({}: Props) {
+export default function Contact({ contact, isLoading }: Props) {
   const { isxs, issm } = useMuiBreakpoints();
 
+  const [formDatas, setformDatas] = useState<any>({
+    email: "",
+    phone: "",
+    message: "",
+    request: "",
+    first_name: "",
+    last_name: "",
+  });
+  const { sendingEnquiry, SendEnquiry, errorMsgs } =
+    useEnquiryFunction(setformDatas);
+  const handleOnchange = (e: any) => {
+    const { name, value } = e.target;
+    setformDatas((prev: any) => ({ ...prev, [name]: value }));
+  };
   const inputs = [
     {
       label: "First name",
       name: "first_name",
-      value: "",
-      onChange: "",
-      isErr: false,
-      errMsg: "Please fill out this field.",
+      value: formDatas.first_name,
+      onChange: handleOnchange,
+      isErr: errorMsgs?.first_name,
+      errMsg: errorMsgs?.first_name,
       type: "text",
     },
     {
       label: "Last name",
       name: "last_name",
-      value: "",
-      onChange: "",
-      isErr: false,
-      errMsg: "Please fill out this field.",
+      value: formDatas.last_name,
+      onChange: handleOnchange,
+      isErr: errorMsgs?.last_name,
+      errMsg: errorMsgs?.last_name,
       type: "text",
     },
     {
       label: "Phone number",
       name: "phone",
-      value: "",
-      onChange: "",
-      isErr: false,
-      errMsg: "Please fill out this field.",
+      value: formDatas.phone,
+      onChange: handleOnchange,
+      isErr: errorMsgs?.phone,
+      errMsg: errorMsgs?.phone,
       type: "number",
     },
     {
       label: "Email address",
       name: "email",
-      value: "",
-      onChange: "",
-      isErr: false,
-      errMsg: "Please fill out this field.",
+      value: formDatas.email,
+      onChange: handleOnchange,
+      isErr: errorMsgs?.email,
+      errMsg: errorMsgs?.email,
       type: "text",
     },
     {
       label: "--Please choose an option",
-      name: "required_role",
-      value: "",
-      onChange: "",
-      isErr: false,
-      errMsg: "Please fill out this field.",
+      name: "request",
+      value: formDatas.request,
+      onChange: handleOnchange,
+      isErr: errorMsgs?.request,
+      errMsg: errorMsgs?.request,
       type: "select",
       options: [],
     },
     {
       label: "Message",
-      name: "messgae",
-      value: "",
-      onChange: "",
-      isErr: false,
-      errMsg: "Please fill out this field.",
+      name: "message",
+      value: formDatas.message,
+      onChange: handleOnchange,
+      isErr: errorMsgs?.message,
+      errMsg: errorMsgs?.message,
       type: "largeText",
     },
   ];
-  const { folioData } = useFolioData();
   const contactDetails = [
     {
       icon: <PhoneOutlined />,
       lable: "Phone",
-      value: folioData?.phone,
+      value: contact?.phone,
     },
     {
       icon: <MailOutline />,
       lable: "Email",
-      value: folioData?.email,
+      value: contact?.email,
     },
     {
       icon: <FmdGoodOutlined />,
       lable: "Address",
-      value: folioData?.address,
+      value: contact?.address,
     },
   ];
+  const handleSubmitEnquiry = () => {
+    SendEnquiry({
+      ...formDatas,
+      sendTo: contact.email,
+      user_id: contact.user_id,
+    });
+  };
   return (
     <Container
       sx={{
@@ -139,7 +160,14 @@ export default function Contact({}: Props) {
                     xs: 12,
                   }}
                 >
-                  <GInput placeholder={elem.label} />
+                  <GInput
+                    name={elem.name}
+                    value={elem.value}
+                    onChangeHandler={elem.onChange}
+                    placeholder={elem.label}
+                    error={elem.isErr}
+                    helperText={elem.errMsg}
+                  />
                 </Grid2>
               );
             } else if (elem.type == "largeText") {
@@ -152,7 +180,16 @@ export default function Contact({}: Props) {
                     xs: 12,
                   }}
                 >
-                  <GInput rows={10} multiline={true} placeholder={elem.label} />
+                  <GInput
+                    name={elem.name}
+                    value={elem.value}
+                    onChangeHandler={elem.onChange}
+                    rows={10}
+                    multiline={true}
+                    placeholder={elem.label}
+                    error={elem.isErr}
+                    helperText={elem.errMsg}
+                  />
                 </Grid2>
               );
             } else {
@@ -165,7 +202,14 @@ export default function Contact({}: Props) {
                     xs: 12,
                   }}
                 >
-                  <GInput placeholder={elem.label} />
+                  <GInput
+                    name={elem.name}
+                    value={elem.value}
+                    onChangeHandler={elem.onChange}
+                    placeholder={elem.label}
+                    error={elem.isErr}
+                    helperText={elem.errMsg}
+                  />
                 </Grid2>
               );
             }
@@ -177,7 +221,11 @@ export default function Contact({}: Props) {
               justifyContent: { md: "flex-start", sm: "center", xs: "center" },
             }}
           >
-            <GButton lable="Send message" />
+            <GButton
+              onClickHandler={handleSubmitEnquiry}
+              lable="Send message"
+              loading={sendingEnquiry}
+            />
           </Grid2>
         </Grid2>
       </Stack>
@@ -191,7 +239,7 @@ export default function Contact({}: Props) {
         {contactDetails.map((elem: any, index: number) => {
           return (
             <Box
-            key={index}
+              key={index}
               sx={{
                 ...flexStyle("", 1, "center", "flex-start"),
                 marginLeft: { md: 0, sm: 10, xs: 3 },
@@ -211,7 +259,19 @@ export default function Contact({}: Props) {
               </Box>
               <Stack>
                 <TeritaryTypography name={elem.lable} />
-                <PrimaryTypography name={elem.value?.split(",")?.join(", \n")} />
+                {isLoading ? (
+                  <Skeleton
+                    variant="text"
+                    sx={{
+                      background: "var(--skeleton)",
+                      width: `${200 + index * 50}px`,
+                    }}
+                  />
+                ) : (
+                  <PrimaryTypography
+                    name={elem.value?.split(",")?.join(", \n")}
+                  />
+                )}
               </Stack>
             </Box>
           );

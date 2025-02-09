@@ -52,7 +52,6 @@ export default function DashboardPage({}: Props) {
       // queryClient.invalidateQueries({ queryKey: ["login"] });
       router.push("/");
       toast.success(res.message);
-      window.location.reload();
       resetAllForm();
       resetAllGlobalStore();
     },

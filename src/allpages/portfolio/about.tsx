@@ -3,7 +3,7 @@ import AboutCard from "@/components/portfolioComponents/AboutCard";
 import { useFolioData } from "@/hooks/useFolioData";
 import useMuiBreakpoints from "@/hooks/useMuiBreakpoints";
 import { flexStyle } from "@/styles/commonStyles";
-import { Box, Container, Stack } from "@mui/material";
+import { Box, Container, Skeleton, Stack } from "@mui/material";
 import React from "react";
 
 type Props = { isLoading: boolean; about: any };
@@ -32,16 +32,30 @@ export default function About({ isLoading, about: folioData }: Props) {
         }}
       >
         <HeaderTypography name="My Experience" variant="teritary" size="lg" />
-        {folioData?.experience?.map((elem: any, index: number) => {
-          return (
-            <AboutCard
-              place={elem.place}
-              year={elem.year}
-              key={index}
-              title={elem.company_name}
-            />
-          );
-        })}
+        {isLoading
+          ? [1, 2, 3].map((elem) => (
+              <Skeleton
+                variant="rectangular"
+                key={elem}
+                sx={{
+                  background: "var(--skeleton)",
+                  height: "130px",
+                  width: "100%",
+                  borderRadius: "15px",
+                }}
+              />
+            ))
+          : folioData?.experience?.map((elem: any, index: number) => {
+              return (
+                <AboutCard
+                  variant="about"
+                  place={elem.place}
+                  year={elem.year}
+                  key={index}
+                  title={elem.company_name}
+                />
+              );
+            })}
       </Stack>
       <Stack
         gap={{ md: "30px", sm: 1, xs: 1 }}
@@ -51,16 +65,30 @@ export default function About({ isLoading, about: folioData }: Props) {
         }}
       >
         <HeaderTypography name="My Education" variant="teritary" size="lg" />
-        {folioData?.education?.map((elem: any, index: number) => {
-          return (
-            <AboutCard
-              place={elem.institution}
-              year={elem.year}
-              key={index}
-              title={elem.course}
-            />
-          );
-        })}
+        {isLoading
+          ? [1, 2, 3].map((elem) => (
+              <Skeleton
+                variant="rectangular"
+                key={elem}
+                sx={{
+                  background: "var(--skeleton)",
+                  height: "130px",
+                  width: "100%",
+                  borderRadius: "15px",
+                }}
+              />
+            ))
+          : folioData?.education?.map((elem: any, index: number) => {
+              return (
+                <AboutCard
+                  variant="about"
+                  place={elem.institution}
+                  year={elem.year}
+                  key={index}
+                  title={elem.course}
+                />
+              );
+            })}
       </Stack>
     </Container>
   );

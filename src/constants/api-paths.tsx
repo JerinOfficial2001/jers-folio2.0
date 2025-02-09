@@ -9,4 +9,5 @@ export const API_PATHS = {
   SKILLS: "/skill",
   PORTFOLIOS: "/portfolio",
   CONTACTS: "/contact",
+  ENQUIRY: "/enquiry",
 };

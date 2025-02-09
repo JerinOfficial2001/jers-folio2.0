@@ -22,9 +22,9 @@ export const login = (payload: any) => {
     },
     {}
   ).then((response) => {
-    const { token, expireTime } = response.data;
+    const { token, expiresAt } = response.data;
     setEncryptedCookie("jersfolioV2-token", token);
-    setEncryptedCookie("expireTime", expireTime);
+    setEncryptedCookie("expireTime", expiresAt);
     return response.data;
   });
 };
