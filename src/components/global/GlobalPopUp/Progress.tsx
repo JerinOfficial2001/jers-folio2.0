@@ -120,7 +120,7 @@ export default function Progress({}: Props) {
           [1, 2, 3, 4].map((elem: any) => {
             return <PortFolioCardSkeleton key={elem} />;
           })
-        ) : portfolioBuilds?.existing.length > 0 ? (
+        ) : portfolioBuilds?.existing?.length > 0 ? (
           portfolioBuilds?.existing?.map((elem: any) => {
             return (
               <DeploymentsCard
@@ -133,8 +133,20 @@ export default function Progress({}: Props) {
             );
           })
         ) : (
-          <Box sx={{ height: "100%", width: "100%", ...flexStyle() }}>
-            <TeritaryTypography name={"No deployments yet..."} />
+          <Box sx={{ height: "100%", width: "100%", ...flexStyle("column") }}>
+            {portfolioBuilds?.status == "error" ? (
+              <ul>
+                <TeritaryTypography name={"Required!"} />
+
+                {portfolioBuilds?.error?.map((elem: any) => (
+                  <li key={elem}>
+                    <TeritaryTypography sx={{ color: "red" }} name={elem} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <TeritaryTypography name={"No deployments yet..."} />
+            )}
           </Box>
         )}
       </Stack>

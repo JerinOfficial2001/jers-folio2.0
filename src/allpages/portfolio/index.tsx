@@ -5,25 +5,15 @@ import HeroSection from "./HeroSection";
 import Works from "./Works";
 import About from "./about";
 import Skills from "./skills";
-import {
-  Link,
-  Button,
-  Element,
-  Events,
-  animateScroll as scroll,
-  scrollSpy,
-} from "react-scroll";
+import { Events, animateScroll as scroll, scrollSpy } from "react-scroll";
 import Testimonial from "./testimonial";
 import Contact from "./contact";
-import { useFolioData } from "@/hooks/useFolioData";
 import usePortfolioFunction from "@/hooks/functions/usePortfolioFunction";
 import { usePathname, useRouter } from "next/navigation";
 
 type Props = {};
 
 export default function Portfolio({}: Props) {
-  const { folioData } = useFolioData();
-  const router = useRouter();
   const pathname: any = usePathname();
   const userName = pathname.split("/")[1];
   const { portfolio, portfolioLoading } = usePortfolioFunction({

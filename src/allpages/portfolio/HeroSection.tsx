@@ -216,7 +216,7 @@ export default function HeroSection({ isLoading, user: folioData }: Props) {
             alt="profile"
             src={getImage(
               folioData?.gender,
-              folioData?.image || folioData?.image_id
+              folioData?.image?.url || folioData?.image || folioData?.image_id
             )}
             sx={{
               objectFit: "cover",

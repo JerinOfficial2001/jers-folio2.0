@@ -15,9 +15,9 @@ import { MenuOutlined } from "@mui/icons-material";
 import ResponsiveNavItems from "./ResponsiveNavItems";
 import { useFolioData } from "@/hooks/useFolioData";
 
-type Props = {};
+type Props = { email: string; isLoading: boolean; isProject: boolean };
 
-export default function TopBar({}: Props) {
+export default function TopBar({ email, isLoading, isProject }: Props) {
   const router = useRouter();
   const lists = [
     {
@@ -51,22 +51,7 @@ export default function TopBar({}: Props) {
       offset: 10,
     },
   ];
-  const [activeMenu, setActiveMenu] = useState("");
-
-  // const handleHashChange = () => {
-  //   const hash = window.location.hash;
-  //   setActiveMenu(hash);
-  // };
-
-  // useEffect(() => {
-  //   handleHashChange();
-  //   window.addEventListener("hashchange", handleHashChange);
-  //   return () => {
-  //     window.removeEventListener("hashchange", handleHashChange);
-  //   };
-  // }, []);
   const { isScrolled } = useGlobalStore();
-  const pathname: any = usePathname();
   const { isxs, issm } = useMuiBreakpoints();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -76,7 +61,6 @@ export default function TopBar({}: Props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { folioData } = useFolioData();
   return (
     <Box
       sx={{
@@ -92,7 +76,7 @@ export default function TopBar({}: Props) {
     >
       <Box sx={{ ...flexStyle(), marginLeft: { lg: 10, md: 3, sm: 1, xs: 1 } }}>
         <HeaderTypography name={"@"} />
-        <SecondaryTypography variant="secondary" name={folioData?.email} />
+        <SecondaryTypography variant="secondary" name={email} />
       </Box>
       {(isxs || issm) && (
         <IconButton
@@ -112,6 +96,9 @@ export default function TopBar({}: Props) {
         open={open}
         handleClose={handleClose}
         isResponsive={isxs || issm}
+        email={email}
+        isLoading={isLoading}
+        isProject={isProject}
       />
     </Box>
   );

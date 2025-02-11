@@ -37,14 +37,6 @@ export default function DashboardPage({}: Props) {
   const { handleOpenPopUp, resetAllGlobalStore } = useGlobalStore();
   const { resetAllForm } = useFormDatatore();
   const queryClient = useQueryClient();
-  const {
-    handlePublish,
-    publishError,
-    publishLoading,
-    portfolioBuildsError,
-    portfolioBuildsLoading,
-    portfolioBuilds,
-  } = usePortfolioFunction({});
   const { mutate: handleLogout, isPending: logoutProcessing } = useMutation({
     mutationKey: ["logout"],
     mutationFn: logout,

@@ -8,7 +8,7 @@ export const getActivePortfolio = () => {
 };
 export const getPortfolioBuilds = () => {
   return GET_API(API_PATHS.PORTFOLIOS).then((response) => {
-    return response.data;
+    return response.data || response;
   });
 };
 export const getPortfolioById = (id: any) => {

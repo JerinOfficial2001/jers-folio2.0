@@ -146,6 +146,7 @@ export default function GInput(props: Props) {
       return name.charAt(0).toUpperCase() + name.slice(1);
     }
   }
+  const { handleClosePopUp, openPopUp } = useGlobalStore();
   const [isHide, setisHide] = useState(true);
   const eyeIcon = () => {
     return (
@@ -199,6 +200,9 @@ export default function GInput(props: Props) {
       } else {
         setfile(files[0]);
         setProfileData({ key: "image", value: files[0] });
+        if (openPopUp) {
+          handleClosePopUp();
+        }
       }
     }
   };

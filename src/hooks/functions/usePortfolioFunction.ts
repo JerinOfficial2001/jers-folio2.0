@@ -56,6 +56,7 @@ export default function usePortfolioFunction({
     queryFn: getPortfolioBuilds,
     enabled: !!builds,
   });
+
   const {
     data: portfolio,
     isLoading: portfolioLoading,

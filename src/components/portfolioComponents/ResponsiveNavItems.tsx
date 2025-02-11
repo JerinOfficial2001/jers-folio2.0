@@ -13,6 +13,9 @@ type Props = {
   anchorEl: any;
   open: boolean;
   handleClose: () => void;
+  email: string;
+  isLoading: boolean;
+  isProject: boolean;
 };
 
 export default function ResponsiveNavItems({
@@ -21,11 +24,13 @@ export default function ResponsiveNavItems({
   anchorEl,
   open,
   handleClose,
+  email,
+  isLoading,
+  isProject,
 }: Props) {
   const pathname: any = usePathname();
   const router = useRouter();
   const [activeMenu, setActiveMenu] = useState("");
-  const { folioData } = useFolioData();
   return !isResponsive ? (
     <Box
       sx={{
@@ -37,7 +42,7 @@ export default function ResponsiveNavItems({
         const isSelected =
           activeMenu == elem.id || pathname?.split("/")[2] ? true : false;
         if (elem.lable == "Works") {
-          return folioData?.projects ? (
+          return isProject ? (
             <ListItem
               offset={elem.offset}
               to={elem.to}

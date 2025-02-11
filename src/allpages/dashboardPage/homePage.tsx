@@ -132,6 +132,7 @@ export default function HomePage({}: Props) {
     : profileData.gender == "male"
     ? MaleImage[profileData.image as keyof MaleAvatar]
     : FemaleImage[profileData.image as keyof FemaleAvatar];
+
   return (
     <Stack
       sx={{

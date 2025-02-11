@@ -9,6 +9,7 @@ import GlobalPopUp from "@/components/global/GlobalPopUp";
 import useRoutes from "@/hooks/useRoutes";
 import GLoader from "@/components/global/GLoader";
 import Image from "next/image";
+import usePortfolioFunction from "@/hooks/functions/usePortfolioFunction";
 
 type Props = {
   children: any;
@@ -18,6 +19,10 @@ export default function CommonLayout({ children }: Props) {
   const pathname: any = usePathname();
   const { setIsScrolled, setIsLoading } = useGlobalStore();
   const [isClient, setisClient] = useState(false);
+  const userName = pathname.split("/")[1];
+  const { portfolio, portfolioLoading } = usePortfolioFunction({
+    single: userName,
+  });
   useRoutes();
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +41,11 @@ export default function CommonLayout({ children }: Props) {
     if (pathname.split("/")[1] && pathname.split("/")[1] != "dashboard") {
       return (
         <Stack>
-          <TopBar />
+          <TopBar
+            isLoading={portfolioLoading}
+            email={portfolio?.user?.email}
+            isProject={portfolio?.project?.length > 0}
+          />
           <GLoader />
           {children}
         </Stack>

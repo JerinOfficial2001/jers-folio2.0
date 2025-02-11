@@ -81,7 +81,7 @@ export default function GlobalCard({
                 // ? "/global/android.png"
                 getImage(
                   data?.gender,
-                  data?.image || data?.image_id || data?.url
+                  data?.image?.url || data?.image || data?.image_id || data?.url
                 )
           }
           className="preventSelect"

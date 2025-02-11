@@ -21,7 +21,7 @@ export default function useRoutes() {
     const expirationDate = tokenExpiresAt ? new Date(tokenExpiresAt) : false;
     const currentDate = new Date();
 
-    if (currentDate > expirationDate) {
+    if (expirationDate && currentDate > expirationDate) {
       router.push("/");
       router.refresh();
       Cookies.remove("jersfolioV2-token");
