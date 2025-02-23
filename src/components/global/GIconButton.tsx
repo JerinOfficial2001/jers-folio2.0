@@ -5,7 +5,6 @@ import {
   tooltipClasses,
   TooltipProps,
 } from "@mui/material";
-import React from "react";
 import { FaArrowsRotate } from "react-icons/fa6";
 
 const BootstrapTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -28,6 +27,8 @@ type Props = {
   sx?: any;
   variant?: "primary";
   toolTipPlacement?: "top" | "right" | "left" | "bottom";
+  selected?: boolean;
+  error?: boolean;
 };
 
 export default function GIconButton({
@@ -38,6 +39,8 @@ export default function GIconButton({
   variant,
   toolTipPlacement,
   loading,
+  selected,
+  error,
 }: Props) {
   const rotateAnimation = {
     animation: "spin 2s linear infinite",
@@ -48,8 +51,26 @@ export default function GIconButton({
         onClick={onClickHandler}
         sx={{
           color: variant == "primary" ? "var(--secondary)" : "var(--primary)",
-          border: variant == "primary" ? "none" : "1px solid var(--primary)",
+          border: error
+            ? "1px solid red"
+            : variant == "primary"
+            ? "none"
+            : "1px solid var(--primary)",
           background: variant == "primary" ? "var(--primary)" : "transparent",
+          "@keyframes blink": {
+            "0%": {
+              borderColor: "var(--primary)",
+            },
+            "50%": {
+              borderColor: "transparent",
+            },
+            "100%": {
+              borderColor: "var(--primary)",
+            },
+          },
+          ...(selected && {
+            animation: "blink 1.5s infinite",
+          }),
           ...sx,
         }}
         size="small"

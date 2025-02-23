@@ -15,6 +15,8 @@ interface Store {
   };
   setProfileData: (data: any) => void;
   isLoading: boolean;
+  restrictUserUpdate: string;
+  setRestrictUserUpdate: (state: string) => void;
   setIsLoading: (state: any) => void;
   userData: any;
   setUserData: (value: any) => void;
@@ -33,6 +35,7 @@ const initialStates: any = {
   isLoading: true,
   userData: null,
   isAuthenticated: false,
+  restrictUserUpdate: "",
 };
 export const useGlobalStore = create<Store>((set, get) => ({
   ...initialStates,
@@ -47,6 +50,7 @@ export const useGlobalStore = create<Store>((set, get) => ({
   setIsLoading: (state) => set({ isLoading: state }),
   setUserData: (value) => set({ userData: value }),
   setIsAuthenticated: (value) => set({ isAuthenticated: value }),
+  setRestrictUserUpdate: (value) => set({ restrictUserUpdate: value }),
   resetGlobalStore: (form) => set({ [form]: initialStates[form] }),
   resetAllGlobalStore: () => set(initialStates),
 }));

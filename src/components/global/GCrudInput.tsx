@@ -1,17 +1,16 @@
-import { Box, Grid2 } from "@mui/material";
-import React, { useState } from "react";
-import GSelect from "./GSelect";
-import GInput from "./GInput";
-import { linkKey } from "@/types/interfaces";
 import { links } from "@/constants/Json";
-import GIconButton from "./GIconButton";
-import { IoAddCircle } from "react-icons/io5";
-import { flexStyle } from "@/styles/commonStyles";
-import { IoRemoveCircleSharp } from "react-icons/io5";
-import { useGlobalStore } from "@/store/GlobalStore";
-import ResumeCard from "../dashboard/ResumeCard";
-import { TeritaryTypography } from "../CustomTypography";
 import { useFormDatatore } from "@/store/FormDataStore";
+import { useGlobalStore } from "@/store/GlobalStore";
+import { flexStyle } from "@/styles/commonStyles";
+import { linkKey } from "@/types/interfaces";
+import { Box, Grid2 } from "@mui/material";
+import { useEffect, useState } from "react";
+import { IoAddCircle, IoRemoveCircleSharp } from "react-icons/io5";
+import { TeritaryTypography } from "../CustomTypography";
+import ResumeCard from "../dashboard/ResumeCard";
+import GIconButton from "./GIconButton";
+import GInput from "./GInput";
+import GSelect from "./GSelect";
 
 type Props = {
   options: any;
@@ -24,6 +23,8 @@ type FormDatas = {
 };
 export default function GCrudInput({ options, varient, label }: Props) {
   const { profileData, setProfileData } = useFormDatatore();
+  const { setRestrictUserUpdate, restrictUserUpdate } = useGlobalStore();
+
   const [formDatas, setformDatas] = useState<FormDatas>({
     type: "",
     url: "",
@@ -90,6 +91,14 @@ export default function GCrudInput({ options, varient, label }: Props) {
       </Grid2>
     );
   };
+  useEffect(() => {
+    if (formDatas.type && formDatas.url) {
+      setRestrictUserUpdate("filled");
+    } else {
+      setRestrictUserUpdate("");
+    }
+  }, [formDatas]);
+
   const addedLinks = profileData.links.map((elem: any) => ({
     formDatas: elem,
     handleFormData: (index: number, value: any, name: any) => {
@@ -224,6 +233,8 @@ export default function GCrudInput({ options, varient, label }: Props) {
               </Grid2>
               <Grid2 size={{ md: 1 }} sx={{ ...flexStyle() }}>
                 <GIconButton
+                  selected={restrictUserUpdate == "filled"}
+                  error={restrictUserUpdate == "error"}
                   title={"Add"}
                   onClickHandler={handleAdd}
                   icon={<IoAddCircle />}

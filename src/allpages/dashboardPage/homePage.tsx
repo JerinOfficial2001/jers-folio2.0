@@ -6,6 +6,7 @@ import GInput from "@/components/global/GInput";
 import GRadioGroup from "@/components/global/GRadioGroup";
 import { FemaleImage, links, MaleImage } from "@/constants/Json";
 import { handleArrayOfObjectFormData, handleFormData } from "@/helpers";
+import useErrorHandler from "@/hooks/useErrorHandler";
 import { getUser, updateUser } from "@/services/user";
 import { useFormDatatore } from "@/store/FormDataStore";
 import { useGlobalStore } from "@/store/GlobalStore";
@@ -14,14 +15,17 @@ import { FemaleAvatar, linkKey, MaleAvatar } from "@/types/interfaces";
 import { Box, Grid2, Stack } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosSave } from "react-icons/io";
 
 type Props = {};
 
 export default function HomePage({}: Props) {
-  const { handleOpenPopUp } = useGlobalStore();
+  const { handleOpenPopUp, restrictUserUpdate, setRestrictUserUpdate } =
+    useGlobalStore();
   const { profileData, setProfileData } = useFormDatatore();
+  const { errorMsgs, handleErrors } = useErrorHandler();
   const {
     data: User,
     isLoading: userLoading,
@@ -33,6 +37,12 @@ export default function HomePage({}: Props) {
   const { mutate: SaveUser, isPending: saveLoading } = useMutation({
     mutationKey: ["saveUser"],
     mutationFn: (data: any) => updateUser(data?.payload, data?.id),
+    onError: (res: any) => {
+      handleErrors(res);
+    },
+    onSuccess: (res: any) => {
+      toast.success(res.message);
+    },
   });
   const handleOnchange = (e: any) => {
     const { name, value } = e.target;
@@ -55,6 +65,7 @@ export default function HomePage({}: Props) {
       value: profileData.name,
       type: "text",
       size: 5.9,
+      errMsg: errorMsgs?.name,
     },
     {
       label: "Username",
@@ -63,6 +74,7 @@ export default function HomePage({}: Props) {
       value: profileData.username,
       type: "text",
       size: 5.9,
+      errMsg: errorMsgs?.username,
     },
     {
       label: "Gender",
@@ -81,6 +93,7 @@ export default function HomePage({}: Props) {
         },
       ],
       size: 5.9,
+      errMsg: errorMsgs?.gender,
     },
     {
       label: "Role",
@@ -89,6 +102,7 @@ export default function HomePage({}: Props) {
       value: profileData.role,
       type: "text",
       size: 5.9,
+      errMsg: errorMsgs?.role,
     },
     {
       label: "Email",
@@ -97,9 +111,14 @@ export default function HomePage({}: Props) {
       value: profileData.email,
       type: "email",
       size: 12,
+      errMsg: errorMsgs?.email,
     },
   ];
   const handleSaveUser = () => {
+    if (restrictUserUpdate == "filled") {
+      setRestrictUserUpdate("error");
+      return;
+    }
     const formData = new FormData();
     let tempData: any = { ...profileData };
     delete tempData.links;
@@ -221,6 +240,9 @@ export default function HomePage({}: Props) {
                       value={elem.value}
                       onChange={elem.onChange}
                     />
+                    {elem.errMsg && (
+                      <TeritaryTypography name={elem.errMsg} size="xs" />
+                    )}
                   </Grid2>
                 );
               } else {
@@ -232,6 +254,8 @@ export default function HomePage({}: Props) {
                       type={elem.type}
                       value={elem.value}
                       onChangeHandler={elem.onChange}
+                      error={elem.errMsg}
+                      helperText={elem.errMsg}
                     />
                   </Grid2>
                 );
@@ -248,6 +272,8 @@ export default function HomePage({}: Props) {
             rows={10}
             value={profileData.about}
             onChangeHandler={handleOnchange}
+            error={errorMsgs?.about}
+            helperText={errorMsgs?.about}
           />
         </Grid2>
         <Grid2 size={{ md: 12 }}>

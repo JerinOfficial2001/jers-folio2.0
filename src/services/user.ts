@@ -19,6 +19,6 @@ export const updateUser = (payload: any, id: any) => {
       "Content-Type": "multipart/form-data",
     }
   ).then((response) => {
-    return response.data.data;
+    return response.data;
   });
 };
