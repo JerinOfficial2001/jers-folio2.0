@@ -4,16 +4,14 @@ import {
   getContact,
   updateContactById,
 } from "@/services/contact";
-import { useGlobalStore } from "@/store/GlobalStore";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 export default function useContactsFunction() {
   //*API CALLS
   const {
     data: Contact,
-    isLoading: contactLoading,
+    isFetching: contactLoading,
     error: contactError,
     refetch: contactRefetch,
   } = useQuery({

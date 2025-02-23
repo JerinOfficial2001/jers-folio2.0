@@ -1,20 +1,11 @@
 import { queryClient } from "@/layouts/Provider";
-import { getEducations } from "@/services/education";
-import { getExperiences } from "@/services/experience";
 import {
   getActivePortfolio,
   getPortfolioBuilds,
   getPortfolioByUserName,
   publishPortfolio,
 } from "@/services/portfolio";
-import { getProjectsByType } from "@/services/project";
-import { getSkills } from "@/services/skills";
-import { getUser } from "@/services/user";
-import { useGlobalStore } from "@/store/GlobalStore";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
 export default function usePortfolioFunction({
   portFolios,
@@ -40,7 +31,7 @@ export default function usePortfolioFunction({
 
   const {
     data: portfolios,
-    isLoading: portfoliosLoading,
+    isFetching: portfoliosLoading,
     error: portfoliosError,
   } = useQuery({
     queryKey: ["portfolios"],
@@ -49,7 +40,7 @@ export default function usePortfolioFunction({
   });
   const {
     data: portfolioBuilds,
-    isLoading: portfolioBuildsLoading,
+    isFetching: portfolioBuildsLoading,
     error: portfolioBuildsError,
   } = useQuery({
     queryKey: ["portfolioBuilds"],
@@ -59,7 +50,7 @@ export default function usePortfolioFunction({
 
   const {
     data: portfolio,
-    isLoading: portfolioLoading,
+    isFetching: portfolioLoading,
     error: portfolioError,
   } = useQuery({
     queryKey: ["portfolio"],

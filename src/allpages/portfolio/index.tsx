@@ -1,15 +1,14 @@
 "use client";
+import usePortfolioFunction from "@/hooks/functions/usePortfolioFunction";
 import { Stack } from "@mui/material";
-import React, { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { Events, scrollSpy } from "react-scroll";
 import HeroSection from "./HeroSection";
 import Works from "./Works";
 import About from "./about";
-import Skills from "./skills";
-import { Events, animateScroll as scroll, scrollSpy } from "react-scroll";
-import Testimonial from "./testimonial";
 import Contact from "./contact";
-import usePortfolioFunction from "@/hooks/functions/usePortfolioFunction";
-import { usePathname, useRouter } from "next/navigation";
+import Skills from "./skills";
 
 type Props = {};
 
@@ -44,8 +43,10 @@ export default function Portfolio({}: Props) {
         <Works isLoading={portfolioLoading} works={portfolio?.works} />
       )}
       <About isLoading={portfolioLoading} about={portfolio?.about} />
-      <Skills isLoading={portfolioLoading} skills={portfolio?.skills} />
-      <Testimonial />
+      {portfolio?.skills?.length > 0 && (
+        <Skills isLoading={portfolioLoading} skills={portfolio?.skills} />
+      )}
+      {/* <Testimonial /> */}
       <Contact isLoading={portfolioLoading} contact={portfolio?.contact} />
     </Stack>
   );

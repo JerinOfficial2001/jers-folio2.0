@@ -1,4 +1,3 @@
-import { queryClient } from "@/layouts/Provider";
 import { getProjectById } from "@/services/project";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,7 +9,7 @@ export default function useProjectsFunction({
   //*API CALLS
   const {
     data: projectData,
-    isLoading: projectLoading,
+    isFetching: projectLoading,
     error: projectError,
     refetch: projectRefetch,
   } = useQuery({

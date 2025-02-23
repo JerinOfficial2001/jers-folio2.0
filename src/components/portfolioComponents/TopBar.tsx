@@ -1,19 +1,12 @@
-import { Box, Divider, IconButton, Stack } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import {
-  HeaderTypography,
-  PrimaryTypography,
-  SecondaryTypography,
-} from "../CustomTypography";
-import { flexStyle } from "@/styles/commonStyles";
-import { usePathname, useRouter } from "next/navigation";
-import GButton from "../global/GButton";
-import { useGlobalStore } from "@/store/GlobalStore";
-import { Link, animateScroll as scroll } from "react-scroll";
 import useMuiBreakpoints from "@/hooks/useMuiBreakpoints";
+import { useGlobalStore } from "@/store/GlobalStore";
+import { flexStyle } from "@/styles/commonStyles";
 import { MenuOutlined } from "@mui/icons-material";
+import { Box, IconButton } from "@mui/material";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { HeaderTypography, SecondaryTypography } from "../CustomTypography";
 import ResponsiveNavItems from "./ResponsiveNavItems";
-import { useFolioData } from "@/hooks/useFolioData";
 
 type Props = { email: string; isLoading: boolean; isProject: boolean };
 
@@ -40,11 +33,11 @@ export default function TopBar({ email, isLoading, isProject }: Props) {
       to: "skills",
       offset: 10,
     },
-    {
-      lable: "Testimonials",
-      to: "testimonials",
-      offset: 10,
-    },
+    // {
+    //   lable: "Testimonials",
+    //   to: "testimonials",
+    //   offset: 10,
+    // },
     {
       lable: "Contact",
       to: "contact",

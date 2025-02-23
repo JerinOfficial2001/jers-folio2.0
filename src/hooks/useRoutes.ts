@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { useGlobalStore } from "@/store/GlobalStore";
-import { getDecryptedCookie } from "@/utils/encryptedCookies";
-import axiosInstance from "@/utils/axios-client";
-import { useQueryClient } from "@tanstack/react-query";
 import { useFormDatatore } from "@/store/FormDataStore";
+import { useGlobalStore } from "@/store/GlobalStore";
+import axiosInstance from "@/utils/axios-client";
+import { getDecryptedCookie } from "@/utils/encryptedCookies";
+import { useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 export default function useRoutes() {
@@ -21,7 +21,10 @@ export default function useRoutes() {
     const expirationDate = tokenExpiresAt ? new Date(tokenExpiresAt) : false;
     const currentDate = new Date();
 
-    if (expirationDate && currentDate > expirationDate) {
+    if (pathname.includes("dashboard") && currentDate > expirationDate) {
+      if (tokenExpiresAt) {
+        toast.error("Token expired");
+      }
       router.push("/");
       router.refresh();
       Cookies.remove("jersfolioV2-token");
@@ -29,7 +32,6 @@ export default function useRoutes() {
       resetAllForm();
       resetAllGlobalStore();
       setIsAuthenticated(false);
-      toast.error("Token expired");
     } else {
       setIsAuthenticated(!!token);
     }

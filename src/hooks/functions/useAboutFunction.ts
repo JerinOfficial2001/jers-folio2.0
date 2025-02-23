@@ -1,12 +1,7 @@
 import { createEducation, getEducations } from "@/services/education";
-import {
-  createExperience,
-  getExperienceById,
-  getExperiences,
-} from "@/services/experience";
+import { createExperience, getExperiences } from "@/services/experience";
 import { useGlobalStore } from "@/store/GlobalStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
 import toast from "react-hot-toast";
 
 export default function useAboutFunction(type?: string) {
@@ -16,7 +11,7 @@ export default function useAboutFunction(type?: string) {
   //*API CALLS
   const {
     data: Experiences,
-    isLoading: experiencesLoading,
+    isFetching: experiencesLoading,
     error: experiencesError,
     refetch: experiencesRefetch,
   } = useQuery({
@@ -37,7 +32,7 @@ export default function useAboutFunction(type?: string) {
 
   const {
     data: Educations,
-    isLoading: educationsLoading,
+    isFetching: educationsLoading,
     error: educationsError,
     refetch: educationsRefetch,
   } = useQuery({

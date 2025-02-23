@@ -1,15 +1,14 @@
 "use client";
+import SideBar from "@/components/dashboard/SideBar";
+import GLoader from "@/components/global/GLoader";
+import GlobalPopUp from "@/components/global/GlobalPopUp";
+import TopBar from "@/components/portfolioComponents/TopBar";
+import usePortfolioFunction from "@/hooks/functions/usePortfolioFunction";
+import useRoutes from "@/hooks/useRoutes";
+import { useGlobalStore } from "@/store/GlobalStore";
 import { Box, Stack } from "@mui/material";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import TopBar from "@/components/portfolioComponents/TopBar";
-import { useGlobalStore } from "@/store/GlobalStore";
-import SideBar from "@/components/dashboard/SideBar";
-import GlobalPopUp from "@/components/global/GlobalPopUp";
-import useRoutes from "@/hooks/useRoutes";
-import GLoader from "@/components/global/GLoader";
-import Image from "next/image";
-import usePortfolioFunction from "@/hooks/functions/usePortfolioFunction";
+import { useEffect, useState } from "react";
 
 type Props = {
   children: any;
@@ -21,7 +20,7 @@ export default function CommonLayout({ children }: Props) {
   const [isClient, setisClient] = useState(false);
   const userName = pathname.split("/")[1];
   const { portfolio, portfolioLoading } = usePortfolioFunction({
-    single: userName,
+    single: userName != "dashboard" ? userName : "",
   });
   useRoutes();
   useEffect(() => {

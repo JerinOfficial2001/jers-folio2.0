@@ -1,7 +1,6 @@
 import { queryClient } from "@/layouts/Provider";
 import { getEnquiry, postEnquiry, updateEnquiryById } from "@/services/enquiry";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import useErrorHandler from "../useErrorHandler";
 
@@ -10,7 +9,7 @@ export default function useEnquiryFunction(setformDatas?: any) {
   //*API CALLS
   const {
     data: Enquiry,
-    isLoading: enquiryLoading,
+    isFetching: enquiryLoading,
     error: enquiryError,
     refetch: enquiryRefetch,
   } = useQuery({

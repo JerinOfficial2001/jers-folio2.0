@@ -1,21 +1,21 @@
 "use client";
 import { TeritaryTypography } from "@/components/CustomTypography";
+import GButton from "@/components/global/GButton";
+import GCrudInput from "@/components/global/GCrudInput";
 import GInput from "@/components/global/GInput";
 import GRadioGroup from "@/components/global/GRadioGroup";
 import { FemaleImage, links, MaleImage } from "@/constants/Json";
-import { useGlobalStore } from "@/store/GlobalStore";
-import { FemaleAvatar, linkKey, MaleAvatar } from "@/types/interfaces";
-import { Box, Container, Grid2, Stack } from "@mui/material";
-import React, { useEffect } from "react";
-import { FaUserCircle } from "react-icons/fa";
-import GCrudInput from "@/components/global/GCrudInput";
-import { flexStyle } from "@/styles/commonStyles";
-import GButton from "@/components/global/GButton";
-import { IoIosSave } from "react-icons/io";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { handleArrayOfObjectFormData, handleFormData } from "@/helpers";
 import { getUser, updateUser } from "@/services/user";
 import { useFormDatatore } from "@/store/FormDataStore";
-import { handleArrayOfObjectFormData, handleFormData } from "@/helpers";
+import { useGlobalStore } from "@/store/GlobalStore";
+import { flexStyle } from "@/styles/commonStyles";
+import { FemaleAvatar, linkKey, MaleAvatar } from "@/types/interfaces";
+import { Box, Grid2, Stack } from "@mui/material";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { FaUserCircle } from "react-icons/fa";
+import { IoIosSave } from "react-icons/io";
 
 type Props = {};
 
@@ -154,6 +154,7 @@ export default function HomePage({}: Props) {
             onClickHandler={handleSaveUser}
             lable="Save"
             startIcon={<IoIosSave />}
+            loading={saveLoading}
           />
         </Grid2>
         <Grid2

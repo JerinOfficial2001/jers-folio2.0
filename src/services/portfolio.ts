@@ -1,4 +1,4 @@
-import { DELETE_API, GET_API, POST_API, PUT_API } from "@/apis/request";
+import { DELETE_API, GET_API, PUT_API } from "@/apis/request";
 import { API_PATHS } from "@/constants/api-paths";
 
 export const getActivePortfolio = () => {

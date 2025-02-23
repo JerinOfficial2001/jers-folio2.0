@@ -7,29 +7,33 @@ import Card from "@/components/dashboard/Card";
 import GButton from "@/components/global/GButton";
 import GIconButton from "@/components/global/GIconButton";
 import { FemaleImage, GridDatas, links, MaleImage } from "@/constants/Json";
-import usePortfolioFunction from "@/hooks/functions/usePortfolioFunction";
 import { logout } from "@/services/auth";
 import { getUser } from "@/services/user";
 import { useFormDatatore } from "@/store/FormDataStore";
 import { useGlobalStore } from "@/store/GlobalStore";
 import { flexStyle } from "@/styles/commonStyles";
-import {
-  FemaleAvatar,
-  linkKey,
-  linkType,
-  MaleAvatar,
-} from "@/types/interfaces";
+import { FemaleAvatar, linkKey, MaleAvatar } from "@/types/interfaces";
 import {
   extractGitHubUsername,
   extractInstagramUsername,
   extractLinkedInUsername,
 } from "@/utils/methods";
-import { Box, Grid2, Skeleton, Stack } from "@mui/material";
+import {
+  Avatar,
+  Badge,
+  Box,
+  Grid2,
+  Popover,
+  Skeleton,
+  Stack,
+} from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
 import { HiOutlineLogout } from "react-icons/hi";
+import { IoSettingsOutline } from "react-icons/io5";
+
 type Props = {};
 
 export default function DashboardPage({}: Props) {
@@ -66,8 +70,23 @@ export default function DashboardPage({}: Props) {
       ? MaleImage[User?.image as keyof MaleAvatar]
       : FemaleImage[User?.image as keyof FemaleAvatar]
     : "/svgs/user.svg";
+
+  // Add state for popover
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <Stack sx={{ height: "100%", justifyContent: "flex-start" }}>
+    <Stack
+      sx={{ height: "100%", justifyContent: "flex-start", p: { xs: 2, md: 3 } }}
+    >
       <Grid2
         container
         sx={{ width: "100%", height: "100%" }}
@@ -78,6 +97,7 @@ export default function DashboardPage({}: Props) {
           size={12}
           sx={{
             ...flexStyle("row", 1, "center", "flex-end"),
+            gap: { xs: 1, md: 2 },
           }}
         >
           <GButton
@@ -86,18 +106,125 @@ export default function DashboardPage({}: Props) {
             }}
             lable="Publish"
           />
-          <GIconButton
-            loading={logoutProcessing}
-            onClickHandler={handleLogout}
-            icon={<HiOutlineLogout />}
-          />
+          <Badge
+            overlap="circular"
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            variant="dot"
+            sx={{
+              "& .MuiBadge-badge": {
+                backgroundColor: "#44b700",
+                boxShadow: "0 0 0 2px var(--background)",
+              },
+            }}
+          >
+            <Avatar
+              onClick={handleClick}
+              src={ImageSrc}
+              sx={{
+                cursor: "pointer",
+                width: { xs: 35, md: 40 },
+                height: { xs: 35, md: 40 },
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "scale(1.1)",
+                },
+                bgcolor: "var(--secondary)",
+              }}
+            />
+          </Badge>
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            sx={{
+              "& .MuiPopover-paper": {
+                mt: 1,
+                borderRadius: 2,
+                bgcolor: "var(--background)",
+                color: "var(--text)",
+                boxShadow: "0 4px 20px var(--boxShadow)",
+                animation: "fadeIn 0.2s ease-in-out",
+                width: { xs: "90vw", sm: "auto" },
+                minWidth: { sm: 200 },
+              },
+              "@keyframes fadeIn": {
+                from: { opacity: 0, transform: "translateY(-10px)" },
+                to: { opacity: 1, transform: "translateY(0)" },
+              },
+            }}
+          >
+            <Stack
+              sx={{
+                p: 2,
+                minWidth: 200,
+              }}
+              spacing={2}
+            >
+              <Stack direction="row" spacing={2} alignItems="center">
+                <Avatar src={ImageSrc} />
+                <Stack>
+                  <PrimaryTypography name={User?.name || "Name"} size="sm" />
+                  <SecondaryTypography name={User?.role || "Role"} />
+                </Stack>
+              </Stack>
+
+              <Stack
+                direction="row"
+                spacing={1}
+                alignItems="center"
+                sx={{
+                  cursor: "pointer",
+                  p: 1,
+                  borderRadius: 1,
+                  color: "var(--text)",
+                  "&:hover": {
+                    bgcolor: "var(--hover)",
+                  },
+                }}
+                onClick={() => router.push("/dashboard/settings")}
+              >
+                <IoSettingsOutline size={20} />
+                <PrimaryTypography name="Settings" size="sm" />
+              </Stack>
+
+              <Stack
+                direction="row"
+                spacing={1}
+                alignItems="center"
+                sx={{
+                  cursor: "pointer",
+                  p: 1,
+                  borderRadius: 1,
+                  color: "var(--text)",
+                  "&:hover": {
+                    bgcolor: "var(--hover)",
+                  },
+                }}
+                onClick={() => {
+                  handleLogout();
+                  handleClose();
+                }}
+              >
+                <HiOutlineLogout size={20} />
+                <PrimaryTypography name="Logout" size="sm" />
+              </Stack>
+            </Stack>
+          </Popover>
         </Grid2>
         {GridDatas.map((elem: any, index: number) => {
           if (elem?.type == "Custom") {
             return (
               <Grid2
                 key={index}
-                size={{ md: 5.9 }}
+                size={{ xs: 12, sm: 12, md: 5.9 }}
                 sx={{
                   position: "relative",
                 }}
@@ -105,12 +232,12 @@ export default function DashboardPage({}: Props) {
                 {userLoading ? (
                   <Skeleton
                     sx={{
-                      width: "220px",
-                      height: "220px",
+                      width: { xs: "180px", sm: "220px" },
+                      height: { xs: "180px", sm: "220px" },
                       borderRadius: "50%",
                       position: "absolute",
-                      top: -40,
-                      left: -15,
+                      top: { xs: -30, sm: -40 },
+                      left: { xs: -10, sm: -15 },
                       zIndex: 1,
                       background: "var(--skeleton)",
                     }}
@@ -120,12 +247,12 @@ export default function DashboardPage({}: Props) {
                   <Box
                     component={"img"}
                     sx={{
-                      width: "220px",
-                      height: "220px",
+                      width: { xs: "180px", sm: "220px" },
+                      height: { xs: "180px", sm: "220px" },
                       borderRadius: "50%",
                       position: "absolute",
-                      top: -40,
-                      left: -15,
+                      top: { xs: -30, sm: -40 },
+                      left: { xs: -10, sm: -15 },
                       zIndex: 1,
                       boxShadow: "-9px 9px 10px 0px var(--boxShadow)",
                       background: "var(--secondary)",
@@ -215,7 +342,7 @@ export default function DashboardPage({}: Props) {
             );
           } else if (elem.content.length > 0) {
             return (
-              <Grid2 key={index} size={{ md: 5.9 }}>
+              <Grid2 key={index} size={{ xs: 12, sm: 12, md: 5.9 }}>
                 <Grid2
                   container
                   rowGap={1}
@@ -224,7 +351,14 @@ export default function DashboardPage({}: Props) {
                 >
                   {elem.content.map((nestedElem: any, nestedIndex: number) => {
                     return (
-                      <Grid2 key={nestedIndex} size={{ md: nestedElem.width }}>
+                      <Grid2
+                        key={nestedIndex}
+                        size={{
+                          xs: 12,
+                          sm: 5.9,
+                          md: nestedElem.width,
+                        }}
+                      >
                         <Card
                           onClickHandler={() => {
                             router.push(nestedElem.to);
@@ -260,7 +394,7 @@ export default function DashboardPage({}: Props) {
             );
           } else if (index == 2 || index == 3 || index == 4) {
             return (
-              <Grid2 key={index} size={{ md: 3.9 }}>
+              <Grid2 key={index} size={{ xs: 12, sm: 5.9, md: 3.9 }}>
                 <Card
                   onClickHandler={() => {
                     router.push(elem?.to);
@@ -289,7 +423,7 @@ export default function DashboardPage({}: Props) {
             );
           } else {
             return (
-              <Grid2 key={index} size={{ md: 5.9 }}>
+              <Grid2 key={index} size={{ xs: 12, sm: 12, md: 5.9 }}>
                 <Card
                   onClickHandler={() => {
                     router.push(elem.to);
