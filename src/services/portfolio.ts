@@ -21,7 +21,7 @@ export const getPortfolioByUserName = (username: any) => {
     if (response.data) {
       return response.data;
     } else {
-      window.location.href = "/";
+      // window.location.href = "/";
     }
   });
 };

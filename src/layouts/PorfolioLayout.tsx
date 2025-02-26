@@ -37,7 +37,11 @@ export default function CommonLayout({ children }: Props) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
   if (isClient) {
-    if (pathname.split("/")[1] && pathname.split("/")[1] != "dashboard") {
+    if (
+      pathname.split("/")[1] &&
+      pathname.split("/")[1] != "dashboard" &&
+      pathname != "/template-two"
+    ) {
       return (
         <Stack>
           <TopBar

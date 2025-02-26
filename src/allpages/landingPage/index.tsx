@@ -39,7 +39,7 @@ export default function LandingPage({}: Props) {
     }
   };
   return (
-    <Container sx={{ height: "100vh" }}>
+    <Container className="!bg-[red]" sx={{ height: "100vh" }}>
       <Box
         sx={{
           ...flexStyle(

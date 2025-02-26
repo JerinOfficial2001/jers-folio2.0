@@ -28,8 +28,10 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/[userId]",
-    "next.config.ts",
-    "next.config.js"
-, "src/allpages/landingPage"  ],
+    "src/components/**/*",
+    "next.config.mjs",
+    "next.config.js",
+    "src/allpages/landingPage"
+  ],
   "exclude": ["node_modules"]
 }
