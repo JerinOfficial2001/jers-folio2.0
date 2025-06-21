@@ -15,7 +15,7 @@ import React, { useEffect } from "react";
 
 type Props = {};
 
-export default function ProjectPage({}: Props) {
+export default function ProjectPage({ }: Props) {
   const router = useRouter();
   const pathname: any = usePathname();
   const project_id = pathname.split("/")[2];
@@ -56,7 +56,7 @@ export default function ProjectPage({}: Props) {
               // variant="secondary"
               sx={{ width: "min-content", borderRadius: "10px" }}
               onClickHandler={() => {
-                if (projectData?.projectType == "website") {
+                if (projectData?.link) {
                   window.open(projectData?.link, "_blank");
                 }
               }}
