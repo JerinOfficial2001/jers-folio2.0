@@ -67,13 +67,13 @@ export default function GUploadImages({ toggleType, type }: Props) {
     height: isSingleImageUpload
       ? "100px"
       : toggleType == "website"
-      ? "100px"
-      : "150px",
+        ? "100px"
+        : "150px",
     width: isSingleImageUpload
       ? "100px"
       : toggleType == "website"
-      ? "200px"
-      : "100px",
+        ? "200px"
+        : "100px",
     borderRadius: isSingleImageUpload ? "50%" : "10px",
     background: "var(--cardBg)",
     ...flexStyle(),
@@ -87,10 +87,10 @@ export default function GUploadImages({ toggleType, type }: Props) {
     workFormData.icon instanceof File
       ? URL.createObjectURL(workFormData.icon)
       : workFormData.icon?.url
-      ? workFormData.icon?.url
-      : toggleType == "website"
-      ? "/global/website.png"
-      : "/global/android.png";
+        ? workFormData.icon?.url
+        : toggleType == "website"
+          ? "/global/website.png"
+          : "/global/android.png";
   return (
     <Stack
       sx={{
@@ -131,8 +131,8 @@ export default function GUploadImages({ toggleType, type }: Props) {
                 imageArr[primaryImage]?.url
                   ? imageArr[primaryImage]?.url
                   : imageArr[primaryImage]
-                  ? URL.createObjectURL(imageArr[primaryImage])
-                  : "/svgs/user.svg"
+                    ? URL.createObjectURL(imageArr[primaryImage])
+                    : "/svgs/user.svg"
               }
             />
           ) : (

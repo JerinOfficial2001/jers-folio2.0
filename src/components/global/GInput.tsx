@@ -69,6 +69,7 @@ type Props = {
   imgInputSize?: string;
   imgInputType?: string;
   direction?: "row" | "column";
+  triggerFunction?: any
 };
 export default function GInput(props: Props) {
   const {
@@ -123,7 +124,7 @@ export default function GInput(props: Props) {
     fileHandler,
     direction,
     imgInputSize,
-    imgInputType,
+    imgInputType, triggerFunction
   } = props;
 
   function removeUnderscoreAndCapitalize(name: string) {
@@ -202,6 +203,9 @@ export default function GInput(props: Props) {
         setProfileData({ key: "image", value: files[0] });
         if (openPopUp) {
           handleClosePopUp();
+          if (triggerFunction) {
+            triggerFunction(files[0])
+          }
         }
       }
     }
@@ -356,8 +360,8 @@ export default function GInput(props: Props) {
             minLength: 0,
             maxLength: maxLength, // Set maximum length
           }}
-          // startAdornment={startAdornment}
-          // endAdornment={endAdornment}
+        // startAdornment={startAdornment}
+        // endAdornment={endAdornment}
         />
       )}
       {variant == "upload" && (

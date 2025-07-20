@@ -20,13 +20,14 @@ export const POST_API = async (
   data: any,
   options = {}
 ): Promise<AxiosResponse<any>> => {
+  const params = data?.params ? "/" + data?.params : "";
   try {
-    const response = await axiosInstance.post(`${endpoint}`, data, {
+    const response = await axiosInstance.post(`${endpoint}${params}`, data, {
       headers: options
         ? options
         : {
-            "Content-Type": "application/json",
-          },
+          "Content-Type": "application/json",
+        },
     });
     return response;
   } catch (error) {
@@ -49,8 +50,8 @@ export const PUT_API = async (
         headers: options
           ? options
           : {
-              "Content-Type": "application/json",
-            },
+            "Content-Type": "application/json",
+          },
       }
     );
     return response;

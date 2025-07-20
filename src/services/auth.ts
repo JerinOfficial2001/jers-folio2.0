@@ -39,6 +39,17 @@ export const logout = (): any => {
   // });
 };
 
+export const uploadImage = (file: any, id: any, image_name: string) => {
+  return POST_API(
+    API_PATHS.UPLOAD_IMAGE,
+    { params: id, file, image_name },
+    {
+      "Content-Type": "multipart/form-data",
+    }
+  ).then((response) => {
+    return response.data;
+  });
+};
 // export const getCurrentUser = () => {
 //   const encryptedToken = Cookies.get("token");
 //   const encryptedExpireTime = Cookies.get("expireTime");

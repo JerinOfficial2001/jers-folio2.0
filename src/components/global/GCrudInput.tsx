@@ -134,10 +134,10 @@ export default function GCrudInput({ options, varient, label }: Props) {
     profileData?.resumes?.length == 0
       ? [1, 2, 3]
       : profileData?.resumes?.length == 1
-      ? [1, 2]
-      : profileData?.resumes?.length == 2
-      ? [1]
-      : [];
+        ? [1, 2]
+        : profileData?.resumes?.length == 2
+          ? [1]
+          : [];
 
   return (
     <Grid2
@@ -160,7 +160,7 @@ export default function GCrudInput({ options, varient, label }: Props) {
                 <ResumeCard
                   index={index}
                   name={elem?.name}
-                  pdfUrl={elem.url}
+                  pdfUrl={elem?.url}
                   id={elem?.public_id}
                 />
               </Grid2>

@@ -42,7 +42,7 @@ export default function ResumeCard({ name, pdfUrl, index, id }: Props) {
   useEffect(() => {
     pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
   }, []);
-
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   return (
     <Box
       onMouseEnter={() => setisHover(true)}
@@ -62,7 +62,7 @@ export default function ResumeCard({ name, pdfUrl, index, id }: Props) {
       {/* PDF viewer */}
 
       <Document
-        file={pdfUrl}
+        file={id ? `${API_BASE_URL}/user/proxy-resume?url=${encodeURIComponent(pdfUrl)}` : pdfUrl}
         onLoadSuccess={onDocumentLoadSuccess}
         onLoadError={console.error}
       >

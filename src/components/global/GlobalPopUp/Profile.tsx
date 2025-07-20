@@ -8,13 +8,24 @@ import { FemaleImage, MaleImage } from "@/constants/Json";
 import { FemaleAvatar, MaleAvatar } from "@/types/interfaces";
 import GInput from "../GInput";
 import { useFormDatatore } from "@/store/FormDataStore";
+import { uploadImage } from "@/services/auth";
+import { getUser } from "@/services/user";
+import { useQuery } from "@tanstack/react-query";
 
 type Props = {};
 
-export default function Profile({}: Props) {
+export default function Profile({ }: Props) {
   const { handleClosePopUp } = useGlobalStore();
   const { profileData, setProfileData } = useFormDatatore();
-
+  const {
+    data: userData,
+    isLoading: userLoading,
+    error: userError,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
+  });
+  console.log(userData, "user_id");
   const [toggleType, setToggleType] = useState("Choose Avatar");
   const handleOnchange = (e: any, value: string) => {
     setToggleType(value);
@@ -66,6 +77,9 @@ export default function Profile({}: Props) {
               placeholder="Upload Image"
               variant="upload"
               imgInputType="contained"
+              triggerFunction={(file: any) => {
+                uploadImage(file, userData._id, 'dp')
+              }}
             />
           </Grid2>
         </Grid2>
@@ -149,7 +163,9 @@ export default function Profile({}: Props) {
           lable="Submit"
           sx={{ position: "fixed ", bottom: 100, zIndex: 1 }}
           variant="contained"
-          onClickHandler={handleClosePopUp}
+          onClickHandler={() => {
+            handleClosePopUp()
+          }}
         />
       )}
     </Stack>
